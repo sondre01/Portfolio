@@ -1,0 +1,58 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+
+nav{
+  background: white; 
+  box-shadow: 0 4px 6px -2px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+}
+
+.con1left{
+  border: 0;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  align-items: center;
+  padding-left: 40px;
+}
+
+.logo1 img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.name1title{
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.con2right{
+  border: 0;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  padding-right: 40px;
+}
+
+ul{
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+li{
+  /* You can add styles for list items here if needed */
+}
