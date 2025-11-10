@@ -1,0 +1,27 @@
+/* Skill page specific styles */
+.skill {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.skill h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.skill ul {
+  list-style: none;
+  padding: 0;
+}
+
+.skill ul li {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 8px 0;
+}

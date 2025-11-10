@@ -1,0 +1,77 @@
+/* Home page specific styles (main.html) */
+
+.hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    padding: 40px;
+    position: relative; /* Positioning context for profile picture */
+    overflow: hidden; 
+}
+
+/* Styles for your profile picture (me.png) */
+.hero-profile-picture {
+    position: absolute;
+    bottom: 0;
+    right: 5%;
+    width: 650px; /* Current desktop size */
+    height: auto;
+    z-index: 0; /* Placed behind text */
+    opacity: 1.0; /* <-- FIXED: Full visibility, no fading */
+    transform: translateX(20px);
+}
+
+/* Ensure other hero content stays on top of the picture */
+.hero h1,
+.hero p,
+.hero .cta-buttons {
+    position: relative; 
+    z-index: 1; 
+}
+
+.hero h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #080808;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: #333;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* CTA Button Styles */
+.cta-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 30px;
+    background-color: #ffff00;
+    color: #080808;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e6e600;
+}
+
+.btn.secondary {
+    background-color: #f2f2f2;
+    color: #080808;
+}
+
+.btn.secondary:hover {
+    background-color: #e0e0e0;
+}

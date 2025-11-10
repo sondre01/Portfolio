@@ -1,0 +1,36 @@
+/* Contact page specific styles */
+.contact {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.contact h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.contact p {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.contact .btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: #ffff00;
+  color: #080808;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.contact .btn:hover {
+  background-color: #f2f2f2;
+}

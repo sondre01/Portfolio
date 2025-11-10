@@ -1,0 +1,162 @@
+/* ===== Import Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;500;700&display=swap');
+
+/* ===== Global Layout (Sticky Footer) ===== */
+html { 
+    height: 100%; 
+}
+
+body {
+    margin: 0;
+    /* --- STICKY FOOTER CORE --- */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    
+    font-family: "Sora", sans-serif;
+    background-color: #ffffff;
+    color: #080808;
+}
+
+/* main content section */
+main {
+    flex: 1;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out; 
+}
+
+/* content transition */
+.fade-out {
+    opacity: 0;
+}
+
+/* ===== Navigation Bar Section ===== */
+nav {
+    background-color: #080808;
+    width: 100%;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.nav-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.con1left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo1 img {
+    width: 40px;
+    height: 40px;
+}
+
+.name1title p {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.3rem;
+    margin: 0;
+    color: #F2F2F2;
+}
+
+.con2right ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.con2right ul li a {
+    color: #F2F2F2;
+    text-decoration: none;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.con2right ul li a:hover,
+.con2right ul li a.active {
+    color: #ffff00;
+}
+
+/* Make Home link always yellow on main.html */
+.home-link.active {
+    color: #ffff00;
+}
+
+/* ===== Footer Section (Updated) ===== */
+footer {
+    background-color: #080808;
+    color: #aaa;
+    border-top: 1px solid #1a1a1a;
+    font-size: 0.9rem;
+    margin-top: auto;
+    /* Increased overall padding to make the container thicker */
+    padding: 40px 0; 
+}
+
+.footer-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* Pushes content to the sides */
+    align-items: flex-start; /* Aligns content to the top of the container */
+    flex-wrap: wrap; /* Allows wrap on mobile */
+}
+
+/* Footer Left Section (Copyright) */
+.footer-left {
+    text-align: left;
+}
+
+.footer-left p {
+    margin: 5px 0;
+}
+
+/* Footer Right Section (Contact & Social) */
+.footer-right {
+    text-align: right;
+}
+
+.contact-info h4 {
+    color: #F2F2F2;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+
+.contact-info i {
+    color: #ffff00;
+    margin-right: 8px;
+    width: 15px; /* Ensures consistent alignment */
+    text-align: center;
+}
+
+/* Social Media Icons */
+.social-links {
+    margin-top: 15px;
+}
+
+.social-links a {
+    color: #F2F2F2;
+    font-size: 1.5rem;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #ffff00;
+}

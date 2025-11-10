@@ -1,0 +1,23 @@
+/* Experience page specific styles */
+.experience {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.experience h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.experience p {
+  font-size: 1.1rem;
+  color: #333;
+  max-width: 700px;
+  line-height: 1.6;
+}

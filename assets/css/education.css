@@ -1,0 +1,21 @@
+/* Education page specific styles */
+.education {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.education h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.education p {
+  font-size: 1.1rem;
+  color: #333;
+}
