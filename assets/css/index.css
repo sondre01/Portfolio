@@ -25,7 +25,7 @@ main {
     transition: opacity 0.3s ease-in-out; 
 }
 
-/* 1. This hides the content immediately on load (prevents the blink) */
+/* 1. This hides the content immediately on load (prevents the initial white block) */
 .js-fade-in {
     opacity: 0;
 }
@@ -40,6 +40,10 @@ nav {
     background-color: #080808;
     width: 100%;
     border-bottom: 1px solid #1a1a1a;
+    /* CRITICAL FIX: Set position to stick it, ensuring header is always stable */
+    position: sticky; 
+    top: 0; 
+    z-index: 1000;
 }
 
 .nav-container {
@@ -103,7 +107,6 @@ footer {
     border-top: 1px solid #1a1a1a;
     font-size: 0.9rem;
     margin-top: auto;
-    /* Increased overall padding to make the container thicker */
     padding: 40px 0; 
 }
 
@@ -112,9 +115,9 @@ footer {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* Pushes content to the sides */
-    align-items: flex-start; /* Aligns content to the top of the container */
-    flex-wrap: wrap; /* Allows wrap on mobile */
+    justify-content: space-between; 
+    align-items: flex-start; 
+    flex-wrap: wrap; 
 }
 
 /* Footer Left Section (Copyright) */
@@ -146,7 +149,7 @@ footer {
 .contact-info i {
     color: #ffff00;
     margin-right: 8px;
-    width: 15px; /* Ensures consistent alignment */
+    width: 15px; 
     text-align: center;
 }
 

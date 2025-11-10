@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         isNavigating = true;
                         
                         document.querySelector('main').classList.add("fade-out");
-
+                        
                         setTimeout(() => {
                             window.location.href = link.getAttribute("href");
                         }, 300); 
@@ -111,8 +111,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     link.classList.remove("active");
                 }
             });
-        })
-        .catch(err => console.error("Failed to load header/footer:", err));
-});
+            
+            // CRITICAL FIX: Make the body visible only after everything has been injected and styled
+            document.body.style.visibility = 'visible';
 
-// window.onload logic is no longer needed
+        })
+        .catch(err => {
+            console.error("Failed to load header/footer:", err);
+            // Fallback: If injection fails, at least make the content visible
+            document.body.style.visibility = 'visible';
+        });
+});

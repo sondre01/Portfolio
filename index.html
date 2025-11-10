@@ -11,7 +11,7 @@
 <body>
 
     <script>
-        // Check the URL path and redirect immediately (before the browser renders the page)
+        // Check the URL path and redirect immediately
         const currentPath = window.location.pathname;
         if (currentPath.endsWith("/Portfolio/") || currentPath.endsWith("/index.html")) {
             window.location.replace("pages/main.html");
