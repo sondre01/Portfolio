@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Only run injection on pages inside the 'pages/' folder
     const isInPages = window.location.pathname.includes("/pages/");
     if (!isInPages) {
+        // If not in a content page, exit. The index.html redirect handles the rest.
         return; 
     }
     
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(err => {
             console.error("Failed to load header/footer:", err);
-            // Fallback: If injection fails, at least make the content visible
+            // Fallback
             document.body.style.visibility = 'visible';
         });
 });

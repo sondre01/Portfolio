@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Portfolio</title>
     
+    <!-- CRITICAL FIX: Link Global CSS directly for guaranteed styling -->
     <link rel="stylesheet" href="../assets/css/index.css"> 
     
+    <!-- Link the page-specific style file -->
     <link rel="stylesheet" href="../assets/css/main.css"> 
 </head>
-<body style="visibility: hidden;"> <div id="header-footer"></div> 
+<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly to prevent flash -->
+    <!-- Placeholder for Nav/Footer that will be injected -->
+    <div id="header-footer"></div> 
 
+    <!-- CRITICAL FIX: Add the class to make content start invisible -->
     <main class="js-fade-in">
         <section class="hero">
             
@@ -25,6 +30,7 @@
         </section>
     </main>
 
+    <!-- The injection script MUST be present on content pages -->
     <script src="../assets/js/index.js"></script>
 </body>
 </html>

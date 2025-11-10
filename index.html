@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khin Portfolio</title>
     
+    <!-- CRITICAL: DIRECT LINKS TO STYLES FOR TEMPLATE INTEGRITY -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css" />
 </head>
 <body>
 
+    <!-- CRITICAL FIX: INSTANT REDIRECT SCRIPT -->
     <script>
-        // Check the URL path and redirect immediately
+        // Check the URL path and redirect immediately (before the browser renders the page)
         const currentPath = window.location.pathname;
         if (currentPath.endsWith("/Portfolio/") || currentPath.endsWith("/index.html")) {
             window.location.replace("pages/main.html");
         }
     </script>
 
+    <!-- ===== Navigation Bar (TEMPLATE SOURCE) ===== -->
     <nav>
         <div class="nav-container">
             <div class="con1left">
@@ -43,12 +46,14 @@
         </div>
     </nav>
 
+    <!-- ===== MAIN CONTENT AREA (EMPTY PLACEHOLDER ONLY) ===== -->
     <main>
         <section class="placeholder-section">
             <p>You should be redirected now...</p>
         </section>
     </main>
 
+    <!-- ===== Footer (TEMPLATE SOURCE) ===== -->
     <footer class="main-footer">
         <div class="footer-container">
             

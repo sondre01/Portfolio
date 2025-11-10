@@ -40,7 +40,7 @@ nav {
     background-color: #080808;
     width: 100%;
     border-bottom: 1px solid #1a1a1a;
-    /* CRITICAL FIX: Set position to stick it, ensuring header is always stable */
+    /* Stick header to the top for seamless scrolling */
     position: sticky; 
     top: 0; 
     z-index: 1000;
@@ -167,4 +167,45 @@ footer {
 
 .social-links a:hover {
     color: #ffff00;
+}
+
+/* ======================================================= */
+/* =========== GLOBAL MEDIA QUERIES (MOBILE) ============= */
+/* ======================================================= */
+
+/* For smaller tablets and large phones (max-width: 768px) */
+@media (max-width: 768px) {
+    /* --- Navigation --- */
+    .nav-container {
+        flex-direction: column; /* Stack logo/name and links vertically */
+        text-align: center;
+    }
+    .con1left {
+        margin-bottom: 15px;
+    }
+    .con2right ul {
+        flex-wrap: wrap; /* Allow links to wrap to the next line */
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    /* --- Footer --- */
+    .footer-container {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center;
+        text-align: center;
+    }
+    .footer-left, .footer-right {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .contact-info p {
+        text-align: center;
+        padding-left: 0;
+    }
+    .social-links {
+        margin-top: 10px;
+        margin-left: 0;
+    }
 }

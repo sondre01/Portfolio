@@ -12,15 +12,15 @@
     overflow: hidden; 
 }
 
-/* Styles for your profile picture (me.png) */
+/* Styles for your profile picture (me.png) - DESKTOP BASE */
 .hero-profile-picture {
     position: absolute;
     bottom: 0;
     right: 5%;
-    width: 650px; /* Current desktop size */
+    width: 650px; /* Desktop size */
     height: auto;
     z-index: 0; /* Placed behind text */
-    opacity: 1.0; /* <-- FIXED: Full visibility, no fading */
+    opacity: 1.0; 
     transform: translateX(20px);
 }
 
@@ -74,4 +74,52 @@
 
 .btn.secondary:hover {
     background-color: #e0e0e0;
+}
+
+/* ======================================================= */
+/* =========== HOME PAGE MEDIA QUERIES (MOBILE) ========== */
+/* ======================================================= */
+
+@media (max-width: 768px) {
+    /* --- Hero Section Layout Change --- */
+    .hero {
+        align-items: center; /* Center content */
+        text-align: center;
+        min-height: auto; /* Allow height to collapse */
+        padding: 20px;
+    }
+    
+    /* --- Profile Picture Fix --- */
+    .hero-profile-picture {
+        /* CRITICAL FIX: Make position relative so it flows in the document */
+        position: relative; 
+        order: -1; /* Move picture above text */
+        width: 100%;
+        max-width: 280px; /* Cap size */
+        margin: 20px auto;
+        bottom: auto;
+        right: auto;
+        transform: none; /* Remove desktop offset */
+    }
+    
+    /* --- Text Adjustments --- */
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .hero p {
+        font-size: 1.1rem;
+        max-width: 90%;
+    }
+    
+    /* --- Button Stacking and Centering Fix --- */
+    .cta-buttons {
+        flex-direction: column; /* Stack buttons */
+        gap: 10px;
+        width: 80%; /* Give buttons more width */
+        max-width: 300px;
+        margin: 0 auto; /* CRITICAL FIX: Center the buttons container */
+    }
+    .btn {
+        width: 100%;
+    }
 }
