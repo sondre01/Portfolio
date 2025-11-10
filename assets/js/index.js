@@ -1,31 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Only run injection on pages inside the 'pages/' folder
     const isInPages = window.location.pathname.includes("/pages/");
-    const pathToIndex = isInPages ? "../index.html" : "index.html";
+    if (!isInPages) {
+        return; 
+    }
     
-    // ✅ Ensure the page content fades in immediately upon DOM load
+    // Path to the source file (index.html) is always '../index.html' from within 'pages/'
+    const pathToIndex = "../index.html"; 
+    
+    // Ensure the page content fades in immediately upon DOM load (Fade-in effect)
     const mainContent = document.querySelector('main');
     if (mainContent) {
         mainContent.classList.remove("fade-out");
     }
 
-    // --- ICON AND GLOBAL CSS INJECTION ---
-    const head = document.head;
-    if (!document.querySelector('link[href*="index.css"]')) {
-        const indexCss = document.createElement("link");
-        indexCss.rel = "stylesheet";
-        indexCss.href = isInPages ? "../assets/css/index.css" : "assets/css/index.css";
-        head.appendChild(indexCss);
-    }
-    // -------------------------------------
-
-    // Fetch header and footer from index.html
+    // Fetch the index.html content (header and footer)
     fetch(pathToIndex)
         .then(response => response.text())
         .then(data => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(data, "text/html");
             
-            // ⭐️ FIX: Clone and inject Font Awesome link into the current page's head
+            // Inject Font Awesome Link 
             const fontAwesomeLink = htmlDoc.querySelector('link[href*="font-awesome"]');
             if (fontAwesomeLink && !document.querySelector('link[href*="font-awesome"]')) {
                  document.head.appendChild(fontAwesomeLink.cloneNode());
@@ -37,32 +33,41 @@ document.addEventListener("DOMContentLoaded", () => {
             const mainContentElement = document.querySelector("main");
             const placeholder = document.getElementById("header-footer");
 
-            // --- Injection Logic ---
-            
-            // 1. Inject the fixed Navigation Bar
+            // Function to correctly fix paths from 'pages/' to the root assets/pages
+            const fixPath = (url) => {
+                // 1. Fix links to ASSETS and the HOME page (which is outside /pages/)
+                if (url.startsWith("assets/") || url === "index.html") {
+                    return "../" + url;
+                }
+                
+                // 2. CRITICAL FIX: For links to other pages (e.g., pages/about.html), 
+                // we ONLY return the filename (e.g., about.html) because the pages
+                // are all next to each other, and the browser resolves the path.
+                if (url.startsWith("pages/")) {
+                    return url.split('/').pop(); 
+                }
+                
+                return url;
+            }
+
+            // 1. Inject Navigation Bar
             if (nav && placeholder) {
                 const fixedNav = nav.cloneNode(true);
 
                 // Fix logo path
                 const logo = fixedNav.querySelector("img");
-                if (logo) logo.src = isInPages ? "../assets/img/logo.png" : "assets/img/logo.png";
+                if (logo) logo.src = fixPath(logo.getAttribute('src'));
                 
                 // Fix link paths and handle transition
                 const links = fixedNav.querySelectorAll("a");
                 links.forEach(link => {
-                    let href = link.getAttribute("href");
+                    link.setAttribute("href", fixPath(link.getAttribute("href")));
                     
-                    if (isInPages && !href.startsWith("../") && href.startsWith("pages/")) {
-                        link.setAttribute("href", "../" + href);
-                    } else if (!isInPages && href.startsWith("pages/")) {
-                         // No change needed for index.html links
-                    }
-                    
-                    // Prevent multiple clicks issue and handle transition
+                    // --- Transition and click handler logic ---
                     let isNavigating = false;
                     link.addEventListener("click", (e) => {
-                        const current = window.location.pathname.split("/").pop() || 'index.html';
-                        const target = href.split("/").pop();
+                        const current = window.location.pathname.split("/").pop();
+                        const target = link.getAttribute("href").split("/").pop();
                         
                         if (current === target || isNavigating) {
                             e.preventDefault();
@@ -75,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         document.querySelector('main').classList.add("fade-out");
 
                         setTimeout(() => {
-                            window.location.href = link.href;
+                            window.location.href = link.getAttribute("href");
                         }, 300); 
                     });
                 });
@@ -83,24 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 placeholder.before(fixedNav); 
             }
 
-            // 2. Inject the fixed Footer
+            // 2. Inject Footer
             if (footer && mainContentElement) {
                 const fixedFooter = footer.cloneNode(true);
-                const socialLinks = fixedFooter.querySelectorAll('.social-links a');
-
                 mainContentElement.after(fixedFooter);
             }
             
-            // 3. Remove the Placeholder
+            // 3. Remove Placeholder
             if (placeholder) {
                  placeholder.remove();
             }
 
-            // Highlight active link (kept the original logic)
-            const currentPage = window.location.pathname.split("/").pop() || 'main.html';
+            // Highlight active link 
+            const currentPage = window.location.pathname.split("/").pop(); 
             const allLinks = document.querySelectorAll("nav ul li a");
             allLinks.forEach(link => {
                 const linkPage = link.getAttribute("href").split("/").pop();
+                
+                // Set active class
                 if (linkPage === currentPage) {
                     link.classList.add("active");
                 } else {
