@@ -8,10 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Path to the source file (index.html) is always '../index.html' from within 'pages/'
     const pathToIndex = "../index.html"; 
     
-    // Ensure the page content fades in immediately upon DOM load (Fade-in effect)
+    // CRITICAL FIX: Immediately remove the initial hiding class for the smooth fade-in
     const mainContent = document.querySelector('main');
     if (mainContent) {
-        mainContent.classList.remove("fade-out");
+        mainContent.classList.remove("js-fade-in"); 
+        mainContent.classList.remove("fade-out"); 
     }
 
     // Fetch the index.html content (header and footer)
@@ -40,9 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return "../" + url;
                 }
                 
-                // 2. CRITICAL FIX: For links to other pages (e.g., pages/about.html), 
-                // we ONLY return the filename (e.g., about.html) because the pages
-                // are all next to each other, and the browser resolves the path.
+                // 2. Fix links to other pages (e.g., pages/about.html) to be relative filenames
                 if (url.startsWith("pages/")) {
                     return url.split('/').pop(); 
                 }
@@ -116,9 +115,4 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(err => console.error("Failed to load header/footer:", err));
 });
 
-window.onload = function() {
-    const mainContent = document.querySelector('main');
-    if (mainContent) {
-        mainContent.classList.remove("fade-out");
-    }
-};
+// window.onload logic is no longer needed

@@ -25,7 +25,12 @@ main {
     transition: opacity 0.3s ease-in-out; 
 }
 
-/* content transition */
+/* 1. This hides the content immediately on load (prevents the blink) */
+.js-fade-in {
+    opacity: 0;
+}
+
+/* 2. This is applied by JavaScript on click, to smoothly fade out the old page */
 .fade-out {
     opacity: 0;
 }
