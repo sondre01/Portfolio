@@ -1,58 +1,77 @@
-/* Home page specific styles (main.html) */
+/* ======================================================= */
+/* =========== 1. DESKTOP LAYOUT (BASE STYLES) =========== */
+/* ======================================================= */
 
+/* --- Hero Container (Overall Section Vertical Space) --- */
 .hero {
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column; 
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: left;
-    padding: 40px;
-    position: relative; /* Positioning context for profile picture */
-    overflow: hidden; 
-}
-
-/* Styles for your profile picture (me.png) - DESKTOP BASE */
-.hero-profile-picture {
-    position: absolute;
-    bottom: 0;
-    right: 5%;
-    width: 650px; /* Desktop size */
-    height: auto;
-    z-index: 0; /* Placed behind text */
-    opacity: 1.0; 
-    transform: translateX(20px);
-}
-
-/* Ensure other hero content stays on top of the picture */
-.hero h1,
-.hero p,
-.hero .cta-buttons {
+    min-height: 85vh; 
+    padding: 0; 
+    
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    
     position: relative; 
-    z-index: 1; 
+    overflow: visible; 
+    /* DEBUGLINE: Border for the overall hero section */
+    border: 1px dashed yellow; 
 }
 
+/* --- Two-Column Wrapper (50/50 Split Container) --- */
+.hero-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    max-width: 1300px;
+    width: 100%; 
+    height: auto; 
+    /* DEBUGLINE: Border for the wrapper containing both columns */
+    border: 2px dashed red; 
+}
+
+/* --- Left Text Section (1ST COLUMN) --- */
+.hero-text-section {
+    flex: 1; /* 50% split */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    
+    height: auto; 
+    padding: 20px; 
+    
+    z-index: 2; 
+    /* DEBUGLINE: Border for the 1st column (Text) */
+    border: 2px dashed blue; 
+}
+
+/* --- Heading & Paragraph Styles --- */
 .hero h1 {
     font-family: "Space Grotesk", sans-serif;
     font-size: 3rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #080808;
+    line-height: 1.2;
 }
 
 .hero p {
     font-size: 1.3rem;
     color: #333;
-    max-width: 600px;
+    max-width: 90%; 
     line-height: 1.6;
+    margin-bottom: 25px; 
 }
 
-/* CTA Button Styles */
+/* --- Button Group (Desktop Base) --- */
 .cta-buttons {
-    margin-top: 25px;
+    margin-top: 25px; 
     display: flex;
     gap: 15px;
+    justify-content: center;
 }
 
+/* --- Button Base Styles --- */
 .btn {
     padding: 12px 30px;
     background-color: #ffff00;
@@ -76,50 +95,110 @@
     background-color: #e0e0e0;
 }
 
+/* --- Right Image Section (2ND COLUMN) --- */
+.hero-image-section {
+    flex: 1; /* 50% split */
+    display: flex;
+    justify-content: center; 
+    align-items: flex-end; /* Aligns image to the bottom */
+    position: relative; 
+    
+    height: auto;
+    width: auto;
+    
+    z-index: 1;
+    /* DEBUGLINE: Border for the 2nd column (Image) */
+    border: 2px dashed rgb(0, 255, 64); 
+}
+
+.hero-profile-picture {
+    position: relative; 
+    bottom: -5px; 
+    width: 100%; 
+    max-width: 400px; /* Desired image size */
+    height: auto;
+    display: block; 
+    z-index: 1; 
+    transform: none; 
+}
+
+
 /* ======================================================= */
-/* =========== HOME PAGE MEDIA QUERIES (MOBILE) ========== */
+/* =========== 2. MOBILE RESPONSIVENESS (<= 768PX) ======= */
 /* ======================================================= */
 
 @media (max-width: 768px) {
-    /* --- Hero Section Layout Change --- */
+    /* --- Hero Container Reset (Stacking) --- */
     .hero {
-        align-items: center; /* Center content */
+        padding: 0; /* Remove hero padding; margin is handled by wrapper */
+        min-height: auto; 
+        align-items: center; 
+        width: 100%;
+    }
+
+    /* Stack content vertically on mobile */
+    .hero-content-wrapper {
+        flex-direction: column; 
         text-align: center;
-        min-height: auto; /* Allow height to collapse */
-        padding: 20px;
+        gap: 20px; 
+        height: auto;
+        align-items: center;
+        /* CRITICAL FIX: Match width of nav/footer containers (90%) */
+        width: 90%; 
+        max-width: 100%; 
+        margin: 40px auto 0;
     }
     
-    /* --- Profile Picture Fix --- */
-    .hero-profile-picture {
-        /* CRITICAL FIX: Make position relative so it flows in the document */
-        position: relative; 
-        order: -1; /* Move picture above text */
+    /* --- Image Position (Moves to Top and Resets Positioning) --- */
+    .hero-image-section {
+        order: -1; 
+        padding-bottom: 20px; 
+        align-items: center; 
+        position: relative;
+        height: auto;
         width: 100%;
-        max-width: 280px; /* Cap size */
-        margin: 20px auto;
-        bottom: auto;
-        right: auto;
-        transform: none; /* Remove desktop offset */
+    }
+
+    .hero-profile-picture {
+        max-width: 250px; 
+        margin: 0 auto; 
+        position: relative; 
+        bottom: auto; 
     }
     
     /* --- Text Adjustments --- */
+    .hero-text-section {
+        align-items: center; 
+        padding: 0; /* Remove internal padding */
+        text-align: center; 
+        height: auto;
+        width: 100%;
+        margin-bottom: 0; 
+    }
+
     .hero h1 {
         font-size: 2.2rem;
     }
     .hero p {
         font-size: 1.1rem;
-        max-width: 90%;
+        max-width: 90%; 
+        margin-left: auto; 
+        margin-right: auto; 
     }
     
     /* --- Button Stacking and Centering Fix --- */
     .cta-buttons {
-        flex-direction: column; /* Stack buttons */
-        gap: 10px;
-        width: 80%; /* Give buttons more width */
-        max-width: 300px;
-        margin: 0 auto; /* CRITICAL FIX: Center the buttons container */
+        flex-direction: column; 
+        justify-content: center; 
+        align-self: center; 
+        gap: 8px; 
+        width: 90%; 
+        max-width: 250px; 
+        margin: 15px auto 0; 
     }
     .btn {
         width: 100%;
+        padding: 10px 15px; 
+        font-size: 0.95rem; 
     }
 }

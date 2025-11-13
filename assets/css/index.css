@@ -1,14 +1,14 @@
-/* ===== Import Fonts ===== */
+/* ===== Base Imports and Setup ===== */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;500;700&display=swap');
 
-/* ===== Global Layout (Sticky Footer) ===== */
+/* --- Global Body & Layout --- */
 html { 
     height: 100%; 
 }
 
 body {
     margin: 0;
-    /* --- STICKY FOOTER CORE --- */
+    /* Sticky Footer Core */
     display: flex;
     flex-direction: column;
     min-height: 100vh; 
@@ -18,30 +18,28 @@ body {
     color: #080808;
 }
 
-/* main content section */
+/* --- Content & Transition --- */
 main {
-    flex: 1;
+    flex: 1; /* Ensures content pushes footer down */
     width: 100%;
     transition: opacity 0.3s ease-in-out; 
 }
 
-/* 1. This hides the content immediately on load (prevents the initial white block) */
-.js-fade-in {
+.js-fade-in { /* Hides content on load */
     opacity: 0;
 }
 
-/* 2. This is applied by JavaScript on click, to smoothly fade out the old page */
-.fade-out {
+.fade-out { /* Smoothly fades content out */
     opacity: 0;
 }
+
 
 /* ===== Navigation Bar Section ===== */
 nav {
     background-color: #080808;
     width: 100%;
     border-bottom: 1px solid #1a1a1a;
-    /* Stick header to the top for seamless scrolling */
-    position: sticky; 
+    position: sticky; /* Makes header persistent */
     top: 0; 
     z-index: 1000;
 }
@@ -95,12 +93,12 @@ nav {
     color: #ffff00;
 }
 
-/* Make Home link always yellow on main.html */
 .home-link.active {
     color: #ffff00;
 }
 
-/* ===== Footer Section (Updated) ===== */
+
+/* ===== Footer Section ===== */
 footer {
     background-color: #080808;
     color: #aaa;
@@ -120,8 +118,7 @@ footer {
     flex-wrap: wrap; 
 }
 
-/* Footer Left Section (Copyright) */
-.footer-left {
+.footer-left { /* Copyright Info */
     text-align: left;
 }
 
@@ -129,8 +126,7 @@ footer {
     margin: 5px 0;
 }
 
-/* Footer Right Section (Contact & Social) */
-.footer-right {
+.footer-right { /* Contact & Social Info */
     text-align: right;
 }
 
@@ -146,15 +142,14 @@ footer {
     margin: 5px 0;
 }
 
-.contact-info i {
+.contact-info i { /* Icon color/spacing */
     color: #ffff00;
     margin-right: 8px;
     width: 15px; 
     text-align: center;
 }
 
-/* Social Media Icons */
-.social-links {
+.social-links { /* Social Media Icons */
     margin-top: 15px;
 }
 
@@ -169,29 +164,26 @@ footer {
     color: #ffff00;
 }
 
-/* ======================================================= */
-/* =========== GLOBAL MEDIA QUERIES (MOBILE) ============= */
-/* ======================================================= */
 
-/* For smaller tablets and large phones (max-width: 768px) */
+/* ===== Mobile Responsiveness (<= 768px) ===== */
 @media (max-width: 768px) {
     /* --- Navigation --- */
     .nav-container {
-        flex-direction: column; /* Stack logo/name and links vertically */
+        flex-direction: column;
         text-align: center;
     }
     .con1left {
         margin-bottom: 15px;
     }
     .con2right ul {
-        flex-wrap: wrap; /* Allow links to wrap to the next line */
+        flex-wrap: wrap; 
         justify-content: center;
         gap: 12px;
     }
     
     /* --- Footer --- */
     .footer-container {
-        flex-direction: column; /* Stack columns vertically */
+        flex-direction: column;
         align-items: center;
         text-align: center;
     }

@@ -5,32 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Portfolio</title>
     
-    <!-- CRITICAL FIX: Link Global CSS directly for guaranteed styling -->
     <link rel="stylesheet" href="../assets/css/index.css"> 
     
-    <!-- Link the page-specific style file -->
     <link rel="stylesheet" href="../assets/css/main.css"> 
 </head>
-<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly to prevent flash -->
-    <!-- Placeholder for Nav/Footer that will be injected -->
-    <div id="header-footer"></div> 
+<body style="visibility: hidden;"> <div id="header-footer"></div> 
 
-    <!-- CRITICAL FIX: Add the class to make content start invisible -->
     <main class="js-fade-in">
-        <section class="hero">
-            
-<img src="../assets/img/me.png" alt="Khin's Profile Picture" class="hero-profile-picture">
-            
-            <h1>Welcome to My Portfolio</h1>
-            <p>Computer Engineering student passionate about creating innovative hardware and software solutions through research and hands-on design.</p>
-            <div class="cta-buttons">
-                <a href="work.html" class="btn">View My Work</a>
-                <a href="contact.html" class="btn secondary">Get In Touch</a>
-            </div>
-        </section>
+        <div class="main-content-wrapper"> 
+            <section class="hero">
+                <div class="hero-content-wrapper">
+                    <div class="hero-text-section">
+                        <h1>Welcome to My Portfolio</h1>
+                        <p>Computer Engineering student passionate about creating innovative hardware and software solutions through research and hands-on design.</p>
+                        <div class="cta-buttons">
+                            <a href="work.html" class="btn">View My Work</a>
+                            <a href="contact.html" class="btn secondary">Get In Touch</a>
+                        </div>
+                    </div>
+                    <div class="hero-image-section">
+                        <img src="../assets/img/me.png" alt="Khin's Profile Picture" class="hero-profile-picture">
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <!-- The injection script MUST be present on content pages -->
     <script src="../assets/js/index.js"></script>
 </body>
 </html>
