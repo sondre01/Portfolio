@@ -4,18 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education - Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/index.css"> <link rel="stylesheet" href="../assets/css/education.css"> </head>
-<body>
+    
+    <!-- CRITICAL FIX: Link Global CSS directly for guaranteed styling -->
+    <link rel="stylesheet" href="../assets/css/index.css"> 
+    
+    <!-- Link the page-specific style file -->
+    <link rel="stylesheet" href="../assets/css/education.css"> 
+</head>
+<body style="visibility: hidden;"> <!-- Hides content instantly to prevent flash -->
     <div id="header-footer"></div>
 
-    <main>
-        <section class="education">
-            <h1>Education</h1>
-            <p>Bachelor of Science in Computer Engineering (BSCpe)</p>
-            <p>Rizal Technological University • 2022–Present</p>
-        </section>
+    <!-- CRITICAL FIX: Add the class to make content start invisible -->
+    <main class="js-fade-in">
+        <div class="education-content-wrapper">
+            <h1>Academic Background</h1>
+
+            <!-- ===== 1. College / Tertiary Education ===== -->
+            <div class="education-card college-card">
+                <div class="card-header">
+                    <h2>Rizal Technological University</h2>
+                    <span class="period">2022 - Present (Expected Graduation 2026)</span>
+                </div>
+                <p class="degree">Bachelor of Science in Computer Engineering (BSCpE)</p>
+                <p class="status">Currently enrolled, Fourth Year standing.</p>
+                
+                <div class="dropdown">
+                    <button class="dropdown-toggle" data-target="college-details" title="Click to view details"><i class="fas fa-chevron-down"></i> Course Highlights</button>
+                    <div class="dropdown-content" id="college-details">
+                        <p class="detail-label">Focused Areas:</p>
+                        <ul>
+                            <li>[Blank: List advanced coursework, projects, or thesis topics here.]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 2. Senior High School ===== -->
+            <div class="education-card shs-card">
+                <div class="card-header">
+                    <h2>Rizal High School (Senior High)</h2>
+                    <span class="period">2020 - 2022</span>
+                </div>
+                <p class="degree">Grade 11 - Grade 12</p>
+                
+                <div class="dropdown">
+                    <button class="dropdown-toggle" data-target="shs-details" title="Click to view details"><i class="fas fa-chevron-down"></i> Track Details</button>
+                    <div class="dropdown-content" id="shs-details">
+                        <p class="detail-label">Track:</p>
+                        <ul>
+                            <li>[Blank: List strand/track and key academic honors here.]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 3. Junior High School ===== -->
+            <div class="education-card jhs-card">
+                <div class="card-header">
+                    <h2>Junior High School</h2>
+                    <span class="period">2016 - 2020</span>
+                </div>
+                <ul class="school-list">
+                    <li>Rizal High School: Grade 9 - 10 (2018 - 2020)</li>
+                    <li>Putlod San Jose National High School: Grade 7 - 8 (2016 - 2018)</li>
+                </ul>
+            </div>
+
+            <!-- ===== 4. Primary Education (Formal name) ===== -->
+            <div class="education-card elementary-card">
+                <div class="card-header">
+                    <h2>Putlod Elementary School</h2>
+                    <span class="period">2009 - 2016</span>
+                </div>
+                <p class="degree">Primary and Intermediate Education</p>
+            </div>
+
+        </div>
     </main>
 
-    <script src="../assets/js/index.js"></script>
+    <script src="../assets/js/education.js"></script> <!-- Dropdown functionality -->
+    <script src="../assets/js/index.js"></script> <!-- Layout injection and transitions -->
 </body>
 </html>

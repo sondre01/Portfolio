@@ -1,23 +1,146 @@
-/* Experience page specific styles */
-.experience {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
+/* ===== Education Page Specific Styles ===== */
+
+.education-content-wrapper {
+    /* Centers the whole content block horizontally */
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto 60px; 
+    padding: 0 20px;
+    text-align: center;
 }
 
-.experience h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+.education-content-wrapper h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #080808;
 }
 
-.experience p {
-  font-size: 1.1rem;
-  color: #333;
-  max-width: 700px;
-  line-height: 1.6;
+/* --- Card Styles --- */
+.education-card {
+    background-color: #f2f2f2;
+    border-left: 5px solid #ffff00; /* Yellow accent border */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.education-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.card-header h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    color: #080808;
+    margin: 0;
+}
+
+.period {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.degree, .status {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 5px 0;
+}
+
+.school-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+.school-list li {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+}
+
+/* --- Dropdown Styles --- */
+.dropdown {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    color: #080808;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    color: #ffff00;
+}
+
+.dropdown-toggle i {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.dropdown-content {
+    max-height: 0; /* Initially hidden */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding-top: 0;
+    margin-top: 10px;
+    color: #555;
+}
+
+.dropdown-content.active {
+    max-height: 500px; /* Max height large enough to show all content */
+    padding-top: 10px;
+}
+
+.dropdown-content.active + .dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+.dropdown-content ul {
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+.detail-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 600px) {
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+    .period {
+        margin-top: 5px;
+    }
 }
