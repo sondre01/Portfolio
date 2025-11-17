@@ -4,30 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skill - Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/index.css"> <link rel="stylesheet" href="../assets/css/skill.css"> </head>
-<body>
+    
+    <!-- CRITICAL FIX: Link Global CSS directly for guaranteed styling -->
+    <link rel="stylesheet" href="../assets/css/index.css"> 
+    
+    <!-- Link the page-specific style file -->
+    <link rel="stylesheet" href="../assets/css/skill.css"> 
+</head>
+<body style="visibility: hidden;"> <!-- Hides content instantly to prevent flash -->
     <div id="header-footer"></div>
 
-    <main>
-        <section class="skill">
-            <h1>My Skills</h1>
-            <ul>
-                <li>PCB Design (Altium, EasyEDA, KiCad)</li>
-                <li>Embedded Systems (Arduino, Raspberry Pi, ESP32)</li>
-                <li>Microcontroller Programming (C, C++, Python)</li>
-                <li>Networking (Cisco Packet Tracer, Network Configuration, TCP/IP)</li>
-                <li>Circuit Design & Simulation (Proteus, Multisim, LTSpice)</li>
-                <li>Web Development (HTML, CSS, JavaScript, React)</li>
-                <li>Database Management (MySQL, Firebase)</li>
-                <li>Python Programming (Data Analysis, Machine Learning)</li>
-                <li>Machine Learning & AI (TensorFlow, scikit-learn)</li>
-                <li>Software Design & Development (Object-Oriented Programming, UI/UX Basics)</li>
-                <li>Version Control (Git, GitHub)</li>
-                <li>Operating Systems (Linux, Windows)</li>
-                <li>IoT Systems Integration</li>
-                <li>Hardware Troubleshooting & Testing</li>
-            </ul>
-        </section>
+    <main class="js-fade-in">
+        <div class="skills-content-wrapper">
+            <h1>Technical Skills</h1>
+
+            <div class="skills-grid">
+                
+                <!-- ===== Card 1: Programming & Software ===== -->
+                <div class="skill-card programming-card">
+                    <h2>Programming & Software</h2>
+                    <ul class="skill-list">
+                        <li>Python</li>
+                        <li>C / C++</li>
+                        <li>Assembly Language</li>
+                        <li>MATLAB</li>
+                        <li>Version Control (Git, GitHub)</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Card 2: Embedded Systems & IoT ===== -->
+                <div class="skill-card embedded-card">
+                    <h2>Embedded Systems & IoT</h2>
+                    <ul class="skill-list">
+                        <li>Arduino / Raspberry Pi</li>
+                        <li>Microcontrollers (PIC/AVR)</li>
+                        <li>Sensor Interfacing</li>
+                        <li>Real-Time Operating Systems (RTOS)</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Card 3: Hardware & PCB Design ===== -->
+                <div class="skill-card hardware-card">
+                    <h2>Hardware & Design</h2>
+                    <ul class="skill-list">
+                        <li>Circuit Design & Analysis</li>
+                        <li>PCB Layout (Altium, EasyEDA)</li>
+                        <li>Digital Logic Design</li>
+                        <li>Soldering and Prototyping</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Card 4: Web & Databases (Optional) ===== -->
+                <div class="skill-card web-card">
+                    <h2>Web & Databases</h2>
+                    <ul class="skill-list">
+                        <li>HTML5 / CSS3 / JavaScript</li>
+                        <li>Basic SQL</li>
+                        <li>Responsive Design</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <script src="../assets/js/index.js"></script>

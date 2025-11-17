@@ -1,27 +1,226 @@
-/* Skill page specific styles */
-.skill {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
+/* ===== Skill Page Specific Styles ===== */
+
+.skills-content-wrapper {
+    /* Expanded width to use more horizontal space */
+    width: 95%; /* Increased from 90% to 95% */
+    max-width: 1400px; /* Increased from 1100px to 1400px */
+    /* INCREASED bottom margin to push content up and hide footer */
+    margin: 30px auto 20px; /* Reduced bottom margin to 20px */
+    /* CRITICAL FIX: Removed horizontal padding from this wrapper to maximize grid space */
+    padding: 0; 
+    text-align: center;
+    /* DEBUGLINE: Border for the overall content wrapper */
+    border: 2px dashed red;
+    /* Ensure content takes full height */
+    min-height: calc(100vh - 100px);
 }
 
-.skill h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.skills-content-wrapper h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #080808;
+    /* Added to move heading even higher if needed */
+    margin-top: 0;
 }
 
-.skill ul {
-  list-style: none;
-  padding: 0;
+/* --- Skill Grid Layout (Desktop) --- */
+.skills-grid {
+    display: grid;
+    /* Changed to fit 4 cards per row on large screens */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased minmax for better card sizing */
+    gap: 25px; /* Slightly reduced gap to fit more content */
+    text-align: left;
+    /* DEBUGLINE: Border for the grid container */
+    border: 1px dashed blue;
+    /* Prevent grid items from shrinking too much */
+    grid-auto-rows: minmax(200px, auto);
+    /* Remove bottom margin to minimize space */
+    margin-bottom: 0;
 }
 
-.skill ul li {
-  font-size: 1.1rem;
-  color: #333;
-  margin: 8px 0;
+/* --- Card Styles (Reusing Education aesthetic) --- */
+.skill-card {
+    background-color: #f2f2f2;
+    /* PERMANENT DESIGN: Yellow accent border */
+    border-left: 5px solid #ffff00; 
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: auto; /* Changed from 100% to auto for better responsiveness */
+    min-height: 200px; /* Ensure minimum height */
+    
+    /* CRITICAL FIX: Apply debug borders to other sides ONLY */
+    border-top: 1px dashed green;
+    border-right: 1px dashed green;
+    border-bottom: 1px dashed green;
+    
+    /* Prevent cards from overlapping */
+    box-sizing: border-box;
+}
+
+.skill-card:hover {
+    /* Hover animation */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.skill-card h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.3rem;
+    color: #080808;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.skill-list {
+    list-style: none; /* Ensure no default bullets show */
+    padding: 0;
+    margin: 0;
+}
+
+.skill-list li {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 0;
+}
+
+.skill-list li::before {
+    /* Removing the custom yellow dot */
+    content: none; 
+}
+
+/* --- Large Desktop for 4 cards --- */
+@media (min-width: 1400px) {
+    .skills-grid {
+        grid-template-columns: repeat(4, 1fr); /* Force 4 columns on large screens */
+        gap: 30px;
+    }
+    
+    .skills-content-wrapper {
+        max-width: 1500px; /* Even wider on very large screens */
+        margin-bottom: 15px; /* Minimal bottom margin */
+        min-height: calc(100vh - 80px); /* Adjust height for large screens */
+    }
+}
+
+/* --- Standard Desktop (3 cards) --- */
+@media (max-width: 1399px) and (min-width: 1025px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+    
+    .skills-content-wrapper {
+        margin-bottom: 15px;
+    }
+}
+
+/* --- Tablet Adjustments --- */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+    
+    .skills-content-wrapper {
+        width: 92%; /* Slightly more width on tablets */
+        margin-bottom: 15px;
+        min-height: calc(100vh - 120px); /* Adjust for tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+    
+    .skills-content-wrapper h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .skills-content-wrapper {
+        width: 92%; /* More width on smaller tablets */
+        margin-bottom: 15px;
+        min-height: calc(100vh - 100px);
+    }
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 600px) {
+    .skills-content-wrapper {
+        padding: 0 10px; 
+        /* Reduced mobile margins too */
+        margin: 20px auto 10px; /* Minimal bottom margin */
+        width: 95%; /* Maximum width on mobile */
+        min-height: calc(100vh - 80px);
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 20px;
+    }
+    
+    .skill-card {
+        min-height: 180px; /* Slightly smaller min-height on mobile */
+        padding: 15px;
+    }
+    
+    .skill-card h2 {
+        font-size: 1.2rem;
+    }
+    
+    .skills-content-wrapper h1 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+}
+
+/* --- Small Mobile Adjustments --- */
+@media (max-width: 480px) {
+    .skills-content-wrapper {
+        width: 98%; /* Almost full width on very small screens */
+        margin: 15px auto 5px; /* Minimal margins */
+        min-height: calc(100vh - 60px);
+    }
+    
+    .skills-grid {
+        gap: 15px;
+    }
+    
+    .skill-card {
+        min-height: 160px;
+        padding: 12px;
+    }
+}
+
+/* --- Ensure body and html take full height --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content area should grow and push footer down */
+main {
+    flex: 1 0 auto;
+}
+
+/* Footer should be at the bottom but initially hidden */
+footer {
+    flex-shrink: 0;
 }

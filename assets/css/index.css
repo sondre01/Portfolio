@@ -105,7 +105,7 @@ footer {
     border-top: 1px solid #1a1a1a;
     font-size: 0.9rem;
     margin-top: auto;
-    padding: 40px 0; 
+    padding: 40px 0; /* Defines the vertical height of the footer */
 }
 
 .footer-container {

@@ -4,25 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work - Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/index.css"> <link rel="stylesheet" href="../assets/css/work.css"> </head>
-<body>
+    
+    <!-- Link Global CSS directly -->
+    <link rel="stylesheet" href="../assets/css/index.css"> 
+    <!-- Link Page Specific CSS -->
+    <link rel="stylesheet" href="../assets/css/work.css"> 
+</head>
+<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly -->
     <div id="header-footer"></div>
 
-    <main>
-        <section class="work">
-            <h1>My Work</h1>
-            <p>Here are some of my featured projects and technical builds.</p>
-            <div class="projects">
-                <div class="project-card">
-                    <h3>Automatic Car Parking Toll Gate</h3>
-                    <p>Arduino-based system using RFID and servo motor for smart access.</p>
+    <main class="js-fade-in">
+        <div class="main-content-wrapper"> 
+            <section class="work">
+                <h1>My Work</h1>
+                <p>Here are some of my featured projects and technical builds.</p>
+                <div class="projects">
+                    <div class="project-card">
+                        <h3>Automatic Car Parking Toll Gate</h3>
+                        <p>Arduino-based system using RFID and servo motor for smart access.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>AI Kilo-Bot for Market Use</h3>
+                        <p>AI-powered fruit weighing and pricing system with Raspberry Pi.</p>
+                    </div>
+                    <!-- Add more project cards as needed -->
+                    <div class="project-card">
+                        <h3>Smart Home Automation</h3>
+                        <p>IoT-based home automation system with mobile app control.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Portfolio Website</h3>
+                        <p>Responsive portfolio built with HTML, CSS, and JavaScript.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Weather Monitoring System</h3>
+                        <p>Real-time weather data collection and visualization dashboard.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Digital Attendance System</h3>
+                        <p>RFID-based automated attendance tracking system.</p>
+                    </div>
                 </div>
-                <div class="project-card">
-                    <h3>AI Kilo-Bot for Market Use</h3>
-                    <p>AI-powered fruit weighing and pricing system with Raspberry Pi.</p>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <script src="../assets/js/index.js"></script>

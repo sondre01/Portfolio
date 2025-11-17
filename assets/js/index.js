@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Only run injection on pages inside the 'pages/' folder
     const isInPages = window.location.pathname.includes("/pages/");
     if (!isInPages) {
-        // If not in a content page, exit. The index.html redirect handles the rest.
         return; 
     }
     

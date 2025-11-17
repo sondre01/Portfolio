@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/index.css"> <link rel="stylesheet" href="../assets/css/contact.css"> </head>
-<body>
+    
+    <!-- Link Global CSS directly -->
+    <link rel="stylesheet" href="../assets/css/index.css"> 
+    <!-- Link Page Specific CSS -->
+    <link rel="stylesheet" href="../assets/css/contact.css"> 
+</head>
+<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly -->
     <div id="header-footer"></div>
 
-    <main>
-        <section class="contact">
-            <h1>Contact Me</h1>
-            <p>You can reach me via email or social media for collaboration or inquiries.</p>
-            <a href="mailto:khin@example.com" class="btn">Send Email</a>
-        </section>
+    <main class="js-fade-in">
+        <div class="main-content-wrapper"> 
+            <section class="contact">
+                <h1>Contact Me</h1>
+                <p>You can reach me via email or social media for collaboration or inquiries.</p>
+                <!-- NOTE: Button class is .btn, inheriting homepage style -->
+                <a href="mailto:khin@example.com" class="btn">Send Email</a> 
+            </section>
+        </div>
     </main>
 
     <script src="../assets/js/index.js"></script>

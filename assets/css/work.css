@@ -1,49 +1,147 @@
-/* Work page specific styles */
+/* ===== Work Page Specific Styles ===== */
+
+/* Main work section - maximize space */
 .work {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
+    min-height: calc(100vh - 100px); /* Take full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Changed from center to start */
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px; /* Reduced padding */
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .work h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    margin-top: 0; /* Remove top margin */
 }
 
 .work p {
-  font-size: 1.1rem;
-  color: #333;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 30px;
 }
 
+/* Projects grid - maximize space usage */
 .projects {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px; /* Reduced margin */
 }
 
 .project-card {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  padding: 20px;
-  width: 300px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: left;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: auto;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
 }
 
 .project-card h3 {
-  font-family: "Space Grotesk", sans-serif;
-  color: #080808;
-  margin-bottom: 10px;
+    font-family: "Space Grotesk", sans-serif;
+    color: #080808;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #ffff00; /* Yellow accent like skills page */
+    padding-bottom: 8px;
 }
 
 .project-card p {
-  color: #333;
-  font-size: 1rem;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* --- Large screens - 3 cards per row --- */
+@media (min-width: 1200px) {
+    .projects {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 35px;
+    }
+}
+
+/* --- Tablet adjustments --- */
+@media (max-width: 768px) {
+    .work {
+        padding: 20px 15px;
+        min-height: calc(100vh - 80px);
+    }
+    
+    .work h1 {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .projects {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 15px;
+    }
+    
+    .project-card {
+        padding: 20px;
+        min-height: 160px;
+    }
+}
+
+/* --- Mobile adjustments --- */
+@media (max-width: 600px) {
+    .work {
+        padding: 15px 10px;
+        min-height: calc(100vh - 60px);
+    }
+    
+    .work h1 {
+        font-size: 2rem;
+    }
+    
+    .projects {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 10px;
+    }
+    
+    .project-card {
+        padding: 18px;
+        min-height: 150px;
+    }
+    
+    .project-card h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* --- Small mobile adjustments --- */
+@media (max-width: 480px) {
+    .work {
+        padding: 10px;
+    }
+    
+    .work h1 {
+        font-size: 1.8rem;
+    }
+    
+    .project-card {
+        padding: 15px;
+    }
 }
