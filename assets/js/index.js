@@ -1,89 +1,148 @@
+/**
+ * Master Portfolio Script
+ * Handles: Injection, Path Fixing, Transitions, Smart Header, Education Dropdowns, & Dark Mode
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. CHECK THEME IMMEDIATELY (Before anything else to prevent flash)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
     // Only run injection on pages inside the 'pages/' folder
     const isInPages = window.location.pathname.includes("/pages/");
-    if (!isInPages) {
-        return; 
-    }
+    if (!isInPages) return;
     
-    // Path to the source file (index.html) is always '../index.html' from within 'pages/'
     const pathToIndex = "../index.html"; 
     
-    // CRITICAL FIX: Immediately remove the initial hiding class for the smooth fade-in
+    // Immediately remove initial hiding classes for smooth entry
     const mainContent = document.querySelector('main');
     if (mainContent) {
         mainContent.classList.remove("js-fade-in"); 
         mainContent.classList.remove("fade-out"); 
     }
 
-    // Fetch the index.html content (header and footer)
+    // --- FUNCTION: SMART HEADER (Hide on Scroll Down, Show on Scroll Up) ---
+    function setupSmartHeader() {
+        let lastScrollTop = 0;
+        const delta = 5; // Minimum scroll distance to trigger
+        const navbar = document.querySelector('nav');
+        if (!navbar) return;
+
+        window.addEventListener('scroll', () => {
+            let st = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Check if scroll is significant enough
+            if (Math.abs(lastScrollTop - st) <= delta) return;
+            
+            // Scrolling Down and past the header area
+            if (st > lastScrollTop && st > 100) {
+                navbar.classList.add('nav-hidden');
+            } else {
+                // Scrolling Up
+                navbar.classList.remove('nav-hidden');
+            }
+            
+            // Prevent negative scroll values on mobile
+            lastScrollTop = st <= 0 ? 0 : st; 
+        }, { passive: true });
+    }
+
+    // --- FUNCTION: EDUCATION DROPDOWN TOGGLE ---
+    function setupEducationDropdowns() {
+        const toggleButtons = document.querySelectorAll('.dropdown-toggle');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.toggle('active');
+                }
+            });
+        });
+    }
+
+    // --- FUNCTION: DARK MODE TOGGLE ---
+    function setupThemeToggle() {
+        const toggleBtn = document.querySelector('.theme-toggle-btn');
+        if (!toggleBtn) return;
+
+        // Set initial icon based on current mode
+        const icon = toggleBtn.querySelector('i');
+        if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent any link behavior
+            document.body.classList.toggle('dark-mode');
+            
+            // Update Icon & Save Preference
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
+
+    // --- CORE FETCH AND INJECTION LOGIC ---
     fetch(pathToIndex)
         .then(response => response.text())
         .then(data => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(data, "text/html");
             
-            // Inject Font Awesome Link 
-            const fontAwesomeLink = htmlDoc.querySelector('link[href*="font-awesome"]');
-            if (fontAwesomeLink && !document.querySelector('link[href*="font-awesome"]')) {
-                 document.head.appendChild(fontAwesomeLink.cloneNode());
+            // Inject Font Awesome Link if missing in the current head
+            const faLink = htmlDoc.querySelector('link[href*="font-awesome"]');
+            if (faLink && !document.querySelector('link[href*="font-awesome"]')) {
+                 document.head.appendChild(faLink.cloneNode());
             }
             
             const nav = htmlDoc.querySelector("nav");
             const footer = htmlDoc.querySelector("footer");
-            
             const mainContentElement = document.querySelector("main");
             const placeholder = document.getElementById("header-footer");
 
-            // Function to correctly fix paths from 'pages/' to the root assets/pages
+            // Path Fixer logic for relative directory navigation
             const fixPath = (url) => {
-                // 1. Fix links to ASSETS and the HOME page (which is outside /pages/)
-                if (url.startsWith("assets/") || url === "index.html") {
-                    return "../" + url;
-                }
-                
-                // 2. Fix links to other pages (e.g., pages/about.html) to be relative filenames
-                if (url.startsWith("pages/")) {
-                    return url.split('/').pop(); 
-                }
-                
+                if (!url) return url;
+                if (url.startsWith("assets/") || url === "index.html") return "../" + url;
+                if (url.startsWith("pages/")) return url.split('/').pop(); 
                 return url;
             }
 
-            // 1. Inject Navigation Bar
+            // 1. Inject Navigation
             if (nav && placeholder) {
                 const fixedNav = nav.cloneNode(true);
-
-                // Fix logo path
                 const logo = fixedNav.querySelector("img");
                 if (logo) logo.src = fixPath(logo.getAttribute('src'));
                 
-                // Fix link paths and handle transition
-                const links = fixedNav.querySelectorAll("a");
-                links.forEach(link => {
+                fixedNav.querySelectorAll("a").forEach(link => {
                     link.setAttribute("href", fixPath(link.getAttribute("href")));
                     
-                    // --- Transition and click handler logic ---
-                    let isNavigating = false;
+                    // Don't apply fade transition to the theme toggle button
+                    if (link.closest('.theme-toggle-btn')) return;
+
                     link.addEventListener("click", (e) => {
                         const current = window.location.pathname.split("/").pop();
                         const target = link.getAttribute("href").split("/").pop();
                         
-                        if (current === target || isNavigating) {
-                            e.preventDefault();
-                            return;
+                        if (current === target) { 
+                            e.preventDefault(); 
+                            return; 
                         }
 
                         e.preventDefault();
-                        isNavigating = true;
-                        
                         document.querySelector('main').classList.add("fade-out");
-                        
-                        setTimeout(() => {
-                            window.location.href = link.getAttribute("href");
-                        }, 300); 
+                        setTimeout(() => { window.location.href = link.getAttribute("href"); }, 300); 
                     });
                 });
-                
                 placeholder.before(fixedNav); 
             }
 
@@ -93,32 +152,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 mainContentElement.after(fixedFooter);
             }
             
-            // 3. Remove Placeholder
-            if (placeholder) {
-                 placeholder.remove();
-            }
+            if (placeholder) placeholder.remove();
 
-            // Highlight active link 
+            // 3. Active Link Highlighting
             const currentPage = window.location.pathname.split("/").pop(); 
-            const allLinks = document.querySelectorAll("nav ul li a");
-            allLinks.forEach(link => {
-                const linkPage = link.getAttribute("href").split("/").pop();
-                
-                // Set active class
-                if (linkPage === currentPage) {
+            document.querySelectorAll("nav ul li a").forEach(link => {
+                if (link.getAttribute("href").split("/").pop() === currentPage) {
                     link.classList.add("active");
-                } else {
-                    link.classList.remove("active");
                 }
             });
             
-            // CRITICAL FIX: Make the body visible only after everything has been injected and styled
+            // --- INITIALIZE FEATURES AFTER INJECTION ---
+            setupSmartHeader();
+            setupEducationDropdowns();
+            setupThemeToggle(); // Initialize Dark Mode logic
+            
             document.body.style.visibility = 'visible';
-
         })
         .catch(err => {
-            console.error("Failed to load header/footer:", err);
-            // Fallback
+            console.error("Layout Injection Failed:", err);
             document.body.style.visibility = 'visible';
         });
 });

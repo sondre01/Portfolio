@@ -5,17 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Khin Portfolio</title>
     
-    <!-- CRITICAL: DIRECT LINKS TO STYLES FOR TEMPLATE INTEGRITY -->
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configure Tailwind to use your custom fonts/colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable dark mode manually via 'dark-mode' class on body
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ffff00',
+                        dark: '#080808',
+                        light: '#f2f2f2',
+                    },
+                    fontFamily: {
+                        sans: ['Sora', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Your Custom CSS (Loaded AFTER Tailwind to override if needed) -->
     <link rel="stylesheet" href="assets/css/index.css" />
 </head>
 <body>
 
-    <!-- CRITICAL FIX: INSTANT REDIRECT SCRIPT -->
+    <!-- Redirection Logic -->
     <script>
-        // Check the URL path and redirect immediately (before the browser renders the page)
         const currentPath = window.location.pathname;
-        if (currentPath.endsWith("/Portfolio/") || currentPath.endsWith("/index.html")) {
+        if (currentPath.endsWith("/Portfolio/") || currentPath.endsWith("/index.html") || currentPath.endsWith("/")) {
             window.location.replace("pages/main.html");
         }
     </script>
@@ -34,41 +58,42 @@
 
             <div class="con2right">
                 <ul>
-                    <li><a href="pages/main.html" class="home-link">Home</a></li>
+                    <li><a href="pages/main.html">Home</a></li>
                     <li><a href="pages/about.html">About</a></li>
                     <li><a href="pages/skill.html">Skill</a></li>
                     <li><a href="pages/education.html">Education</a></li>
                     <li><a href="pages/work.html">Work</a></li>
                     <li><a href="pages/experience.html">Experience</a></li>
                     <li><a href="pages/contact.html">Contact</a></li>
+                    <!-- NEW: Dark Mode Toggle Button -->
+                    <li>
+                        <button class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- ===== MAIN CONTENT AREA (EMPTY PLACEHOLDER ONLY) ===== -->
+    <!-- Content Placeholder -->
     <main>
-        <section class="placeholder-section">
-            <p>You should be redirected now...</p>
-        </section>
+        <div id="header-footer"></div>
     </main>
 
-    <!-- ===== Footer (TEMPLATE SOURCE - FINAL CONTENT) ===== -->
+    <!-- ===== Footer (TEMPLATE SOURCE) ===== -->
     <footer class="main-footer">
         <div class="footer-container">
-            
             <div class="footer-left">
                 <p>&copy; 2025 Khin. All rights reserved.</p>
                 <p>Built with HTML, CSS, & JavaScript</p>
             </div>
-
             <div class="footer-right">
                 <div class="contact-info">
                     <h4>Contact Info</h4>
                     <p><i class="fas fa-envelope"></i> gamboa.khinandrei@gmail.com</p>
                     <p><i class="fas fa-phone"></i> +63 992 421 5230</p>
                 </div>
-
                 <div class="social-links">
                     <a href="https://www.facebook.com/khinandrei.gmb" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://x.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
@@ -77,7 +102,6 @@
                     <a href="https://github.com/sondre01" target="_blank"><i class="fab fa-github"></i></a>
                 </div>
             </div>
-
         </div>
     </footer>
 

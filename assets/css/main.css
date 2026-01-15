@@ -2,7 +2,7 @@
 /* =========== 1. DESKTOP LAYOUT (BASE STYLES) =========== */
 /* ======================================================= */
 
-/* --- Hero Container (Overall Section Vertical Space) --- */
+/* --- Hero Container --- */
 .hero {
     min-height: 85vh; 
     padding: 0; 
@@ -13,46 +13,45 @@
     
     position: relative; 
     overflow: visible; 
-    /* DEBUGLINE: Border for the overall hero section */
-    border: 1px dashed yellow; 
+    border: 1px dashed red; 
 }
 
-/* --- Two-Column Wrapper (50/50 Split Container) --- */
+/* --- Two-Column Wrapper --- */
 .hero-content-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center; 
-    max-width: 1300px;
-    width: 100%; 
+    max-width: 1400px;
+    width: 90%; 
     height: auto; 
-    /* DEBUGLINE: Border for the wrapper containing both columns */
+    margin: 40px auto 0;
     border: 2px dashed red; 
 }
 
 /* --- Left Text Section (1ST COLUMN) --- */
 .hero-text-section {
-    flex: 1; /* 50% split */
+    flex: 1; 
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
-    align-items: center; 
+    align-items: cente; 
     text-align: center; 
-    
     height: auto; 
     padding: 20px; 
-    
     z-index: 2; 
-    /* DEBUGLINE: Border for the 1st column (Text) */
     border: 2px dashed blue; 
+    gap: 10px;
 }
 
 /* --- Heading & Paragraph Styles --- */
 .hero h1 {
     font-family: "Space Grotesk", sans-serif;
     font-size: 3rem;
-    margin-bottom: 20px;
+    margin: 0px;
     color: #080808;
     line-height: 1.2;
+    text-align: left;
+    
 }
 
 .hero p {
@@ -60,7 +59,19 @@
     color: #333;
     max-width: 90%; 
     line-height: 1.6;
+    margin: 0px;
+    text-align: left; 
+    
+}
+
+.hero p1 {
+    font-size: 1.3rem;
+    color: #333;
+    max-width: 90%; 
+    line-height: 1.6;
     margin-bottom: 25px; 
+    /* Remove center alignment for desktop */
+    text-align: left; 
 }
 
 /* --- Button Group (Desktop Base) --- */
@@ -68,7 +79,8 @@
     margin-top: 25px; 
     display: flex;
     gap: 15px;
-    justify-content: center;
+    /* CRITICAL CHANGE: Align buttons to the start (left) */
+    justify-content: flex-start;
 }
 
 /* --- Button Base Styles --- */
@@ -95,27 +107,23 @@
     background-color: #e0e0e0;
 }
 
-/* --- Right Image Section (2ND COLUMN) --- */
+/* --- Right Image Section (2ND COLUMN - Image Alignment) --- */
 .hero-image-section {
-    flex: 1; /* 50% split */
+    flex: 1; 
     display: flex;
     justify-content: center; 
-    align-items: flex-end; /* Aligns image to the bottom */
+    align-items: center; 
     position: relative; 
-    
-    height: auto;
-    width: auto;
-    
+    height: 100%;
     z-index: 1;
-    /* DEBUGLINE: Border for the 2nd column (Image) */
-    border: 2px dashed rgb(0, 255, 64); 
+    border: 2px dashed rgb(0, 255, 51);
 }
 
 .hero-profile-picture {
     position: relative; 
     bottom: -5px; 
     width: 100%; 
-    max-width: 400px; /* Desired image size */
+    max-width: 400px; 
     height: auto;
     display: block; 
     z-index: 1; 
@@ -128,12 +136,11 @@
 /* ======================================================= */
 
 @media (max-width: 768px) {
-    /* --- Hero Container Reset (Stacking) --- */
+    /* --- Hero Container Reset --- */
     .hero {
-        padding: 0; /* Remove hero padding; margin is handled by wrapper */
+        padding: 20px; 
         min-height: auto; 
         align-items: center; 
-        width: 100%;
     }
 
     /* Stack content vertically on mobile */
@@ -143,10 +150,6 @@
         gap: 20px; 
         height: auto;
         align-items: center;
-        /* CRITICAL FIX: Match width of nav/footer containers (90%) */
-        width: 90%; 
-        max-width: 100%; 
-        margin: 40px auto 0;
     }
     
     /* --- Image Position (Moves to Top and Resets Positioning) --- */
@@ -154,51 +157,27 @@
         order: -1; 
         padding-bottom: 20px; 
         align-items: center; 
+        /* Reset justify content for mobile centering */
+        justify-content: center;
         position: relative;
         height: auto;
-        width: 100%;
     }
 
     .hero-profile-picture {
-        max-width: 250px; 
-        margin: 0 auto; 
-        position: relative; 
-        bottom: auto; 
-    }
-    
-    /* --- Text Adjustments --- */
-    .hero-text-section {
-        align-items: center; 
-        padding: 0; /* Remove internal padding */
-        text-align: center; 
-        height: auto;
-        width: 100%;
-        margin-bottom: 0; 
+        max-width: 300px; 
+        margin: 0 auto;
     }
 
-    .hero h1 {
-        font-size: 2.2rem;
+    .hero h1, .hero p {
+        text-align: center
     }
-    .hero p {
-        font-size: 1.1rem;
-        max-width: 90%; 
-        margin-left: auto; 
-        margin-right: auto; 
-    }
-    
-    /* --- Button Stacking and Centering Fix --- */
+
     .cta-buttons {
-        flex-direction: column; 
         justify-content: center; 
-        align-self: center; 
-        gap: 8px; 
-        width: 90%; 
-        max-width: 250px; 
-        margin: 15px auto 0; 
     }
-    .btn {
-        width: 100%;
-        padding: 10px 15px; 
-        font-size: 0.95rem; 
+
+    .hero-text-section {
+        text-align: justify;
+        align-items: center;
     }
 }
