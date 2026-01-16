@@ -14,14 +14,15 @@
     --border-color: #1a1a1a;
     --shadow-color: rgba(0, 0, 0, 0.08);
 }
+
 /* Dark Mode Overrides */
 body.dark-mode {
-    --bg-color: #3a3838;       /* Dark grey/black background for body */
-    --text-color: #e0e0e0;     /* Light grey text for body content */
-    --nav-bg: #252424;         /* Dim white/Light grey for Header/Footer */
-    --nav-text: #ffffff;       /* Black text for Header/Footer */
-    --accent-color: #ffd700;   /* Slightly warmer yellow for dark mode */
-    --secondary-bg: #1a1a1a;   /* Dark card background */
+    --bg-color: #3a3838;
+    --text-color: #e0e0e0;
+    --nav-bg: #252424;
+    --nav-text: #ffffff;
+    --accent-color: #ffd700;
+    --secondary-bg: #1a1a1a;
     --card-bg: #1f1f1f;
     --border-color: #333333;
     --shadow-color: rgba(255, 255, 255, 0.05);
@@ -35,19 +36,18 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-family: "Sora", sans-serif;
-    
-    /* Use Variables instead of fixed colors */
+
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme switch */
+    transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
 }
 
 /* --- Page Transitions --- */
 main {
-    flex: 1; 
+    flex: 1;
     width: 100%;
-    transition: opacity 0.3s ease-in-out; 
+    transition: opacity 0.3s ease-in-out;
 }
 
 .js-fade-in, .fade-out { opacity: 0; }
@@ -57,8 +57,8 @@ nav {
     background-color: var(--nav-bg);
     width: 100%;
     border-bottom: 1px solid var(--border-color);
-    position: sticky; 
-    top: 0; 
+    position: sticky;
+    top: 0;
     z-index: 1000;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
     will-change: transform;
@@ -111,11 +111,11 @@ nav {
 /* ===== Footer ===== */
 footer {
     background-color: var(--nav-bg);
-    color: var(--nav-text); /* Use nav-text variable */
+    color: var(--nav-text);
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
     margin-top: auto;
-    padding: 40px 0; 
+    padding: 40px 0;
 }
 
 .footer-container {
@@ -123,9 +123,9 @@ footer {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; 
-    align-items: flex-start; 
-    flex-wrap: wrap; 
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .footer-left p { margin: 5px 0; }
@@ -144,4 +144,98 @@ footer {
     .contact-info p { text-align: center; padding-left: 0; }
     .social-links { margin-left: 0; justify-content: center; display: flex; gap: 15px; }
     .social-links a { margin: 0; }
+}
+
+/* =======================================================
+   FUTURISTIC CUSTOM CURSOR (BLACK CORE + YELLOW GLOW)
+   ======================================================= */
+
+/* Hide default cursor (desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  html, body { cursor: none; }
+  a, button, input, textarea, select, label, [role="button"], .btn { cursor: none; }
+}
+
+/* Cursor base */
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  pointer-events: none !important; /* never block clicks */
+  user-select: none;
+
+  z-index: 99999;
+  opacity: 0;
+
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform, opacity, width, height;
+}
+
+/* ================= DOT ================= */
+#cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+
+  background: #000000; /* BLACK */
+
+  box-shadow:
+    0 0 8px rgba(255, 215, 0, 0.6),
+    0 0 18px rgba(255, 215, 0, 0.35);
+}
+
+/* ================= RING ================= */
+#cursor-ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+
+  border: 1.5px solid #000000; /* BLACK ring */
+  background: rgba(0, 0, 0, 0.25);
+
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.35),
+    inset 0 0 14px rgba(255, 215, 0, 0.15);
+
+  backdrop-filter: blur(2px);
+
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* =============== HOVER ================= */
+.cursor-hover #cursor-ring {
+  width: 52px;
+  height: 52px;
+
+  box-shadow:
+    0 0 18px rgba(255, 215, 0, 0.4),
+    inset 0 0 12px rgba(255, 215, 0, 0.15);
+}
+
+.cursor-hover #cursor-dot {
+  width: 8px;
+  height: 8px;
+}
+
+/* =============== CLICK ================= */
+.cursor-click #cursor-ring {
+  opacity: 0.6;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-click #cursor-ring { animation: none; }
+}
+
+/* Touch devices: disable custom cursor */
+@media (hover: none), (pointer: coarse) {
+  #cursor-dot,
+  #cursor-ring { display: none !important; }
+
+  html, body { cursor: auto !important; }
 }

@@ -4,43 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Portfolio</title>
-    
-    <!-- Link Global CSS directly -->
-    <link rel="stylesheet" href="../assets/css/index.css"> 
-    <!-- Link Page Specific CSS -->
-    <link rel="stylesheet" href="../assets/css/about.css"> 
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="../assets/css/about.css">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-up': 'fadeUp 0.9s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly -->
-    <div id="header-footer"></div> 
+
+<body style="visibility: hidden;">
+    <div id="header-footer"></div>
 
     <main class="js-fade-in">
-        <div class="about-content-wrapper"> 
-            
-            <section class="about-hero">
-                <!-- LEFT COLUMN: Image -->
-                <div class="about-image-container">
-                    <img src="../assets/img/kidME.png" alt="kid me" class="about-profile-picture">
-                </div>
+        <section class="about-hero">
+            <div class="about-content-wrapper">
 
-                <!-- RIGHT COLUMN: Text Content -->
-                <div class="about-text-container">
-                    <h1>About Me</h1>
-                    <p class="tagline">Computer Engineering Student & Innovator</p>
-                    <p>
-                        Hi! I'm <strong>Khin</strong>, a passionate Computer Engineering student dedicated to exploring the intersection of hardware and software. 
-                        My journey involves designing efficient circuits, programming embedded systems, and building responsive web applications.
-                    </p>
-                    <p>
-                        This portfolio showcases my technical skills, academic projects, and my continuous learning journey in the world of technology.
-                    </p>
-                    
-                    <div class="about-cta">
-                        <a href="contact.html" class="btn">Let's Connect</a>
+                <div class="about-hero-content">
+
+                    <!-- LEFT COLUMN: IMAGE -->
+                    <div class="about-image-section animate-fade-up" style="animation-delay: 0ms;">
+                        <div class="image-frame">
+                            <img
+                                src="../assets/img/kidME.png"
+                                alt="Kid me"
+                                class="about-profile-picture"
+                            >
+                        </div>
                     </div>
-                </div>
-            </section>
 
-        </div>
+                    <!-- RIGHT COLUMN: TEXT -->
+                    <div class="about-text-section">
+                        <h1 class="about-title animate-fade-up" style="animation-delay: 0ms;">
+                            About Me
+                        </h1>
+
+                        <p class="about-tagline animate-fade-up" style="animation-delay: 150ms;">
+                            Computer Engineering Student & Innovator
+                        </p>
+
+                        <div class="about-body animate-fade-up" style="animation-delay: 250ms;">
+                            <p>
+                                Hi! I'm <strong>Khin</strong>, a passionate Computer Engineering student dedicated
+                                to exploring the intersection of hardware and software. My journey involves
+                                designing efficient circuits, programming embedded systems, and building
+                                responsive web applications.
+                            </p>
+
+                            <p>
+                                This portfolio showcases my technical skills, academic projects, and my
+                                continuous learning journey in the world of technology.
+                            </p>
+                        </div>
+
+                        <div class="about-cta animate-fade-up" style="animation-delay: 350ms;">
+                            <a href="contact.html" class="btn btn-outline">
+                                Let's Connect
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
     </main>
 
     <script src="../assets/js/index.js"></script>

@@ -1,183 +1,192 @@
-/* ======================================================= */
-/* =========== 1. DESKTOP LAYOUT (BASE STYLES) =========== */
-/* ======================================================= */
+/* =======================================================
+   HERO LAYOUT — IMAGE GLUED TO BOTTOM
+   ======================================================= */
 
-/* --- Hero Container --- */
+:root {
+    --nav-h: 80px; /* navbar height */
+}
+
+/* Hero occupies exactly visible screen */
+#homeContent {
+    height: calc(100svh - var(--nav-h));
+}
+
 .hero {
-    min-height: 85vh; 
-    padding: 0; 
-    
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    
-    position: relative; 
-    overflow: visible; 
-    border: 1px dashed red; 
-}
-
-/* --- Two-Column Wrapper --- */
-.hero-content-wrapper {
+    height: calc(100svh - var(--nav-h));
     display: flex;
-    justify-content: space-between;
-    align-items: center; 
+    justify-content: center;
+    overflow: hidden; /* footer stays hidden */
+}
+
+/* =======================================================
+   WRAPPERS (NO BOTTOM PADDING)
+   ======================================================= */
+
+.main-content-wrapper {
+    width: 90%;
     max-width: 1400px;
-    width: 90%; 
-    height: auto; 
-    margin: 40px auto 0;
-    border: 2px dashed red; 
+    margin: 0 auto;
+
+    /* KEY FIX: no bottom padding */
+    padding: 40px 20px 0;
+
+    height: 100%;
+    display: flex;
+    align-items: stretch;
 }
 
-/* --- Left Text Section (1ST COLUMN) --- */
+.hero-content-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+}
+
+/* =======================================================
+   LEFT TEXT
+   ======================================================= */
+
 .hero-text-section {
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: cente; 
-    text-align: center; 
-    height: auto; 
-    padding: 20px; 
-    z-index: 2; 
-    border: 2px dashed blue; 
-    gap: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-/* --- Heading & Paragraph Styles --- */
-.hero h1 {
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
     font-family: "Space Grotesk", sans-serif;
-    font-size: 3rem;
-    margin: 0px;
-    color: #080808;
     line-height: 1.2;
-    text-align: left;
-    
+    margin: 0;
+    color: var(--text-color);
 }
 
-.hero p {
-    font-size: 1.3rem;
-    color: #333;
-    max-width: 90%; 
+.hero-paragraph {
+    margin-top: 18px;
+    font-size: 1.25rem;
     line-height: 1.6;
-    margin: 0px;
-    text-align: left; 
-    
+    max-width: 90%;
+    color: var(--text-color);
+    opacity: 0.9;
 }
 
-.hero p1 {
-    font-size: 1.3rem;
-    color: #333;
-    max-width: 90%; 
-    line-height: 1.6;
-    margin-bottom: 25px; 
-    /* Remove center alignment for desktop */
-    text-align: left; 
-}
+/* =======================================================
+   BUTTONS
+   ======================================================= */
 
-/* --- Button Group (Desktop Base) --- */
 .cta-buttons {
-    margin-top: 25px; 
+    margin-top: 28px;
     display: flex;
     gap: 15px;
-    /* CRITICAL CHANGE: Align buttons to the start (left) */
-    justify-content: flex-start;
 }
 
-/* --- Button Base Styles --- */
 .btn {
-    padding: 12px 30px;
-    background-color: #ffff00;
-    color: #080808;
+    padding: 8px 12px;
     border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+    border: 1px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
 }
 
-.btn:hover {
-    background-color: #e6e600;
+.btn-outline {
+    color: var(--text-color);
 }
 
-.btn.secondary {
-    background-color: #f2f2f2;
-    color: #080808;
+.btn-outline:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
-.btn.secondary:hover {
-    background-color: #e0e0e0;
-}
+/* =======================================================
+   RIGHT IMAGE — TRUE FLOOR ALIGNMENT
+   ======================================================= */
 
-/* --- Right Image Section (2ND COLUMN - Image Alignment) --- */
 .hero-image-section {
-    flex: 1; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    position: relative; 
+    flex: 1;
     height: 100%;
-    z-index: 1;
-    border: 2px dashed rgb(0, 255, 51);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* ACTUAL BOTTOM */
 }
 
 .hero-profile-picture {
-    position: relative; 
-    bottom: -5px; 
-    width: 100%; 
-    max-width: 400px; 
+    width: min(640px, 100%);
+    max-height: 100%;
     height: auto;
-    display: block; 
-    z-index: 1; 
-    transform: none; 
+    object-fit: contain;
+    display: block;
 }
 
+/* =======================================================
+   RESUME TAB
+   ======================================================= */
 
-/* ======================================================= */
-/* =========== 2. MOBILE RESPONSIVENESS (<= 768PX) ======= */
-/* ======================================================= */
+.resume-tab {
+    position: fixed;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    background: var(--bg-color);
+    z-index: 2000;
+}
+
+.resume-tab.active {
+    display: flex;
+}
+
+.resume-tab-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.resume-tab-header--always-dark {
+    background: #252424;
+    color: #fff;
+}
+
+.resume-viewer {
+    flex: 1;
+}
+
+.resume-viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* =======================================================
+   MOBILE
+   ======================================================= */
 
 @media (max-width: 768px) {
-    /* --- Hero Container Reset --- */
+    #homeContent,
     .hero {
-        padding: 20px; 
-        min-height: auto; 
-        align-items: center; 
+        height: auto;
     }
 
-    /* Stack content vertically on mobile */
-    .hero-content-wrapper {
-        flex-direction: column; 
-        text-align: center;
-        gap: 20px; 
+    .main-content-wrapper {
+        padding: 24px 16px;
         height: auto;
-        align-items: center;
     }
-    
-    /* --- Image Position (Moves to Top and Resets Positioning) --- */
+
+    .hero-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
     .hero-image-section {
-        order: -1; 
-        padding-bottom: 20px; 
-        align-items: center; 
-        /* Reset justify content for mobile centering */
-        justify-content: center;
-        position: relative;
-        height: auto;
+        align-items: center;
     }
 
     .hero-profile-picture {
-        max-width: 300px; 
-        margin: 0 auto;
-    }
-
-    .hero h1, .hero p {
-        text-align: center
-    }
-
-    .cta-buttons {
-        justify-content: center; 
-    }
-
-    .hero-text-section {
-        text-align: justify;
-        align-items: center;
+        max-width: 380px;
     }
 }

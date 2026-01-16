@@ -2,39 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khin Portfolio</title>
-    
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Configure Tailwind to use your custom fonts/colors -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class', // Enable dark mode manually via 'dark-mode' class on body
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#ffff00',
-                        dark: '#080808',
-                        light: '#f2f2f2',
-                    },
-                    fontFamily: {
-                        sans: ['Sora', 'sans-serif'],
-                        heading: ['Space Grotesk', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    
     <!-- Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- Your Custom CSS (Loaded AFTER Tailwind to override if needed) -->
     <link rel="stylesheet" href="assets/css/index.css" />
 </head>
 <body>
+
+    <!-- CUSTOM CURSOR ELEMENTS -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
     <!-- Redirection Logic -->
     <script>
@@ -65,9 +44,10 @@
                     <li><a href="pages/work.html">Work</a></li>
                     <li><a href="pages/experience.html">Experience</a></li>
                     <li><a href="pages/contact.html">Contact</a></li>
-                    <!-- NEW: Dark Mode Toggle Button -->
+
+                    <!-- Dark Mode Toggle Button -->
                     <li>
-                        <button class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+                        <button class="theme-toggle-btn" aria-label="Toggle Dark Mode" type="button">
                             <i class="fas fa-moon"></i>
                         </button>
                     </li>
@@ -95,15 +75,17 @@
                     <p><i class="fas fa-phone"></i> +63 992 421 5230</p>
                 </div>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/khinandrei.gmb" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://www.instagram.com/khinandrei.gmb/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/khin-andrei-gamboa-80b821389/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/sondre01" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.facebook.com/khinandrei.gmb" target="_blank" rel="noreferrer"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/" target="_blank" rel="noreferrer"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/khinandrei.gmb/" target="_blank" rel="noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/khin-andrei-gamboa-80b821389/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/sondre01" target="_blank" rel="noreferrer"><i class="fab fa-github"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Master JS (used by pages via injection) -->
+    <script src="assets/js/index.js"></script>
 </body>
 </html>

@@ -1,39 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - Portfolio</title>
-    
-    <link rel="stylesheet" href="../assets/css/index.css"> 
-    
-    <link rel="stylesheet" href="../assets/css/main.css"> 
-</head>
-<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly to prevent flash -->
-    <div id="header-footer"></div> 
 
-    <main class="js-fade-in">
-        <div class="main-content-wrapper"> 
-            <section class="hero">
+    <!-- Global + Page CSS -->
+    <link rel="stylesheet" href="../assets/css/index.css" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+
+    <!-- Tailwind (animations only) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-up': 'fadeUp 0.9s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body style="visibility:hidden;">
+    <!-- Header injected by JS -->
+    <div id="header-footer"></div>
+
+    <!-- HOME -->
+    <main id="homeContent" class="js-fade-in">
+        <section class="hero">
+            <div class="main-content-wrapper">
                 <div class="hero-content-wrapper">
+
+                    <!-- LEFT TEXT -->
                     <div class="hero-text-section">
-                        <p>Aspiring Web Developer</p>
-                        <h1>Hello, I'm Khin Andrei Gamboa</h1>
-                        <p>Computer Engineering student passionate about creating innovative hardware and software solutions through research and hands-on design.</p>
-                        <div class="cta-buttons">
-                            <a href="work.html" class="btn">View My Work</a>
-                            <a href="contact.html" class="btn secondary">Get In Touch</a>
+                        <h1 class="hero-title animate-fade-up">
+                            Hello, I’m Khin Andrei Gamboa
+                        </h1>
+
+                        <p class="hero-paragraph animate-fade-up" style="animation-delay:150ms">
+                            Computer Engineering student passionate about creating
+                            innovative hardware and software solutions through
+                            research and hands-on design.
+                        </p>
+
+                        <div class="cta-buttons animate-fade-up" style="animation-delay:300ms">
+                            <button class="btn btn-outline" onclick="openResumeTab()">
+                                View My Resume
+                            </button>
+                            <a href="contact.html" class="btn btn-outline">
+                                Get In Touch
+                            </a>
                         </div>
                     </div>
 
+                    <!-- RIGHT IMAGE -->
                     <div class="hero-image-section">
-                        <img src="../assets/img/me.png" alt="Khin's Profile Picture" class="hero-profile-picture">
+                        <img
+                            src="../assets/img/me.png"
+                            alt="Khin profile picture"
+                            class="hero-profile-picture animate-fade-up"
+                            style="animation-delay:300ms"
+                        />
                     </div>
+
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
+    <!-- RESUME TAB -->
+    <section id="resumeTab" class="resume-tab" aria-hidden="true">
+        <header class="resume-tab-header resume-tab-header--always-dark">
+            <button class="resume-back" onclick="closeResumeTab()">← Back</button>
+            <span class="resume-title">My Resume</span>
+        </header>
+
+        <div class="resume-viewer">
+            <iframe
+                src="../assets/Documents/My Resume.pdf"
+                title="Resume"
+            ></iframe>
+        </div>
+    </section>
+
     <script src="../assets/js/index.js"></script>
+
+    <script>
+        function openResumeTab() {
+            document.getElementById("resumeTab").classList.add("active");
+            document.getElementById("homeContent").style.display = "none";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeResumeTab() {
+            document.getElementById("resumeTab").classList.remove("active");
+            document.getElementById("homeContent").style.display = "";
+            document.body.style.overflow = "";
+        }
+    </script>
 </body>
 </html>

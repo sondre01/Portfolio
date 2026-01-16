@@ -5,22 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skill - Portfolio</title>
     
-    <!-- CRITICAL FIX: Link Global CSS directly for guaranteed styling -->
+    <!-- Global CSS -->
     <link rel="stylesheet" href="../assets/css/index.css"> 
-    
-    <!-- Link the page-specific style file -->
+    <!-- Page-specific CSS -->
     <link rel="stylesheet" href="../assets/css/skill.css"> 
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-up': 'fadeUp 0.9s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body style="visibility: hidden;"> <!-- Hides content instantly to prevent flash -->
+
+<body style="visibility: hidden;">
     <div id="header-footer"></div>
 
     <main class="js-fade-in">
         <div class="skills-content-wrapper">
-            <h1>Technical Skills</h1>
+            <h1 class="animate-fade-up">Technical Skills</h1>
 
-            <div class="skills-grid">
+            <div class="skills-grid animate-fade-up" style="animation-delay: 150ms;">
                 
-                <!-- ===== Card 1: Programming & Software ===== -->
+                <!-- Programming -->
                 <div class="skill-card programming-card">
                     <h2>Programming & Software</h2>
                     <ul class="skill-list">
@@ -32,7 +52,7 @@
                     </ul>
                 </div>
 
-                <!-- ===== Card 2: Embedded Systems & IoT ===== -->
+                <!-- Embedded -->
                 <div class="skill-card embedded-card">
                     <h2>Embedded Systems & IoT</h2>
                     <ul class="skill-list">
@@ -43,7 +63,7 @@
                     </ul>
                 </div>
 
-                <!-- ===== Card 3: Hardware & PCB Design ===== -->
+                <!-- Hardware -->
                 <div class="skill-card hardware-card">
                     <h2>Hardware & Design</h2>
                     <ul class="skill-list">
@@ -54,7 +74,7 @@
                     </ul>
                 </div>
 
-                <!-- ===== Card 4: Web & Databases (Optional) ===== -->
+                <!-- Web -->
                 <div class="skill-card web-card">
                     <h2>Web & Databases</h2>
                     <ul class="skill-list">
