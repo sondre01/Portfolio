@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- FUTURISTIC CURSOR (YOUR WORKING VERSION) ---
+    // --- FUTURISTIC CURSOR (FIXED: removed special click handling) ---
     function setupFuturisticCursor() {
         const dot = document.getElementById("cursor-dot");
         const ring = document.getElementById("cursor-ring");
@@ -101,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let ringX = mouseX, ringY = mouseY;
 
         const DOT_EASE = 0.28;
-        const RING_EASE = 0.28;  // ✅ same speed = no slingshot
-
+        const RING_EASE = 0.28;
 
         let visible = false;
 
@@ -145,11 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.target.closest(hoverSelector)) document.body.classList.remove("cursor-hover");
         });
 
-        document.addEventListener("mousedown", () => {
-            document.body.classList.add("cursor-click");
-            window.setTimeout(() => document.body.classList.remove("cursor-click"), 450);
-        });
-
+        // Simple animation loop without special click handling
         function animate() {
             dotX += (mouseX - dotX) * DOT_EASE;
             dotY += (mouseY - dotY) * DOT_EASE;
