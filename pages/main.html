@@ -1,111 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Portfolio</title>
 
-    <!-- Global + Page CSS -->
-    <link rel="stylesheet" href="../assets/css/index.css" />
-    <link rel="stylesheet" href="../assets/css/main.css" />
+  <!-- Global + Page CSS -->
+  <link rel="stylesheet" href="../assets/css/index.css" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
 
-    <!-- Tailwind (animations only) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    animation: {
-                        'fade-up': 'fadeUp 0.9s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-up': 'fadeUp 0.9s ease-out forwards',
+            'caret': 'caretBlink 0.9s steps(1) infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            caretBlink: {
+              '0%, 49%': { opacity: '1' },
+              '50%, 100%': { opacity: '0' },
             }
+          }
         }
-    </script>
+      }
+    }
+  </script>
 </head>
 
 <body style="visibility:hidden;">
-    <!-- Header injected by JS -->
-    <div id="header-footer"></div>
+  <div id="header-footer"></div>
 
-    <!-- HOME -->
-    <main id="homeContent" class="js-fade-in">
-        <section class="hero">
-            <div class="main-content-wrapper">
-                <div class="hero-content-wrapper">
+  <main id="homeContent" class="js-fade-in">
+    <section class="hero">
+      <div class="main-content-wrapper">
+        <div class="hero-content-wrapper">
 
-                    <!-- LEFT TEXT -->
-                    <div class="hero-text-section">
-                        <h1 class="hero-title animate-fade-up">
-                            Hello, I’m Khin Andrei Gamboa
-                        </h1>
+          <!-- LEFT TEXT -->
+          <div class="hero-text-section">
+            <h1 class="hero-title animate-fade-up">
 
-                        <p class="hero-paragraph animate-fade-up" style="animation-delay:150ms">
-                            Computer Engineering student passionate about creating
-                            innovative hardware and software solutions through
-                            research and hands-on design.
-                        </p>
+              <!-- LINE 1 -->
+              <span class="block whitespace-nowrap max-md:whitespace-normal">
+                Hi, I’m
+                <span class="text-[color:var(--accent-color)]">Khin Andrei Gamboa</span>
+              </span>
 
-                        <div class="cta-buttons animate-fade-up" style="animation-delay:300ms">
-                            <button class="btn btn-outline" onclick="openResumeTab()">
-                                View My Resume
-                            </button>
-                            <a href="contact.html" class="btn btn-outline">
-                                Get In Touch
-                            </a>
-                        </div>
-                    </div>
+              <!-- LINE 2 (ONE LINE TYPEWRITER) -->
+              <span class="block mt-2">
+                <span class="typewriter-line">
+                  <span class="typewriter-a">a</span>
+                  <span id="typewriterText" class="typewriter-word"></span>
+                  <span class="typewriter-caret" aria-hidden="true">|</span>
+                </span>
+              </span>
 
-                    <!-- RIGHT IMAGE -->
-                    <div class="hero-image-section">
-                        <img
-                            src="../assets/img/me.png"
-                            alt="Khin profile picture"
-                            class="hero-profile-picture animate-fade-up"
-                            style="animation-delay:300ms"
-                        />
-                    </div>
+            </h1>
 
-                </div>
+            <p class="hero-paragraph animate-fade-up" style="animation-delay:150ms">
+              Computer Engineering student passionate about creating
+              innovative hardware and software solutions through
+              research and hands-on design.
+            </p>
+
+            <div class="cta-buttons animate-fade-up" style="animation-delay:300ms">
+              <button class="btn btn-outline" onclick="openResumeTab()">
+                View My Resume
+              </button>
+              <a href="contact.html" class="btn btn-outline">
+                Get In Touch
+              </a>
             </div>
-        </section>
-    </main>
+          </div>
 
-    <!-- RESUME TAB -->
-    <section id="resumeTab" class="resume-tab" aria-hidden="true">
-        <header class="resume-tab-header resume-tab-header--always-dark">
-            <button class="resume-back" onclick="closeResumeTab()">← Back</button>
-            <span class="resume-title">My Resume</span>
-        </header>
+          <!-- RIGHT IMAGE -->
+          <div class="hero-image-section">
+            <div class="animate-fade-up" style="animation-delay:300ms">
 
-        <div class="resume-viewer">
-            <iframe
-                src="../assets/Documents/My Resume.pdf"
-                title="Resume"
-            ></iframe>
+              <!-- ✅ interactive tilt container -->
+              <div
+                class="hero-photo-wrapper group relative w-[450px] h-[600px] max-md:w-[300px] max-md:h-[420px] select-none"
+                data-tilt
+              >
+                <!-- ✅ this layer moves as ONE (frame + profile) -->
+                <div class="hero-tilt-layer absolute inset-0">
+
+                  <!-- FRAME -->
+                  <div
+                    class="
+                      hero-frame
+                      absolute bottom-0 left-1/2 -translate-x-1/2
+                      w-[400px] h-[450px]
+                      max-md:w-[260px] max-md:h-[320px]
+                      rounded-[10px] max-md:rounded-[8px]
+                      overflow-hidden
+                    "
+                  >
+                    <!-- Shine line -->
+                    <div class="absolute left-3 right-3 top-4 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-80"></div>
+
+                    <!-- corner glow -->
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.38),transparent_58%)] opacity-90"></div>
+
+                    <!-- moving highlight (driven by CSS vars set by JS) -->
+                    <div class="hero-frame-highlight absolute inset-0"></div>
+                  </div>
+
+                  <!-- IMAGE -->
+                  <img
+                    src="../assets/img/me.png"
+                    alt="Profile picture"
+                    class="
+                      absolute bottom-0 left-1/2 -translate-x-1/2
+                      h-[600px] max-md:h-[380px]
+                      w-auto max-w-full object-contain
+                      z-10 pointer-events-none
+                    "
+                  />
+                </div>
+
+                <!-- glow behind (stronger on hover) -->
+                <div class="hero-glow absolute -inset-8 z-0 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"></div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
+      </div>
     </section>
+  </main>
 
-    <script src="../assets/js/index.js"></script>
+  <!-- RESUME TAB -->
+  <section id="resumeTab" class="resume-tab" aria-hidden="true">
+    <header class="resume-tab-header resume-tab-header--always-dark">
+      <button class="resume-back" onclick="closeResumeTab()">← Back</button>
+      <span class="resume-title">My Resume</span>
+    </header>
 
-    <script>
-        function openResumeTab() {
-            document.getElementById("resumeTab").classList.add("active");
-            document.getElementById("homeContent").style.display = "none";
-            document.body.style.overflow = "hidden";
+    <div class="resume-viewer">
+      <iframe src="../assets/Documents/My Resume.pdf" title="Resume"></iframe>
+    </div>
+  </section>
+
+  <script src="../assets/js/index.js"></script>
+
+  <script>
+    function openResumeTab() {
+      document.getElementById("resumeTab").classList.add("active");
+      document.getElementById("homeContent").style.display = "none";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeResumeTab() {
+      document.getElementById("resumeTab").classList.remove("active");
+      document.getElementById("homeContent").style.display = "";
+      document.body.style.overflow = "";
+    }
+
+    // ✅ Typewriter Loop
+    (function () {
+      const el = document.getElementById("typewriterText");
+      if (!el) return;
+
+      const words = [
+        "Aspiring Software Engineer.",
+        "Aspiring Web Developer.",
+        "Aspiring IT Specialist."
+      ];
+
+      let wordIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
+
+      const TYPE = 65;
+      const DELETE = 40;
+      const HOLD = 900;
+
+      function tick() {
+        const word = words[wordIndex];
+
+        if (!deleting) {
+          el.textContent = word.slice(0, ++charIndex);
+          if (charIndex === word.length) {
+            deleting = true;
+            setTimeout(tick, HOLD);
+            return;
+          }
+        } else {
+          el.textContent = word.slice(0, --charIndex);
+          if (charIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+          }
+        }
+        setTimeout(tick, deleting ? DELETE : TYPE);
+      }
+
+      el.textContent = "";
+      tick();
+    })();
+
+    // ✅ Smooth interactive tilt (frame + image move as ONE)
+    (function () {
+      const cards = document.querySelectorAll("[data-tilt]");
+      if (!cards.length) return;
+
+      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+      cards.forEach((card) => {
+        let raf = null;
+
+        // defaults
+        card.style.setProperty("--rx", "0deg");
+        card.style.setProperty("--ry", "0deg");
+        card.style.setProperty("--mx", "50%");
+        card.style.setProperty("--my", "50%");
+
+        function onMove(e) {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;   // 0..1
+          const y = (e.clientY - rect.top) / rect.height;  // 0..1
+
+          // tilt strength (smooth + futuristic)
+          const tiltY = clamp((x - 0.5) * 12, -6, 6); // rotateY
+          const tiltX = clamp((0.5 - y) * 12, -6, 6); // rotateX
+
+          // highlight position
+          const mx = `${Math.round(x * 100)}%`;
+          const my = `${Math.round(y * 100)}%`;
+
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            card.style.setProperty("--rx", `${tiltX}deg`);
+            card.style.setProperty("--ry", `${tiltY}deg`);
+            card.style.setProperty("--mx", mx);
+            card.style.setProperty("--my", my);
+          });
         }
 
-        function closeResumeTab() {
-            document.getElementById("resumeTab").classList.remove("active");
-            document.getElementById("homeContent").style.display = "";
-            document.body.style.overflow = "";
+        function onEnter() {
+          card.classList.add("is-tilting");
         }
-    </script>
+
+        function onLeave() {
+          card.classList.remove("is-tilting");
+          card.style.setProperty("--rx", "0deg");
+          card.style.setProperty("--ry", "0deg");
+          card.style.setProperty("--mx", "50%");
+          card.style.setProperty("--my", "50%");
+        }
+
+        card.addEventListener("mousemove", onMove);
+        card.addEventListener("mouseenter", onEnter);
+        card.addEventListener("mouseleave", onLeave);
+      });
+    })();
+  </script>
 </body>
 </html>
