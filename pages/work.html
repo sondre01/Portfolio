@@ -1,54 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work - Portfolio</title>
-    
-    <!-- Link Global CSS directly -->
-    <link rel="stylesheet" href="../assets/css/index.css"> 
-    <!-- Link Page Specific CSS -->
-    <link rel="stylesheet" href="../assets/css/work.css"> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work - Portfolio</title>
+
+  <!-- Global + Page CSS -->
+  <link rel="stylesheet" href="../assets/css/index.css" />
+  <link rel="stylesheet" href="../assets/css/work.css" />
+
+  <!-- Tailwind (animations only; matches your other tabs) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: { 'fade-up': 'fadeUp 0.9s ease-out forwards' },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(18px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly -->
-    <div id="header-footer"></div>
 
-    <main class="js-fade-in">
-        <div class="main-content-wrapper"> 
-            <section class="work">
-                <h1>My Work</h1>
-                <p>Here are some of my featured projects and technical builds.</p>
-                <div class="projects">
-                    <div class="project-card">
-                        <h3>Automatic Car Parking Toll Gate</h3>
-                        <p>Arduino-based system using RFID and servo motor for smart access.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>AI Kilo-Bot for Market Use</h3>
-                        <p>AI-powered fruit weighing and pricing system with Raspberry Pi.</p>
-                    </div>
-                    <!-- Add more project cards as needed -->
-                    <div class="project-card">
-                        <h3>Smart Home Automation</h3>
-                        <p>IoT-based home automation system with mobile app control.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>Portfolio Website</h3>
-                        <p>Responsive portfolio built with HTML, CSS, and JavaScript.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>Weather Monitoring System</h3>
-                        <p>Real-time weather data collection and visualization dashboard.</p>
-                    </div>
-                    <div class="project-card">
-                        <h3>Digital Attendance System</h3>
-                        <p>RFID-based automated attendance tracking system.</p>
-                    </div>
-                </div>
-            </section>
+<body style="visibility:hidden;">
+  <div id="header-footer"></div>
+
+  <main class="js-fade-in">
+    <section class="page-shell">
+      <div class="page-inner">
+        <header class="page-header">
+          <p class="page-kicker">Selected Builds</p>
+          <h1 class="page-title">My Work</h1>
+          <div class="page-accent"></div>
+          <p class="page-subtitle">
+            Featured projects and technical builds — designed to feel modern, clean, and futuristic.
+          </p>
+        </header>
+
+        <div class="work-grid">
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>Automatic Car Parking Toll Gate</h3>
+              <span class="work-pill">Arduino • RFID</span>
+            </div>
+            <p>Arduino-based system using RFID + servo motor for smart access control.</p>
+          </article>
+
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>AI Kilo-Bot for Market Use</h3>
+              <span class="work-pill">Raspberry Pi • AI</span>
+            </div>
+            <p>AI-powered fruit weighing and pricing system designed for real market workflow.</p>
+          </article>
+
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>Smart Home Automation</h3>
+              <span class="work-pill">IoT</span>
+            </div>
+            <p>IoT-based home automation system with mobile app control and sensor triggers.</p>
+          </article>
+
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>Portfolio Website</h3>
+              <span class="work-pill">HTML • CSS • JS</span>
+            </div>
+            <p>Responsive portfolio with smooth transitions, interactive UI, and modern styling.</p>
+          </article>
+
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>Weather Monitoring System</h3>
+              <span class="work-pill">Dashboard</span>
+            </div>
+            <p>Real-time weather data collection + visualization dashboard for monitoring.</p>
+          </article>
+
+          <article class="work-card">
+            <div class="work-card-top">
+              <h3>Digital Attendance System</h3>
+              <span class="work-pill">RFID</span>
+            </div>
+            <p>RFID-based automated attendance tracking with logging and quick verification.</p>
+          </article>
         </div>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <script src="../assets/js/index.js"></script>
+  <script src="../assets/js/index.js"></script>
 </body>
 </html>

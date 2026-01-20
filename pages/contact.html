@@ -1,167 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Portfolio</title>
-    
-    <!-- Link Global CSS -->
-    <link rel="stylesheet" href="../assets/css/index.css"> 
-    <!-- Link Contact Specific CSS -->
-    <link rel="stylesheet" href="../assets/css/contact.css"> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Portfolio</title>
+
+  <!-- Global + Page CSS -->
+  <link rel="stylesheet" href="../assets/css/index.css" />
+  <link rel="stylesheet" href="../assets/css/contact.css" />
+
+  <!-- Tailwind (animations only; matches your other tabs) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: { 'fade-up': 'fadeUp 0.9s ease-out forwards' },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(18px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body style="visibility: hidden;">
-    <div id="header-footer"></div>
 
-    <main class="js-fade-in">
-        <div class="main-content-wrapper"> 
-            <section class="contact">
-                <h1>Get In Touch</h1>
-                <p>Ready to start your next project? Let's discuss how we can bring your ideas to life with innovative hardware and software solutions.</p>
-                
-                <div class="contact-container">
-                    <!-- Expanded Contact Information -->
-                    <div class="contact-info">
-                        <h2>Contact Details</h2>
-                        <ul class="contact-details">
-                            <li>
-                                <strong>Email:</strong>
-                                <a href="mailto:gamboa.khinandre@gmail.com">gamboa.khinandre@gmail.com</a>
-                            </li>
-                            <li>
-                                <strong>Phone:</strong>
-                                <a href="tel:+639924215230">+63 992 421 5230</a>
-                            </li>
-                            <li>
-                                <strong>Location:</strong>
-                                <span>Metro Manila, Philippines</span>
-                            </li>
-                            <li>
-                                <strong>Status:</strong>
-                                <span>Available for Projects</span>
-                            </li>
-                            <li>
-                                <strong>Response Time:</strong>
-                                <span>Within 24 Hours</span>
-                            </li>
-                            <li>
-                                <strong>Services:</strong>
-                                <span>Embedded Systems, Web Development, IoT Solutions</span>
-                            </li>
-                        </ul>
-                    </div>
+<body style="visibility:hidden;">
+  <div id="header-footer"></div>
 
-                    <!-- Expanded Contact Form -->
-                    <form class="contact-form" id="contactForm">
-                        <h2>Send Project Inquiry</h2>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fullName">Full Name *</label>
-                                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" required placeholder="your.email@company.com">
-                            </div>
-                        </div>
+  <main class="js-fade-in">
+    <section class="page-shell">
+      <div class="page-inner">
+        <header class="page-header">
+          <p class="page-kicker">Let’s Build</p>
+          <h1 class="page-title">Get In Touch</h1>
+          <div class="page-accent"></div>
+          <p class="page-subtitle">
+            Ready to start your next project? Send details and I’ll respond as soon as possible.
+          </p>
+        </header>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="age">Age</label>
-                                <input type="number" id="age" name="age" min="16" max="100" placeholder="25">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789">
-                            </div>
-                        </div>
+        <div class="contact-grid">
+          <!-- Left: Info -->
+          <aside class="glass-panel">
+            <div class="panel-title">
+              <h2>Contact Details</h2>
+              <span class="panel-chip">Metro Manila</span>
+            </div>
 
-                        <div class="form-group">
-                            <label for="company">Company/Organization</label>
-                            <input type="text" id="company" name="company" placeholder="Your company or organization name">
-                        </div>
+            <ul class="info-list">
+              <li>
+                <span class="info-label">Email</span>
+                <a class="info-value" href="mailto:gamboa.khinandre@gmail.com">gamboa.khinandre@gmail.com</a>
+              </li>
+              <li>
+                <span class="info-label">Phone</span>
+                <a class="info-value" href="tel:+639924215230">+63 992 421 5230</a>
+              </li>
+              <li>
+                <span class="info-label">Location</span>
+                <span class="info-value">Metro Manila, Philippines</span>
+              </li>
+              <li>
+                <span class="info-label">Status</span>
+                <span class="info-value">Available for Projects</span>
+              </li>
+              <li>
+                <span class="info-label">Response</span>
+                <span class="info-value">Within 24 Hours</span>
+              </li>
+              <li>
+                <span class="info-label">Services</span>
+                <span class="info-value">Embedded Systems, Web Dev, IoT Solutions</span>
+              </li>
+            </ul>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="subject">Project Type *</label>
-                                <select id="subject" name="subject" required>
-                                    <option value="">Select project type</option>
-                                    <option value="embedded">Embedded Systems</option>
-                                    <option value="iot">IoT Solution</option>
-                                    <option value="web">Web Development</option>
-                                    <option value="automation">Automation System</option>
-                                    <option value="consultation">Technical Consultation</option>
-                                    <option value="collaboration">Project Collaboration</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="urgency">Urgency Level</label>
-                                <select id="urgency" name="urgency">
-                                    <option value="">Select urgency</option>
-                                    <option value="low">Low (Planning Phase)</option>
-                                    <option value="medium">Medium (Ready to Start)</option>
-                                    <option value="high">High (Immediate Start)</option>
-                                    <option value="urgent">Urgent (ASAP)</option>
-                                </select>
-                            </div>
-                        </div>
+            <div class="panel-note">
+              <h3>Quick Note</h3>
+              <p>
+                If you have a tight deadline, include your target date + budget range so I can assess fast.
+              </p>
+            </div>
+          </aside>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="budget">Project Budget Range</label>
-                                <select id="budget" name="budget">
-                                    <option value="">Select budget range</option>
-                                    <option value="under-5k">Under ₱5,000</option>
-                                    <option value="5k-15k">₱5,000 - ₱15,000</option>
-                                    <option value="15k-30k">₱15,000 - ₱30,000</option>
-                                    <option value="30k-50k">₱30,000 - ₱50,000</option>
-                                    <option value="50k-plus">₱50,000+</option>
-                                    <option value="discuss">To be discussed</option>
-                                </select>
-                            </div>
+          <!-- Right: Form -->
+          <section class="glass-panel form-panel">
+            <div class="panel-title center">
+              <h2>Send Project Inquiry</h2>
+              <span class="panel-chip">Form</span>
+            </div>
 
-                            <div class="form-group">
-                                <label for="timeline">Project Timeline</label>
-                                <select id="timeline" name="timeline">
-                                    <option value="">Select timeline</option>
-                                    <option value="urgent">Urgent (1-2 weeks)</option>
-                                    <option value="short">Short term (1 month)</option>
-                                    <option value="medium">Medium term (1-3 months)</option>
-                                    <option value="long">Long term (3+ months)</option>
-                                    <option value="flexible">Flexible timeline</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="additional-info">
-                            <h3>Project Details</h3>
-                            <p>Please provide as much detail as possible about your project requirements, goals, and any specific technologies or features you have in mind.</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Project Description & Requirements *</label>
-                            <textarea id="message" name="message" required placeholder="Describe your project in detail. Include:
-• Project goals and objectives
-• Specific features required
-• Target audience or users
-• Any technical constraints
-• Preferred technologies
-• Additional requirements or notes"></textarea>
-                        </div>
-
-                        <button type="submit" class="submit-btn">Send Project Inquiry</button>
-                    </form>
+            <form class="contact-form" id="contactForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fullName">Full Name *</label>
+                  <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" />
                 </div>
-            </section>
-        </div>
-    </main>
 
-    <script src="../assets/js/index.js"></script>
-    <script src="../assets/js/contact.js"></script>
+                <div class="form-group">
+                  <label for="email">Email Address *</label>
+                  <input type="email" id="email" name="email" required placeholder="your.email@company.com" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="age">Age</label>
+                  <input type="number" id="age" name="age" min="16" max="100" placeholder="25" />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="company">Company/Organization</label>
+                <input type="text" id="company" name="company" placeholder="Your company or organization name" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="subject">Project Type *</label>
+                  <select id="subject" name="subject" required>
+                    <option value="">Select project type</option>
+                    <option value="embedded">Embedded Systems</option>
+                    <option value="iot">IoT Solution</option>
+                    <option value="web">Web Development</option>
+                    <option value="automation">Automation System</option>
+                    <option value="consultation">Technical Consultation</option>
+                    <option value="collaboration">Project Collaboration</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="urgency">Urgency Level</label>
+                  <select id="urgency" name="urgency">
+                    <option value="">Select urgency</option>
+                    <option value="low">Low (Planning Phase)</option>
+                    <option value="medium">Medium (Ready to Start)</option>
+                    <option value="high">High (Immediate Start)</option>
+                    <option value="urgent">Urgent (ASAP)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="budget">Project Budget Range</label>
+                  <select id="budget" name="budget">
+                    <option value="">Select budget range</option>
+                    <option value="under-5k">Under ₱5,000</option>
+                    <option value="5k-15k">₱5,000 - ₱15,000</option>
+                    <option value="15k-30k">₱15,000 - ₱30,000</option>
+                    <option value="30k-50k">₱30,000 - ₱50,000</option>
+                    <option value="50k-plus">₱50,000+</option>
+                    <option value="discuss">To be discussed</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="timeline">Project Timeline</label>
+                  <select id="timeline" name="timeline">
+                    <option value="">Select timeline</option>
+                    <option value="urgent">Urgent (1-2 weeks)</option>
+                    <option value="short">Short term (1 month)</option>
+                    <option value="medium">Medium term (1-3 months)</option>
+                    <option value="long">Long term (3+ months)</option>
+                    <option value="flexible">Flexible timeline</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="helper-box">
+                <h3>Project Details</h3>
+                <p>
+                  Include goals, features, target users, constraints, and preferred technologies.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Project Description & Requirements *</label>
+                <textarea id="message" name="message" required placeholder="Describe your project in detail..."></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn">Send Project Inquiry</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/js/index.js"></script>
+  <script src="../assets/js/contact.js"></script>
 </body>
 </html>

@@ -1,61 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience - Portfolio</title>
-    
-    <!-- Link Global CSS directly -->
-    <link rel="stylesheet" href="../assets/css/index.css"> 
-    <!-- Link Page Specific CSS -->
-    <link rel="stylesheet" href="../assets/css/experience.css"> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience - Portfolio</title>
+
+  <!-- Global + Page CSS -->
+  <link rel="stylesheet" href="../assets/css/index.css" />
+  <link rel="stylesheet" href="../assets/css/experience.css" />
+
+  <!-- Tailwind (animations only; matches your other tabs) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: { 'fade-up': 'fadeUp 0.9s ease-out forwards' },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(18px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body style="visibility: hidden;"> <!-- CRITICAL FIX: Hide page instantly -->
-    <div id="header-footer"></div>
 
-    <main class="js-fade-in">
-        <div class="experience-content-wrapper">
-            <h1>Experience</h1>
-            
-            <!-- Timeline Structure (As planned in previous updates) -->
-            <div class="timeline-container">
-                
-                <!-- Timeline Item 1: Internship (Example Card) -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="experience-card">
-                        <div class="card-header">
-                            <h2>IoT Solutions Intern</h2>
-                            <span class="period">Jan 2024 - Apr 2024</span>
-                        </div>
-                        <p class="company">XYZ Tech Solutions</p>
-                        <ul class="responsibilities-list">
-                            <li>Designed and programmed multiple Arduino and Raspberry Pi projects integrating sensors, actuators, and wireless communication.</li>
-                            <li>Developed IoT-based prototypes such as smart automation systems and data monitoring devices.</li>
-                            <li>Applied machine learning models on embedded platforms for intelligent decision-making (thesis project).</li>
-                        </ul>
-                    </div>
-                </div>
+<body style="visibility:hidden;">
+  <div id="header-footer"></div>
 
-                <!-- Timeline Item 2: Academic Project Lead (Example Card) -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="experience-card">
-                        <div class="card-header">
-                            <h2>Academic Project Lead</h2>
-                            <span class="period">Aug 2023 - Dec 2023</span>
-                        </div>
-                        <p class="company">Rizal Technological University (Capstone Team)</p>
-                        <ul class="responsibilities-list">
-                            <li>Led design and implementation for the AI Kilo-Bot.</li>
-                            <li>Managed team scheduling and hardware integration using Raspberry Pi.</li>
-                        </ul>
-                    </div>
-                </div>
+  <main class="js-fade-in">
+    <section class="page-shell">
+      <div class="page-inner">
+        <header class="page-header">
+          <p class="page-kicker">Timeline</p>
+          <h1 class="page-title">Experience</h1>
+          <div class="page-accent"></div>
+          <p class="page-subtitle">
+            Roles, internships, and academic leadership — presented in a clean timeline layout.
+          </p>
+        </header>
+
+        <div class="timeline">
+          <!-- Item 1 -->
+          <div class="timeline-item">
+            <div class="timeline-rail">
+              <span class="timeline-dot"></span>
+              <span class="timeline-line"></span>
             </div>
-        </div>
-    </main>
 
-    <script src="../assets/js/index.js"></script>
+            <article class="exp-card">
+              <div class="exp-top">
+                <div>
+                  <h2>IoT Solutions Intern</h2>
+                  <p class="exp-company">XYZ Tech Solutions</p>
+                </div>
+                <span class="exp-period">Jan 2024 – Apr 2024</span>
+              </div>
+
+              <ul class="exp-list">
+                <li>Built Arduino/Raspberry Pi prototypes integrating sensors, actuators, and wireless comms.</li>
+                <li>Developed IoT automation + monitoring prototypes for practical use cases.</li>
+                <li>Applied ML concepts on embedded platforms for intelligent decision-making (thesis).</li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item">
+            <div class="timeline-rail">
+              <span class="timeline-dot"></span>
+              <span class="timeline-line"></span>
+            </div>
+
+            <article class="exp-card">
+              <div class="exp-top">
+                <div>
+                  <h2>Academic Project Lead</h2>
+                  <p class="exp-company">Rizal Technological University (Capstone Team)</p>
+                </div>
+                <span class="exp-period">Aug 2023 – Dec 2023</span>
+              </div>
+
+              <ul class="exp-list">
+                <li>Led design + implementation for the AI Kilo-Bot (workflow + system logic).</li>
+                <li>Managed team scheduling and hardware integration using Raspberry Pi.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/js/index.js"></script>
 </body>
 </html>
