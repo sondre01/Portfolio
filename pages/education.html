@@ -12,96 +12,111 @@
 
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    animation: {
-                        'fade-up': 'fadeUp 0.9s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 
 <body style="visibility: hidden;">
     <div id="header-footer"></div>
 
     <main class="js-fade-in">
-        <div class="education-content-wrapper">
-            <h1 class="animate-fade-up">Academic Background</h1>
+        <div class="education-wrapper">
+            <h1 class="education-title animate-fade-up">Educational Path</h1>
 
-            <!-- College -->
-            <div class="education-card college-card animate-fade-up" style="animation-delay: 100ms;">
-                <div class="card-header">
-                    <h2>Rizal Technological University</h2>
-                    <span class="period">2022 - Present (Expected Graduation 2026)</span>
-                </div>
-                <p class="degree">Bachelor of Science in Computer Engineering (BSCpE)</p>
-                <p class="status">Currently enrolled, Fourth Year standing.</p>
+            <div class="timeline">
                 
-                <div class="dropdown">
-                    <button class="dropdown-toggle" data-target="college-details">
-                        <i class="fas fa-chevron-down"></i> Course Highlights
-                    </button>
-                    <div class="dropdown-content" id="college-details">
-                        <p class="detail-label">Focused Areas:</p>
-                        <ul>
-                            <li>[Add relevant projects or honors]</li>
-                        </ul>
+                <!-- COLLEGE -->
+                <div class="timeline-item animate-fade-up" style="animation-delay: 100ms;">
+                    <div class="logo-container">
+                        <div class="logo-circle-frame hero-photo-wrapper">
+                            <div class="hero-tilt-layer">
+                                <div class="hero-frame logo-glass">
+                                    <img src="../assets/img/college.png" alt="RTU Logo" class="school-logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card education-details">
+                        <span class="category-chip">College</span>
+                        <h2>Rizal Technological University</h2>
+                        <p class="sub-text">1st year to 4th year | 2022 - Present</p>
+                        <p class="major-text">Bachelor of Science in Computer Engineering (BSCpE)</p>
+                        <span class="status-badge">Expected Graduation July 2026</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- SHS -->
-            <div class="education-card shs-card animate-fade-up" style="animation-delay: 200ms;">
-                <div class="card-header">
-                    <h2>Rizal High School (Senior High)</h2>
-                    <span class="period">2020 - 2022</span>
-                </div>
-                <p class="degree">Grade 11 - Grade 12</p>
-                
-                <div class="dropdown">
-                    <button class="dropdown-toggle" data-target="shs-details">
-                        <i class="fas fa-chevron-down"></i> Track Details
-                    </button>
-                    <div class="dropdown-content" id="shs-details">
-                        <p class="detail-label">Track:</p>
-                        <ul>
-                            <li>[Add strand/track and honors]</li>
-                        </ul>
+                <!-- SENIOR HIGH -->
+                <div class="timeline-item animate-fade-up" style="animation-delay: 200ms;">
+                    <div class="logo-container">
+                        <div class="logo-circle-frame hero-photo-wrapper">
+                            <div class="hero-tilt-layer">
+                                <div class="hero-frame logo-glass">
+                                    <img src="../assets/img/9-12.png" alt="RHS Logo" class="school-logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card education-details">
+                        <span class="category-chip">Senior High School</span>
+                        <h2>Rizal High School (Senior High)</h2>
+                        <p class="sub-text">Grade 11 - Grade 12 | 2020 - 2022</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- JHS -->
-            <div class="education-card jhs-card animate-fade-up" style="animation-delay: 300ms;">
-                <div class="card-header">
-                    <h2>Junior High School</h2>
-                    <span class="period">2016 - 2020</span>
+                <!-- JUNIOR HIGH - PART 2 -->
+                <div class="timeline-item animate-fade-up" style="animation-delay: 300ms;">
+                    <div class="logo-container">
+                        <div class="logo-circle-frame hero-photo-wrapper">
+                            <div class="hero-tilt-layer">
+                                <div class="hero-frame logo-glass">
+                                    <img src="../assets/img/9-12.png" alt="RHS Logo" class="school-logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card education-details">
+                        <span class="category-chip">Junior High School</span>
+                        <h2>Rizal High School</h2>
+                        <p class="sub-text">Grade 9 - 10 | 2018 - 2020</p>
+                    </div>
                 </div>
-                <ul class="school-list">
-                    <li>Rizal High School: Grade 9 - 10 (2018 - 2020)</li>
-                    <li>Putlod San Jose National High School: Grade 7 - 8 (2016 - 2018)</li>
-                </ul>
-            </div>
 
-            <!-- Elementary -->
-            <div class="education-card elementary-card animate-fade-up" style="animation-delay: 400ms;">
-                <div class="card-header">
-                    <h2>Putlod Elementary School</h2>
-                    <span class="period">2009 - 2016</span>
+                <!-- JUNIOR HIGH - PART 1 -->
+                <div class="timeline-item animate-fade-up" style="animation-delay: 400ms;">
+                    <div class="logo-container">
+                        <div class="logo-circle-frame hero-photo-wrapper">
+                            <div class="hero-tilt-layer">
+                                <div class="hero-frame logo-glass">
+                                    <img src="../assets/img/7to8.png" alt="Putlod Logo" class="school-logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card education-details">
+                        <span class="category-chip">Junior High School</span>
+                        <h2>Putlod San Jose National High School</h2>
+                        <p class="sub-text">Grade 7 - 8 | 2016 - 2018</p>
+                    </div>
                 </div>
-                <p class="degree">Primary and Intermediate Education</p>
-            </div>
 
+                <!-- ELEMENTARY -->
+                <div class="timeline-item animate-fade-up" style="animation-delay: 500ms;">
+                    <div class="logo-container">
+                        <div class="logo-circle-frame hero-photo-wrapper">
+                            <div class="hero-tilt-layer">
+                                <div class="hero-frame logo-glass">
+                                    <img src="../assets/img/kindertosix.png" alt="Elementary Logo" class="school-logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card education-details">
+                        <span class="category-chip">Elementary</span>
+                        <h2>Putlod Elementary School</h2>
+                        <p class="sub-text">Kinder - Grade 6 | 2009 - 2016</p>
+                        <p class="major-text">Primary and Intermediate Education</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 

@@ -72,7 +72,7 @@
 
 /* Glass Panels */
 .glass-panel{
-  background: rgba(255,255,255,0.78);
+  background: rgba(210, 213, 216, 0.85); /* Platinum with glass blur */
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 16px;
   padding: 18px;
@@ -82,6 +82,11 @@
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
   position: relative;
   overflow: hidden;
+}
+
+body.dark-mode .glass-panel {
+  background: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-panel::before{

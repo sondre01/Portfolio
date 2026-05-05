@@ -208,6 +208,63 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animate);
         }
         requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
+    }
+
+    // --- SETUP INTERACTIVE TILT (For hero images) ---
+    function setupInteractiveTilt() {
+        const cards = document.querySelectorAll("[data-tilt]");
+        if (!cards.length) return;
+
+        const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+        cards.forEach((card) => {
+            // Remove old listeners to avoid duplicates during SPA routing
+            const newCard = card.cloneNode(true);
+            card.parentNode.replaceChild(newCard, card);
+            
+            let raf = null;
+            newCard.style.setProperty("--rx", "0deg");
+            newCard.style.setProperty("--ry", "0deg");
+            newCard.style.setProperty("--mx", "50%");
+            newCard.style.setProperty("--my", "50%");
+
+            function onMove(e) {
+                const rect = newCard.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+
+                const tiltY = clamp((x - 0.5) * 12, -6, 6);
+                const tiltX = clamp((0.5 - y) * 12, -6, 6);
+
+                const mx = `${Math.round(x * 100)}%`;
+                const my = `${Math.round(y * 100)}%`;
+
+                if (raf) cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    newCard.style.setProperty("--rx", `${tiltX}deg`);
+                    newCard.style.setProperty("--ry", `${tiltY}deg`);
+                    newCard.style.setProperty("--mx", mx);
+                    newCard.style.setProperty("--my", my);
+                });
+            }
+
+            function onEnter() {
+                newCard.classList.add("is-tilting");
+            }
+
+            function onLeave() {
+                newCard.classList.remove("is-tilting");
+                newCard.style.setProperty("--rx", "0deg");
+                newCard.style.setProperty("--ry", "0deg");
+                newCard.style.setProperty("--mx", "50%");
+                newCard.style.setProperty("--my", "50%");
+            }
+
+            newCard.addEventListener("mousemove", onMove);
+            newCard.addEventListener("mouseenter", onEnter);
+            newCard.addEventListener("mouseleave", onLeave);
+        });
     }
 
     // --- If NOT in /pages/ folder: enable features directly ---
@@ -216,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setupEducationDropdowns();
         setupThemeToggle();
         setupFuturisticCursor();
+        setupInteractiveTilt();
         document.body.style.visibility = 'visible';
         return;
     }
@@ -354,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                     // Re-initialize features
                                     setupEducationDropdowns();
+                                    setupInteractiveTilt();
 
                                     // Fade in new main content
                                     setTimeout(() => {
@@ -397,6 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setupEducationDropdowns();
             setupThemeToggle();
             setupFuturisticCursor();
+            setupInteractiveTilt();
 
             document.body.style.visibility = 'visible';
         })

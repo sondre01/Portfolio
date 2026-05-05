@@ -4,93 +4,121 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Work - Portfolio</title>
-
+  
   <!-- Global + Page CSS -->
   <link rel="stylesheet" href="../assets/css/index.css" />
   <link rel="stylesheet" href="../assets/css/work.css" />
 
-  <!-- Tailwind (animations only; matches your other tabs) -->
+  <!-- Tailwind (animations only) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          animation: { 'fade-up': 'fadeUp 0.9s ease-out forwards' },
-          keyframes: {
-            fadeUp: {
-              '0%': { opacity: '0', transform: 'translateY(18px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
 </head>
 
 <body style="visibility:hidden;">
   <div id="header-footer"></div>
 
   <main class="js-fade-in">
-    <section class="page-shell">
-      <div class="page-inner">
-        <header class="page-header">
-          <p class="page-kicker">Selected Builds</p>
-          <h1 class="page-title">My Work</h1>
-          <div class="page-accent"></div>
-          <p class="page-subtitle">
-            Featured projects and technical builds — designed to feel modern, clean, and futuristic.
+    <section class="work-section">
+      <div class="work-wrapper">
+        <header class="work-header animate-fade-up">
+          <p class="section-kicker">Project Gallery</p>
+          <h1 class="section-title">Selected Works</h1>
+          <div class="title-underline"></div>
+          <p class="section-description">
+            A showcase of software engineering, IoT, and AI-driven solutions.
           </p>
         </header>
 
         <div class="work-grid">
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>Automatic Car Parking Toll Gate</h3>
-              <span class="work-pill">Arduino • RFID</span>
+          
+          <!-- THESIS / CAPSTONE 1 -->
+          <article class="project-poster poster-capstone animate-fade-up" style="animation-delay: 100ms;">
+            <div class="poster-overlay">
+              <div class="poster-header">
+                <span class="poster-tag">Thesis / Capstone 1</span>
+                <h3>FOVB-AIOT</h3>
+              </div>
+              <div class="poster-content">
+                <p>Four-in-One Vital Sign Sensor with BMI Calculation using AI and IoT for Health Risk Prediction.</p>
+                <div class="tech-stack">
+                  <span>AI (XGBoost)</span>
+                  <span>IoT (Arduino/Mini PC)</span>
+                  <span>Flask</span>
+                </div>
+              </div>
             </div>
-            <p>Arduino-based system using RFID + servo motor for smart access control.</p>
           </article>
 
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>AI Kilo-Bot for Market Use</h3>
-              <span class="work-pill">Raspberry Pi • AI</span>
+          <!-- AI KILO BOT -->
+          <article class="project-poster poster-kilobot animate-fade-up" style="animation-delay: 200ms;">
+            <div class="poster-overlay">
+              <div class="poster-header">
+                <span class="poster-tag">AI Embedded</span>
+                <h3>AI Kilo Bot</h3>
+              </div>
+              <div class="poster-content">
+                <p>AI-integrated system using camera detection for automated market weighing and analysis.</p>
+                <div class="tech-stack">
+                  <span>Roboflow</span>
+                  <span>Python</span>
+                  <span>Computer Vision</span>
+                </div>
+              </div>
             </div>
-            <p>AI-powered fruit weighing and pricing system designed for real market workflow.</p>
           </article>
 
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>Smart Home Automation</h3>
-              <span class="work-pill">IoT</span>
+          <!-- RFID TOLLGATE -->
+          <article class="project-poster poster-tollgate animate-fade-up" style="animation-delay: 300ms;">
+            <div class="poster-overlay">
+              <div class="poster-header">
+                <span class="poster-tag">IoT Prototype</span>
+                <h3>RFID Tollgate System</h3>
+              </div>
+              <div class="poster-content">
+                <p>Smart toll payment and gate automation using RFID technology and servo control.</p>
+                <div class="tech-stack">
+                  <span>Arduino</span>
+                  <span>C# Interface</span>
+                  <span>IoT</span>
+                </div>
+              </div>
             </div>
-            <p>IoT-based home automation system with mobile app control and sensor triggers.</p>
           </article>
 
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>Portfolio Website</h3>
-              <span class="work-pill">HTML • CSS • JS</span>
+          <!-- POS SYSTEM -->
+          <article class="project-poster poster-pos animate-fade-up" style="animation-delay: 400ms;">
+            <div class="poster-overlay">
+              <div class="poster-header">
+                <span class="poster-tag">Point of Sale</span>
+                <h3>GG Resto POS</h3>
+              </div>
+              <div class="poster-content">
+                <p>Complete restaurant management system covering inventory, payments, and cashier workflow.</p>
+                <div class="tech-stack">
+                  <span>Java</span>
+                  <span>Database</span>
+                  <span>Desktop App</span>
+                </div>
+              </div>
             </div>
-            <p>Responsive portfolio with smooth transitions, interactive UI, and modern styling.</p>
           </article>
 
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>Weather Monitoring System</h3>
-              <span class="work-pill">Dashboard</span>
+          <!-- XVIDIA SHOP -->
+          <article class="project-poster poster-xvidia animate-fade-up" style="animation-delay: 500ms;">
+            <div class="poster-overlay">
+              <div class="poster-header">
+                <span class="poster-tag">Desktop System</span>
+                <h3>Xvidia Shop</h3>
+              </div>
+              <div class="poster-content">
+                <p>Computer parts management system for product listing and inventory tracking.</p>
+                <div class="tech-stack">
+                  <span>C# (WinForms)</span>
+                  <span>Management UI</span>
+                </div>
+              </div>
             </div>
-            <p>Real-time weather data collection + visualization dashboard for monitoring.</p>
           </article>
 
-          <article class="work-card">
-            <div class="work-card-top">
-              <h3>Digital Attendance System</h3>
-              <span class="work-pill">RFID</span>
-            </div>
-            <p>RFID-based automated attendance tracking with logging and quick verification.</p>
-          </article>
         </div>
       </div>
     </section>

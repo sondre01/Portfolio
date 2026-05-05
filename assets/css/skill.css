@@ -1,80 +1,344 @@
 /* ===== Skill Page Specific Styles ===== */
 
-.skills-content-wrapper {
+.skills-wrapper {
     width: 90%;
-    max-width: 1100px;
-    margin: 80px auto 150px; 
-    padding: 0; 
-    text-align: center;
-    /* DEBUG LINE: Overall Wrapper */
-    border: 2px dashed red;
+    max-width: 1200px;
+    margin: 60px auto 120px;
+    padding: 0;
+    text-align: center; /* Centers the title automatically */
 }
 
-.skills-content-wrapper h1 {
+.skills-title {
     font-family: "Space Grotesk", sans-serif;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 60px;
+    color: var(--text-color);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    
+    position: relative;
+    display: inline-block;
+    transition: color 0.4s ease, letter-spacing 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 0.4s ease;
+    cursor: default;
+}
+
+/* Glowing Accent Underline */
+.skills-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border-radius: 4px;
+}
+
+/* Futuristic Hover States */
+.skills-title:hover {
+    color: var(--accent-color);
+    letter-spacing: 5px; /* Expands out like a sci-fi interface */
+    text-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.skills-title:hover::after {
+    width: 100%; /* Line draws across the whole text */
+}
+
+/* Readability fix for Light Mode (prevents yellow-on-white invisibility) */
+body:not(.dark-mode) .skills-title:hover {
+    text-shadow: 
+        0 0 1px rgba(0,0,0,0.8), /* Sharp "Corner Border" outline for text */
+        0 0 20px rgba(255, 215, 0, 0.4);
+    -webkit-text-stroke: 0.2px rgba(0,0,0,0.3);
+}
+
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* =======================================================
+   ✅ FUTURISTIC GLASS CARDS (Light & Dark Theme Aware)
+   ======================================================= */
+.glass-card {
+    /* Base style (Light Mode default) - Updated to Platinum */
+    background: #D2D5D8;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left; /* Keep content left-aligned */
+}
+
+/* Dark Mode Override */
+body.dark-mode .glass-card {
+    background: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle Animated Shine */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.8s ease;
+    pointer-events: none;
+}
+
+.glass-card:hover::before {
+    left: 200%;
+}
+
+.glass-card:hover {
+    border-color: #000; /* Black border in light mode */
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(0, 0, 0, 0.05), /* Subtle dark glow */
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transform: translateY(-4px);
+}
+
+body.dark-mode .glass-card:hover {
+    border-color: var(--accent-color); /* Yellow border in dark mode */
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Header */
+.card-header {
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 20px;
+    margin-bottom: 35px;
+    display: inline-block;
+}
+
+.card-header h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800; /* Bolded globally for impact */
+    color: var(--text-color);
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .card-header h2 {
+    color: #ffffff; /* Forced pure white in dark mode */
+}
+
+/* =======================================================
+   ✅ CARD 1: LOGO GRID
+   ======================================================= */
+.skill-category {
     margin-bottom: 40px;
 }
 
-/* --- Responsive Grid Fix (No Overlapping) --- */
-.skills-grid {
+.skill-category:last-child {
+    margin-bottom: 0;
+}
+
+.category-title {
+    font-size: 1.2rem;
+    font-family: "Sora", sans-serif;
+    color: var(--text-color);
+    opacity: 0.9;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-color);
+}
+
+.logo-grid {
     display: grid;
-    /* Use auto-fit with a lower min-width to ensure cards cluster correctly */
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-    gap: 30px;
-    text-align: left;
-    /* DEBUG LINE: Grid Boundary */
-    border: 1px dashed blue;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 25px;
 }
 
-/* --- Card Design --- */
-.skill-card {
-    background-color: #f2f2f2;
-    /* PERMANENT DESIGN: Yellow highlight border on the left */
-    border-left: 5px solid #ffff00; 
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.logo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.3s ease;
+}
+
+.logo-item:hover {
+    transform: translateY(-5px);
+}
+
+/* The Placeholder Box */
+.img-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 14px;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px dashed rgba(128, 128, 128, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.logo-item:hover .img-box {
+    border-color: var(--accent-color);
+    background: rgba(255, 215, 0, 0.05);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.img-box img {
+    width: 100%;
     height: 100%;
-
-    /* DEBUG LINES: Borders for other sides only */
-    border-top: 1px dashed green;
-    border-right: 1px dashed green;
-    border-bottom: 1px dashed green;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.7);
+    transition: filter 0.3s ease;
 }
 
-.skill-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
+.logo-item:hover .img-box img {
+    filter: grayscale(0%) opacity(1);
+}
 
-.skill-card h2 {
+.logo-item span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.tool-desc {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* =======================================================
+   ✅ CARD 2: DYNAMIC ADMIN GRID (Tech Radar Style)
+   ======================================================= */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.admin-block {
+    background: rgba(128, 128, 128, 0.05);
+    border-left: 3px solid rgba(128, 128, 128, 0.3);
+    padding: 20px 25px;
+    border-radius: 0 12px 12px 0;
+    transition: all 0.3s ease;
+}
+
+.admin-block:hover {
+    background: rgba(255, 215, 0, 0.05);
+    border-left-color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+.admin-block h3 {
+    font-size: 1.15rem;
     font-family: "Space Grotesk", sans-serif;
+    color: var(--text-color);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Glowing dot for headers */
+.admin-block h3::before {
+    content: '>';
+    color: var(--accent-color);
+    font-weight: 900;
+    font-family: monospace;
     font-size: 1.3rem;
-    color: #080808;
-    margin-top: 0;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 10px;
 }
 
-.skill-list { list-style: none; padding: 0; margin: 0; }
+.admin-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-.skill-list li {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 8px;
+.admin-block li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 10px;
+    padding-left: 20px;
     position: relative;
-    padding-left: 0;
 }
 
-/* REMOVAL: Yellow dots removed as requested */
-.skill-list li::before {
-    content: none; 
+.admin-block li:last-child {
+    margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
-    .skills-grid {
-        /* Force single column on mobile for clean card presentation */
-        grid-template-columns: 1fr; 
-        gap: 20px;
+/* Custom bullet for list */
+.admin-block li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 1px;
+    background: var(--text-color);
+    opacity: 0.5;
+}
+
+.admin-block:hover li::before {
+    background: var(--accent-color);
+    opacity: 1;
+}
+
+/* =======================================================
+   ✅ RESPONSIVE DESIGN
+   ======================================================= */
+@media (max-width: 768px) {
+    .skills-wrapper {
+        margin: 40px auto 80px;
+    }
+    .skills-title {
+        font-size: 2.5rem;
+    }
+    .glass-card {
+        padding: 25px;
+    }
+    .logo-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    .admin-grid {
+        grid-template-columns: 1fr;
     }
 }

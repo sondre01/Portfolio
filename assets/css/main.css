@@ -25,12 +25,13 @@
 .hero-content-wrapper {
   width: 100%;
   display: flex;
+  justify-content: center; /* Centers the whole block */
   align-items: center;
-  gap: 40px;
+  gap: 80px; /* Even spacing between text and image */
 }
 
 .hero-text-section {
-  flex: 1;
+  flex: 0 1 650px; /* Constrain max width for readability */
   min-width: 0;
 }
 
@@ -67,16 +68,42 @@
 }
 
 .btn-outline {
-  color: var(--text-color);
+    color: var(--text-color);
+    padding: 12px 28px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 2px solid var(--text-color);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.4s ease, border-color 0.4s ease;
+}
+
+.btn-outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: -1;
 }
 
 .btn-outline:hover {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
+    color: #000;
+    border-color: var(--accent-color);
+}
+
+.btn-outline:hover::before {
+    left: 0;
 }
 
 .hero-image-section {
-  flex: 1;
+  flex: 0 0 auto; /* Hugs the 450px image wrapper */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,77 +151,7 @@
   }
 }
 
-/* =======================================================
-   ✅ Futuristic Hover Tilt (frame + profile in sync)
-   ======================================================= */
-
-.hero-photo-wrapper {
-  /* interactive 3D space */
-  perspective: 900px;
-
-  /* smooth baseline */
-  will-change: transform;
-}
-
-.hero-tilt-layer {
-  /* default state */
-  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
-  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  will-change: transform;
-}
-
-/* hover state becomes "active tilt" */
-.hero-photo-wrapper.is-tilting .hero-tilt-layer {
-  transform:
-    translate3d(0, -10px, 0) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(0.6deg) scale(1.01);
-}
-
-/* Frame base - Default is Light Mode (Matches #080808 black header exactly) */
-.hero-frame {
-  background: linear-gradient(135deg, rgba(8, 8, 8, 0.95), rgba(18, 18, 18, 0.85));
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-
-  box-shadow:
-    0 20px 40px rgba(8, 8, 8, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-  transition: box-shadow 320ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 320ms ease, background 320ms ease;
-}
-
-.hero-photo-wrapper.is-tilting .hero-frame {
-  border-color: var(--accent-color);
-  box-shadow:
-    0 25px 60px rgba(8, 8, 8, 0.35),
-    0 0 20px rgba(255, 255, 0, 0.15), /* Pure yellow glow */
-    0 0 0 1px var(--accent-color),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-/* Dark Mode Frame - Matches #252424 header */
-body.dark-mode .hero-frame {
-  background: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .hero-photo-wrapper.is-tilting .hero-frame {
-  border-color: var(--accent-color);
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(255, 215, 0, 0.15), /* Gold glow */
-    0 0 0 1px var(--accent-color),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-/* removed glossy moving reflection */
-
-/* Profile image uses default tailwind positioning */
-
-/* glow behind removed for cleaner aesthetic */
+/* Hero frames migrated to global index.css */
 
 /* =======================================================
    RESUME TAB

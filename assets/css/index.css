@@ -9,8 +9,8 @@
   --nav-bg: #080808;
   --nav-text: #F2F2F2;
   --accent-color: #ffff00;
-  --secondary-bg: #f2f2f2;
-  --card-bg: #f9f9f9;
+  --secondary-bg: #D2D5D8;
+  --card-bg: #D2D5D8;
   --border-color: #1a1a1a;
   --shadow-color: rgba(0, 0, 0, 0.08);
 }
@@ -23,11 +23,24 @@ body.dark-mode {
   --nav-text: #ffffff;
   --accent-color: #ffd700;
   --secondary-bg: #1a1a1a;
-  --card-bg: #1f1f1f;
+  --card-bg: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
   --border-color: #333333;
   --shadow-color: rgba(255, 255, 255, 0.05);
 }
 
+/* Global Readability Fix for Yellow Text in Light Mode */
+body:not(.dark-mode) .text-\[color\:var\(--accent-color\)\],
+body:not(.dark-mode) .category-chip,
+body:not(.dark-mode) .status-badge,
+body:not(.dark-mode) .tech-chip:hover,
+body:not(.dark-mode) .navbar-link.active,
+body:not(.dark-mode) .accent-text {
+  text-shadow: 
+    0 0 1px rgba(0,0,0,0.8);
+  -webkit-text-stroke: 0.2px rgba(0,0,0,0.3);
+}
+
+/* Base Styles */
 html {
   height: 100%;
   scroll-behavior: smooth;
@@ -319,7 +332,7 @@ footer {
 .cursor-hover #cursor-ring {
   width: 54px;
   height: 54px;
-  background: rgba(255, 215, 0, 0.15);
+  background: rgba(210, 213, 216, 0.85); /* Platinum with glass blur */
   border-color: transparent;
   box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
 }
@@ -361,4 +374,64 @@ footer {
   body {
     cursor: auto !important;
   }
+}
+
+/* =======================================================
+   ✅ Futuristic Hover Tilt (Global Frame)
+   ======================================================= */
+.hero-photo-wrapper {
+  /* interactive 3D space */
+  perspective: 900px;
+  will-change: transform;
+}
+
+.hero-tilt-layer {
+  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* hover state becomes "active tilt" */
+.hero-photo-wrapper.is-tilting .hero-tilt-layer {
+  transform: translate3d(0, -10px, 0) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(0.6deg) scale(1.01);
+}
+
+/* Frame base - Default is Light Mode (Now using #D2D5D8 Platinum) */
+.hero-frame {
+  background: #D2D5D8; 
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  transition: box-shadow 320ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 320ms ease, background 320ms ease;
+}
+
+.hero-photo-wrapper.is-tilting .hero-frame {
+  border-color: #000;
+  box-shadow:
+    0 15px 30px -10px rgba(0, 0, 0, 0.2), /* Tightened natural shadow */
+    0 8px 15px -10px rgba(0, 0, 0, 0.25), /* Subtle occlusion layer */
+    0 0 0 1px #000,                        /* Crisp border */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4); 
+}
+
+/* Dark Mode Frame - Matches #252424 header */
+body.dark-mode .hero-frame {
+  background: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .hero-photo-wrapper.is-tilting .hero-frame {
+  border-color: var(--accent-color);
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.5), /* Tighter dark depth */
+    0 0 15px rgba(255, 215, 0, 0.15),     /* Subtle neon glow */
+    0 0 0 1px var(--accent-color);
 }

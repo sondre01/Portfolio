@@ -21,15 +21,15 @@
 /* Two-column layout */
 .about-hero-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Clusters items in the center of the page */
     align-items: center;
-    gap: 60px;
+    gap: 100px; /* Perfect, balanced spacing between image and text */
 }
 
 /* ================= IMAGE SECTION ================= */
 
 .about-image-section {
-    flex: 1;
+    flex: 0 0 auto; /* Fits exactly to the image width */
     display: flex;
     justify-content: center;
 }
@@ -74,37 +74,108 @@
 /* ================= TEXT SECTION ================= */
 
 .about-text-section {
-    flex: 1.2;
+    flex: 0 1 600px; /* Text takes up to 600px, naturally flowing */
     text-align: left;
 }
 
 .about-title {
     font-family: "Space Grotesk", sans-serif;
-    font-size: 3rem;
-    line-height: 1.2;
-    margin: 0 0 12px;
+    font-size: 3.5rem;
+    font-weight: 800; /* Matching the Technical Expertise weight */
+    line-height: 1.1;
+    margin: 0 0 20px;
     color: var(--text-color);
+    
+    /* Futuristic Hover Animation Setup */
+    position: relative;
+    display: inline-block;
+    transition: color 0.4s ease, letter-spacing 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 0.4s ease;
+    cursor: default;
+}
+
+/* Glowing Accent Underline */
+.about-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border-radius: 4px;
+}
+
+/* Syncing with Skills Page Hover Logic */
+.about-title:hover {
+    color: var(--accent-color);
+    letter-spacing: 4px; /* Expanding effect */
+    text-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.about-title:hover::after {
+    width: 100%;
+}
+
+/* Readability fix for Light Mode */
+body:not(.dark-mode) .about-title:hover {
+    text-shadow: 
+        0 0 1px rgba(0,0,0,0.8),
+        0 0 20px rgba(255, 215, 0, 0.4);
+    -webkit-text-stroke: 0.2px rgba(0,0,0,0.3);
 }
 
 .about-tagline {
     font-family: "Sora", sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-color);
-    opacity: 0.85;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
+.about-tagline::before {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background: var(--accent-color);
     display: inline-block;
-    padding-bottom: 6px;
-    border-bottom: 3px solid var(--accent-color);
-    margin: 0 0 22px;
 }
 
 .about-body p {
-    font-size: 1.1rem;
-    line-height: 1.85;
+    font-size: 1.15rem;
+    line-height: 1.9;
     color: var(--text-color);
-    opacity: 0.9;
-    margin: 0 0 18px;
+    opacity: 0.85;
+    margin-bottom: 24px;
+}
+
+/* Futuristic Data Chips for key terms */
+.tech-chip {
+    display: inline-block;
+    padding: 2px 10px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: var(--text-color);
+    border-radius: 4px;
+    font-weight: 600;
+    margin: 0 2px;
+    transition: all 0.3s ease;
+    cursor: help;
+}
+
+.tech-chip:hover {
+    background: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent-color);
+    transform: translateY(-2px);
 }
 
 /* ================= CTA ================= */
@@ -130,11 +201,36 @@
 
 .btn-outline {
     color: var(--text-color);
+    padding: 12px 28px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 2px solid var(--text-color);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: -1;
 }
 
 .btn-outline:hover {
-    color: var(--accent-color);
+    color: #000;
     border-color: var(--accent-color);
+}
+
+.btn-outline:hover::before {
+    left: 0;
 }
 
 /* ================= MOBILE ================= */
@@ -149,6 +245,10 @@
         flex-direction: column;
         text-align: center;
         gap: 40px;
+    }
+
+    .about-image-section {
+        justify-content: center;
     }
 
     .about-text-section {

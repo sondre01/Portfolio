@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,20 +41,50 @@
 
                 <div class="about-hero-content">
 
-                    <!-- LEFT COLUMN: IMAGE -->
+                    <!-- LEFT COLUMN: IMAGE (with identical 3D Frame effect) -->
                     <div class="about-image-section animate-fade-up" style="animation-delay: 0ms;">
-                        <div class="image-frame">
-                            <img
-                                src="../assets/img/kidME.png"
-                                alt="Kid me"
-                                class="about-profile-picture"
-                            >
+                        <!-- ✅ interactive tilt container -->
+                        <div class="hero-photo-wrapper group relative w-[400px] h-[520px] max-md:w-[260px] max-md:h-[380px] select-none"
+                            data-tilt>
+                            <!-- ✅ this layer moves as ONE (frame + profile) -->
+                            <div class="hero-tilt-layer absolute inset-0">
+
+                                <!-- FRAME -->
+                                <div class="
+                              hero-frame
+                              absolute bottom-0 left-1/2 -translate-x-1/2
+                              w-[400px] h-[450px]
+                              max-md:w-[260px] max-md:h-[320px]
+                              rounded-[10px] max-md:rounded-[8px]
+                              overflow-hidden
+                            ">
+                                    <!-- Shine line (static, minimal) -->
+                                    <div
+                                        class="absolute left-3 right-3 top-4 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50">
+                                    </div>
+
+                                    <!-- corner glow (static, minimal) -->
+                                    <div
+                                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_58%)] opacity-60">
+                                    </div>
+                                </div>
+
+                                <!-- IMAGE -->
+                                <img src="../assets/img/kidME.png" alt="Kid me" class="
+                              absolute bottom-0 left-1/2 -translate-x-1/2
+                              w-[400px] max-md:w-[260px]
+                              h-[520px] max-md:h-[380px]
+                              object-cover object-[40%_bottom]
+                              rounded-b-[10px] max-md:rounded-b-[8px]
+                              z-10 pointer-events-none
+                            " />
+                            </div>
                         </div>
                     </div>
 
                     <!-- RIGHT COLUMN: TEXT -->
                     <div class="about-text-section">
-                        <h1 class="about-title animate-fade-up" style="animation-delay: 0ms;">
+                        <h1 class="about-title animate-fade-up" style="animation-delay: 50ms;">
                             About Me
                         </h1>
 
@@ -64,9 +95,10 @@
                         <div class="about-body animate-fade-up" style="animation-delay: 250ms;">
                             <p>
                                 Hi! I'm <strong>Khin</strong>, a passionate Computer Engineering student dedicated
-                                to exploring the intersection of hardware and software. My journey involves
-                                designing efficient circuits, programming embedded systems, and building
-                                responsive web applications.
+                                to exploring the intersection of <span class="tech-chip">hardware</span> and <span class="tech-chip">software</span>. 
+                                My journey involves designing <span class="tech-chip">efficient circuits</span>, 
+                                programming <span class="tech-chip">embedded systems</span>, and building 
+                                <span class="tech-chip">responsive web applications</span>.
                             </p>
 
                             <p>
@@ -90,4 +122,5 @@
 
     <script src="../assets/js/index.js"></script>
 </body>
+
 </html>
