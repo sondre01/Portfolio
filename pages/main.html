@@ -103,14 +103,11 @@
                       overflow-hidden
                     "
                   >
-                    <!-- Shine line -->
-                    <div class="absolute left-3 right-3 top-4 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-80"></div>
+                    <!-- Shine line (static, minimal) -->
+                    <div class="absolute left-3 right-3 top-4 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50"></div>
 
-                    <!-- corner glow -->
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.38),transparent_58%)] opacity-90"></div>
-
-                    <!-- moving highlight (driven by CSS vars set by JS) -->
-                    <div class="hero-frame-highlight absolute inset-0"></div>
+                    <!-- corner glow (static, minimal) -->
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_58%)] opacity-60"></div>
                   </div>
 
                   <!-- IMAGE -->
@@ -125,9 +122,6 @@
                     "
                   />
                 </div>
-
-                <!-- glow behind (stronger on hover) -->
-                <div class="hero-glow absolute -inset-8 z-0 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"></div>
               </div>
 
             </div>

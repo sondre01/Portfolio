@@ -82,12 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- FUTURISTIC CURSOR (FIXED: removed special click handling) ---
+    // --- FUTURISTIC CURSOR (FIXED: Minimal & Performant) ---
     function setupFuturisticCursor() {
         const dot = document.getElementById("cursor-dot");
         const ring = document.getElementById("cursor-ring");
         if (!dot || !ring) return;
 
+        // Only run on fine pointer devices (mouse)
         const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
         if (!isFinePointer) return;
 
@@ -100,19 +101,21 @@ document.addEventListener("DOMContentLoaded", () => {
         let dotX = mouseX, dotY = mouseY;
         let ringX = mouseX, ringY = mouseY;
 
-        const DOT_EASE = 0.28;
-        const RING_EASE = 0.28;
+        // Tweak ease for responsiveness (higher = faster)
+        const DOT_EASE = 1.0; // Instant follow
+        const RING_EASE = 1.0; // Absolutely zero lag (removes trailing slingshot entirely)
 
         let visible = false;
 
+        // Initial off-screen position
         function setPos(el, x, y) {
-            el.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0)`;
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
         }
-
-        // Start off-screen so it doesn't show in top-left
         setPos(dot, -100, -100);
         setPos(ring, -100, -100);
 
+        // 1) TRACK MOUSE
         window.addEventListener("mousemove", (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -124,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, { passive: true });
 
+        // 2) VISIBILITY HANDLERS
         window.addEventListener("mouseleave", () => {
             dot.style.opacity = "0";
             ring.style.opacity = "0";
@@ -136,23 +140,70 @@ document.addEventListener("DOMContentLoaded", () => {
             visible = true;
         });
 
+        // 3) HOVER & CLICK INTERACTIONS
         const hoverSelector = 'a, button, .btn, [role="button"], input, textarea, select, label';
+
+        let magneticCenterX = 0;
+        let magneticCenterY = 0;
+        let isMagnetic = false;
+        let hoverTarget = null;
+
         document.addEventListener("mouseover", (e) => {
-            if (e.target.closest(hoverSelector)) document.body.classList.add("cursor-hover");
-        });
-        document.addEventListener("mouseout", (e) => {
-            if (e.target.closest(hoverSelector)) document.body.classList.remove("cursor-hover");
+            const target = e.target.closest(hoverSelector);
+            if (target) {
+                document.body.classList.add("cursor-hover");
+                hoverTarget = target;
+                isMagnetic = true;
+            }
         });
 
-        // Simple animation loop without special click handling
+        document.addEventListener("mouseout", (e) => {
+            const target = e.target.closest(hoverSelector);
+            if (target) {
+                document.body.classList.remove("cursor-hover");
+                hoverTarget = null;
+                isMagnetic = false;
+            }
+        });
+
+        // Click Scale Effect (Minimal)
+        document.addEventListener("mousedown", () => {
+            document.body.classList.add("cursor-active");
+        });
+
+        document.addEventListener("mouseup", () => {
+            document.body.classList.remove("cursor-active");
+        });
+
+        // 4) ANIMATION LOOP
         function animate() {
+            // Lerp logic
             dotX += (mouseX - dotX) * DOT_EASE;
             dotY += (mouseY - dotY) * DOT_EASE;
-            ringX += (mouseX - ringX) * RING_EASE;
-            ringY += (mouseY - ringY) * RING_EASE;
 
-            setPos(dot, dotX, dotY);
-            setPos(ring, ringX, ringY);
+            let targetRingX = mouseX;
+            let targetRingY = mouseY;
+
+            if (isMagnetic && hoverTarget) {
+                const rect = hoverTarget.getBoundingClientRect();
+                magneticCenterX = rect.left + rect.width / 2;
+                magneticCenterY = rect.top + rect.height / 2;
+
+                // Magnetically pull the ring to the center of the hovered element,
+                // but let it follow the mouse slightly for a tactile feel
+                targetRingX = magneticCenterX + (mouseX - magneticCenterX) * 0.1;
+                targetRingY = magneticCenterY + (mouseY - magneticCenterY) * 0.1;
+            }
+
+            ringX += (targetRingX - ringX) * RING_EASE;
+            ringY += (targetRingY - ringY) * RING_EASE;
+
+            // Use left/top so CSS transform can handle scale uniformly
+            dot.style.left = `${dotX}px`;
+            dot.style.top = `${dotY}px`;
+
+            ring.style.left = `${ringX}px`;
+            ring.style.top = `${ringY}px`;
 
             requestAnimationFrame(animate);
         }
@@ -232,8 +283,93 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
 
                         e.preventDefault();
-                        document.querySelector('main')?.classList.add("fade-out");
-                        setTimeout(() => { window.location.href = href; }, 300);
+                        const currentMain = document.querySelector('main');
+                        if (currentMain) currentMain.classList.add("fade-out");
+
+                        setTimeout(() => {
+                            fetch(href)
+                                .then(res => res.text())
+                                .then(html => {
+                                    const parser = new DOMParser();
+                                    const doc = parser.parseFromString(html, "text/html");
+
+                                    // Update Title
+                                    document.title = doc.title;
+
+                                    // Load new CSS if any
+                                    doc.querySelectorAll('link[rel="stylesheet"]').forEach(newLink => {
+                                        if (!document.querySelector(`link[href="${newLink.getAttribute('href')}"]`)) {
+                                            document.head.appendChild(newLink.cloneNode(true));
+                                        }
+                                    });
+
+                                    // Remove everything in body EXCEPT nav, footer, cursors, and the master script
+                                    Array.from(document.body.childNodes).forEach(node => {
+                                        if (node.nodeType === Node.ELEMENT_NODE) {
+                                            if (node.tagName === 'NAV' || 
+                                                node.tagName === 'FOOTER' || 
+                                                node.id === 'cursor-dot' || 
+                                                node.id === 'cursor-ring' ||
+                                                (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                                return; // Keep
+                                            }
+                                        }
+                                        node.remove();
+                                    });
+
+                                    // Insert new content
+                                    const footer = document.querySelector('footer');
+                                    Array.from(doc.body.childNodes).forEach(node => {
+                                        if (node.nodeType === Node.ELEMENT_NODE) {
+                                            if (node.id === 'header-footer' || 
+                                                node.id === 'cursor-dot' || 
+                                                node.id === 'cursor-ring' || 
+                                                (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                                return; // Skip duplicates
+                                            }
+                                        }
+                                        if (footer) {
+                                            document.body.insertBefore(node.cloneNode(true), footer);
+                                        } else {
+                                            document.body.appendChild(node.cloneNode(true));
+                                        }
+                                    });
+
+                                    // Execute inline scripts manually
+                                    document.body.querySelectorAll('script:not([src])').forEach(oldScript => {
+                                        const newScript = document.createElement('script');
+                                        newScript.textContent = oldScript.textContent;
+                                        oldScript.replaceWith(newScript);
+                                    });
+
+                                    // Update URL and nav active state
+                                    window.history.pushState({}, '', href);
+                                    document.querySelectorAll("nav ul li a").forEach(navLink => {
+                                        if (navLink.getAttribute("href").split("/").pop() === target) {
+                                            navLink.classList.add("active");
+                                        } else {
+                                            navLink.classList.remove("active");
+                                        }
+                                    });
+
+                                    // Re-initialize features
+                                    setupEducationDropdowns();
+
+                                    // Fade in new main content
+                                    setTimeout(() => {
+                                        const newMain = document.querySelector('main');
+                                        if (newMain) {
+                                            newMain.classList.remove("js-fade-in");
+                                            newMain.classList.remove("fade-out");
+                                        }
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }, 50);
+
+                                })
+                                .catch(() => {
+                                    window.location.href = href;
+                                });
+                        }, 400);
                     });
                 });
 
@@ -269,7 +405,11 @@ document.addEventListener("DOMContentLoaded", () => {
             setupSmartHeader();
             setupEducationDropdowns();
             setupThemeToggle();
-            setupFuturisticCursor();
             document.body.style.visibility = 'visible';
         });
+
+    // --- HANDLE BROWSER BACK BUTTON ---
+    window.addEventListener("popstate", () => {
+        window.location.reload();
+    });
 });
