@@ -90,10 +90,10 @@
 }
 
 /* --- Project Specific Backgrounds --- */
-.poster-capstone { background-image: url('../img/capstone.png'); }
+.poster-capstone { background-image: url('../img/FOVB-AIOT.jpg'); }
 .poster-kilobot  { background-image: url('../img/aikilobot.png'); }
-.poster-tollgate { background-image: url('../img/tollgate.png'); }
-.poster-pos      { background-image: url('../img/pos.png'); }
+.poster-tollgate { background-image: url('../img/tollgate.jpg'); }
+.poster-pos      { background-image: url('../img/GG%27s%20resto.png'); }
 .poster-xvidia   { background-image: url('../img/xvidia.jpg'); }
 
 /* Specific adjustment for Xvidia to ensure the software screen is fully visible */
@@ -228,4 +228,43 @@
     .work-grid { grid-template-columns: 1fr; }
     .project-poster { aspect-ratio: 3/4; }
     .poster-content { opacity: 1; transform: translateY(0); }
+}
+
+/* =======================================================
+   ✅ POSTER BUTTONS
+   ======================================================= */
+.poster-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 8px 18px;
+    font-size: 0.8rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.poster-btn:hover {
+    background: var(--accent-color);
+    color: #080808; /* Dark text for high contrast */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.poster-btn i {
+    font-size: 0.85rem;
+    transition: transform 0.3s ease;
+}
+
+.poster-btn:hover i {
+    transform: translateX(4px) scale(1.1);
 }
