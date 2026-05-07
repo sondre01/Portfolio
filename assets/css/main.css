@@ -3,14 +3,17 @@
 }
 
 #homeContent {
-  height: calc(100svh - var(--nav-h));
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
-  height: calc(100svh - var(--nav-h));
+  min-height: calc(100svh - var(--nav-h));
   display: flex;
   justify-content: center;
-  overflow: hidden;
+  align-items: center;
+  padding: 40px 0; /* Add some padding so it breathes */
 }
 
 .main-content-wrapper {
@@ -154,6 +157,94 @@
 /* Hero frames migrated to global index.css */
 
 /* =======================================================
+   ✅ ENGAGEMENT STATS (Row Two)
+   ======================================================= */
+.engagement-section {
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto 100px;
+  padding-top: 40px;
+}
+
+.section-label {
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  margin-bottom: 30px;
+  text-align: center;
+  display: block;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+}
+
+.stat-card {
+  /* Using the global .glass-card styling logic but customized for stats */
+  background: rgba(128, 128, 128, 0.05);
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.dark-mode .stat-card {
+  background: linear-gradient(135deg, rgba(37, 36, 36, 0.4), rgba(45, 45, 45, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Hover Effects */
+.stat-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 215, 0, 0.1);
+}
+
+body.dark-mode .stat-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+/* Internal Elements */
+.stat-icon {
+  font-size: 2.2rem;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  opacity: 0.9;
+  transition: transform 0.4s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1) translateY(-5px);
+}
+
+.stat-value {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin: 0 0 10px 0;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* =======================================================
    RESUME TAB
    ======================================================= */
 
@@ -203,14 +294,38 @@
   #homeContent,
   .hero {
     height: auto;
+    padding: 20px 0 40px; /* Add padding for mobile */
   }
 
   .hero-content-wrapper {
     flex-direction: column;
     text-align: center;
+    gap: 40px; /* Tighter gap on mobile */
+  }
+
+  .hero-text-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center text contents */
   }
 
   .hero-title {
-    font-size: clamp(1.9rem, 6vw, 2.6rem);
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .hero-paragraph {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline {
+    width: 100%; /* Full width buttons on very small screens */
+    max-width: 250px;
   }
 }

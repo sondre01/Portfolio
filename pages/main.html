@@ -129,6 +129,38 @@
         </div>
       </div>
     </section>
+
+    <!-- ROW TWO: ENGAGEMENT STATS -->
+    <section class="engagement-section">
+      <span class="section-label animate-fade-up">Live Network Activity</span>
+      <div class="stats-grid">
+        
+        <div class="stat-card animate-fade-up" style="animation-delay: 100ms;">
+          <i class="fas fa-globe stat-icon"></i>
+          <h3 class="stat-value" id="visits-stat" data-target="0">0</h3>
+          <p class="stat-label">Total Global Visits</p>
+        </div>
+
+        <div class="stat-card animate-fade-up" style="animation-delay: 200ms;">
+          <i class="fas fa-code-branch stat-icon"></i>
+          <h3 class="stat-value" data-target="412">0</h3>
+          <p class="stat-label">GitHub Commits</p>
+        </div>
+
+        <div class="stat-card animate-fade-up" style="animation-delay: 300ms;">
+          <i class="fas fa-microchip stat-icon"></i>
+          <h3 class="stat-value" data-target="85">0</h3>
+          <p class="stat-label">Scripts Deployed</p>
+        </div>
+
+        <div class="stat-card animate-fade-up" style="animation-delay: 400ms;">
+          <i class="fas fa-bolt stat-icon"></i>
+          <h3 class="stat-value" id="uptime-stat" data-target="99">0</h3>
+          <p class="stat-label">System Uptime</p>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <!-- RESUME TAB -->
@@ -199,6 +231,76 @@
 
       el.textContent = "";
       tick();
+    })();
+
+    // ✅ Live Engagement Stats & Animation
+    (function () {
+      const counters = document.querySelectorAll('.stat-value');
+      const speed = 50; // Lower is faster
+
+      const animateCounters = () => {
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText.replace(/[^0-9]/g, ''); // Extract just numbers
+            
+            // Prevent division by zero or errors
+            if (target === 0) return;
+            
+            const inc = target / speed;
+
+            if (count < target) {
+              counter.innerText = Math.ceil(count + inc);
+              setTimeout(updateCount, 15);
+            } else {
+              // Add suffix based on ID
+              if (counter.id === 'uptime-stat') {
+                counter.innerText = target + '%';
+              } else if (counter.id === 'visits-stat') {
+                counter.innerText = target; // No plus for exact live stats
+              } else {
+                counter.innerText = target + '+';
+              }
+            }
+          };
+          updateCount();
+        });
+      };
+
+      // Fetch Real GitHub Pages Views
+      const fetchViews = async () => {
+        try {
+          // This API increments the view counter on every request for this unique namespace/key
+          const response = await fetch('https://api.counterapi.dev/v1/sondre01/portfolioviews/up');
+          const data = await response.json();
+          
+          const visitsStat = document.getElementById('visits-stat');
+          if (visitsStat) {
+             // Update the target to the live count!
+             visitsStat.setAttribute('data-target', data.count);
+          }
+        } catch (error) {
+          console.error('Error fetching live views:', error);
+        }
+      };
+
+      // Use IntersectionObserver to trigger animation when scrolled into view
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      }, { threshold: 0.3 });
+
+      const statsSection = document.querySelector('.engagement-section');
+      
+      // We trigger the API request as soon as the script runs to log the visit, 
+      // but wait to animate until they scroll.
+      fetchViews().finally(() => {
+        if (statsSection) {
+          observer.observe(statsSection);
+        }
+      });
     })();
   </script>
 </body>
