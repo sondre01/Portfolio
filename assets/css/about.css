@@ -78,12 +78,23 @@
     text-align: left;
 }
 
+.about-kicker {
+    font-family: "Space Grotesk", sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    margin-top: 0;
+    line-height: 1;
+}
+
 .about-title {
     font-family: "Space Grotesk", sans-serif;
     font-size: 3.5rem;
     font-weight: 800; /* Matching the Technical Expertise weight */
     line-height: 1.1;
-    margin: 0 0 20px;
+    margin: 0 0 10px; /* Reduced from 20px */
     color: var(--text-color);
     
     /* Futuristic Hover Animation Setup */
@@ -150,16 +161,19 @@ body:not(.dark-mode) .about-title:hover {
 }
 
 .about-body p {
-    font-size: 1.15rem;
+    font-size: 1rem;
     line-height: 1.9;
     color: var(--text-color);
     opacity: 0.85;
     margin-bottom: 24px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 /* Futuristic Data Chips for key terms */
 .tech-chip {
     display: inline-block;
+    font-size: 0.85rem;
     padding: 2px 10px;
     background: rgba(255, 215, 0, 0.1);
     border: 1px solid rgba(255, 215, 0, 0.3);

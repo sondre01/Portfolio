@@ -82,134 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- FUTURISTIC CURSOR (FIXED: Minimal & Performant) ---
-    function setupFuturisticCursor() {
-        const dot = document.getElementById("cursor-dot");
-        const ring = document.getElementById("cursor-ring");
-        if (!dot || !ring) return;
-
-        // Only run on fine pointer devices (mouse)
-        const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-        if (!isFinePointer) return;
-
-        // Make sure cursor NEVER blocks clicking
-        dot.style.pointerEvents = "none";
-        ring.style.pointerEvents = "none";
-
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let dotX = mouseX, dotY = mouseY;
-        let ringX = mouseX, ringY = mouseY;
-
-        // Tweak ease for responsiveness (higher = faster)
-        const DOT_EASE = 1.0; // Instant follow
-        const RING_EASE = 1.0; // Absolutely zero lag (removes trailing slingshot entirely)
-
-        let visible = false;
-
-        // Initial off-screen position
-        function setPos(el, x, y) {
-            el.style.left = `${x}px`;
-            el.style.top = `${y}px`;
-        }
-        setPos(dot, -100, -100);
-        setPos(ring, -100, -100);
-
-        // 1) TRACK MOUSE
-        window.addEventListener("mousemove", (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!visible) {
-                visible = true;
-                dot.style.opacity = "1";
-                ring.style.opacity = "1";
-            }
-        }, { passive: true });
-
-        // 2) VISIBILITY HANDLERS
-        window.addEventListener("mouseleave", () => {
-            dot.style.opacity = "0";
-            ring.style.opacity = "0";
-            visible = false;
-        });
-
-        window.addEventListener("mouseenter", () => {
-            dot.style.opacity = "1";
-            ring.style.opacity = "1";
-            visible = true;
-        });
-
-        // 3) HOVER & CLICK INTERACTIONS
-        const hoverSelector = 'a, button, .btn, [role="button"], input, textarea, select, label';
-
-        let magneticCenterX = 0;
-        let magneticCenterY = 0;
-        let isMagnetic = false;
-        let hoverTarget = null;
-
-        document.addEventListener("mouseover", (e) => {
-            const target = e.target.closest(hoverSelector);
-            if (target) {
-                document.body.classList.add("cursor-hover");
-                hoverTarget = target;
-                isMagnetic = true;
-            }
-        });
-
-        document.addEventListener("mouseout", (e) => {
-            const target = e.target.closest(hoverSelector);
-            if (target) {
-                document.body.classList.remove("cursor-hover");
-                hoverTarget = null;
-                isMagnetic = false;
-            }
-        });
-
-        // Click Scale Effect (Minimal)
-        document.addEventListener("mousedown", () => {
-            document.body.classList.add("cursor-active");
-        });
-
-        document.addEventListener("mouseup", () => {
-            document.body.classList.remove("cursor-active");
-        });
-
-        // 4) ANIMATION LOOP
-        function animate() {
-            // Lerp logic
-            dotX += (mouseX - dotX) * DOT_EASE;
-            dotY += (mouseY - dotY) * DOT_EASE;
-
-            let targetRingX = mouseX;
-            let targetRingY = mouseY;
-
-            if (isMagnetic && hoverTarget) {
-                const rect = hoverTarget.getBoundingClientRect();
-                magneticCenterX = rect.left + rect.width / 2;
-                magneticCenterY = rect.top + rect.height / 2;
-
-                // Magnetically pull the ring to the center of the hovered element,
-                // but let it follow the mouse slightly for a tactile feel
-                targetRingX = magneticCenterX + (mouseX - magneticCenterX) * 0.1;
-                targetRingY = magneticCenterY + (mouseY - magneticCenterY) * 0.1;
-            }
-
-            ringX += (targetRingX - ringX) * RING_EASE;
-            ringY += (targetRingY - ringY) * RING_EASE;
-
-            // Use left/top so CSS transform can handle scale uniformly
-            dot.style.left = `${dotX}px`;
-            dot.style.top = `${dotY}px`;
-
-            ring.style.left = `${ringX}px`;
-            ring.style.top = `${ringY}px`;
-
-            requestAnimationFrame(animate);
-        }
-        requestAnimationFrame(animate);
-        requestAnimationFrame(animate);
-    }
+    // --- CUSTOM CURSOR HAS BEEN MOVED TO NATIVE CSS ---
+    // (See index.css for the responsive SVG cursor styles)
 
     // --- SETUP INTERACTIVE TILT (For hero images) ---
     function setupInteractiveTilt() {
@@ -267,12 +141,54 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- SEARCH TOGGLE ---
+    function setupSearchToggle() {
+        const searchToggleBtn = document.getElementById('search-toggle-btn');
+        const searchUiContainer = document.getElementById('search-ui');
+        const closeSearchBtn = document.getElementById('close-search-btn');
+        const searchInput = document.getElementById('ai-search-input');
+
+        if (!searchToggleBtn || !searchUiContainer) return;
+
+        function openSearch() {
+            searchUiContainer.classList.add('active');
+            setTimeout(() => searchInput && searchInput.focus(), 300); // Focus after animation
+        }
+
+        function closeSearch() {
+            searchUiContainer.classList.remove('active');
+        }
+
+        searchToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (searchUiContainer.classList.contains('active')) {
+                closeSearch();
+            } else {
+                openSearch();
+            }
+        });
+
+        if (closeSearchBtn) {
+            closeSearchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSearch();
+            });
+        }
+        
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchUiContainer.classList.contains('active')) {
+                closeSearch();
+            }
+        });
+    }
+
     // --- If NOT in /pages/ folder: enable features directly ---
     if (!isInPages) {
         setupSmartHeader();
         setupEducationDropdowns();
         setupThemeToggle();
-        setupFuturisticCursor();
+        setupSearchToggle();
         setupInteractiveTilt();
         document.body.style.visibility = 'visible';
         return;
@@ -304,17 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return url;
             };
 
-            // ✅ Ensure cursor exists on every /pages/ file
-            if (!document.getElementById("cursor-dot")) {
-                const dot = document.createElement("div");
-                dot.id = "cursor-dot";
-                document.body.prepend(dot);
-            }
-            if (!document.getElementById("cursor-ring")) {
-                const ring = document.createElement("div");
-                ring.id = "cursor-ring";
-                document.body.prepend(ring);
-            }
+            // Cursor is now handled entirely by CSS using native SVG url()
 
             // 1) Inject Navigation
             if (nav && placeholder) {
@@ -332,105 +238,117 @@ document.addEventListener("DOMContentLoaded", () => {
                         // allow new tab / modified clicks
                         if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
-                        const current = window.location.pathname.split("/").pop();
-                        const target = href.split("/").pop();
-
-                        if (current === target) {
-                            e.preventDefault();
-                            return;
-                        }
-
-                        e.preventDefault();
-                        const currentMain = document.querySelector('main');
-                        if (currentMain) currentMain.classList.add("fade-out");
-
-                        setTimeout(() => {
-                            fetch(href)
-                                .then(res => res.text())
-                                .then(html => {
-                                    const parser = new DOMParser();
-                                    const doc = parser.parseFromString(html, "text/html");
-
-                                    // Update Title
-                                    document.title = doc.title;
-
-                                    // Load new CSS if any
-                                    doc.querySelectorAll('link[rel="stylesheet"]').forEach(newLink => {
-                                        if (!document.querySelector(`link[href="${newLink.getAttribute('href')}"]`)) {
-                                            document.head.appendChild(newLink.cloneNode(true));
-                                        }
-                                    });
-
-                                    // Remove everything in body EXCEPT nav, footer, cursors, and the master script
-                                    Array.from(document.body.childNodes).forEach(node => {
-                                        if (node.nodeType === Node.ELEMENT_NODE) {
-                                            if (node.tagName === 'NAV' || 
-                                                node.tagName === 'FOOTER' || 
-                                                node.id === 'cursor-dot' || 
-                                                node.id === 'cursor-ring' ||
-                                                (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
-                                                return; // Keep
-                                            }
-                                        }
-                                        node.remove();
-                                    });
-
-                                    // Insert new content
-                                    const footer = document.querySelector('footer');
-                                    Array.from(doc.body.childNodes).forEach(node => {
-                                        if (node.nodeType === Node.ELEMENT_NODE) {
-                                            if (node.id === 'header-footer' || 
-                                                node.id === 'cursor-dot' || 
-                                                node.id === 'cursor-ring' || 
-                                                (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
-                                                return; // Skip duplicates
-                                            }
-                                        }
-                                        if (footer) {
-                                            document.body.insertBefore(node.cloneNode(true), footer);
-                                        } else {
-                                            document.body.appendChild(node.cloneNode(true));
-                                        }
-                                    });
-
-                                    // Execute inline scripts manually
-                                    document.body.querySelectorAll('script:not([src])').forEach(oldScript => {
-                                        const newScript = document.createElement('script');
-                                        newScript.textContent = oldScript.textContent;
-                                        oldScript.replaceWith(newScript);
-                                    });
-
-                                    // Update URL and nav active state
-                                    window.history.pushState({}, '', href);
-                                    document.querySelectorAll("nav ul li a").forEach(navLink => {
-                                        if (navLink.getAttribute("href").split("/").pop() === target) {
-                                            navLink.classList.add("active");
-                                        } else {
-                                            navLink.classList.remove("active");
-                                        }
-                                    });
-
-                                    // Re-initialize features
-                                    setupEducationDropdowns();
-                                    setupInteractiveTilt();
-
-                                    // Fade in new main content
-                                    setTimeout(() => {
-                                        const newMain = document.querySelector('main');
-                                        if (newMain) {
-                                            newMain.classList.remove("js-fade-in");
-                                            newMain.classList.remove("fade-out");
-                                        }
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    }, 50);
-
-                                })
-                                .catch(() => {
-                                    window.location.href = href;
-                                });
-                        }, 400);
+                        window.navigateToPage(href);
                     });
                 });
+
+                window.navigateToPage = function(href) {
+                    if (!href) return;
+
+                    const currentUrl = window.location.pathname.split("/").pop();
+                    const hashSplit = href.split('#');
+                    const targetFile = hashSplit[0].split("/").pop();
+                    const targetHash = hashSplit.length > 1 ? '#' + hashSplit[1] : '';
+
+                    if (currentUrl === targetFile && !targetHash) {
+                        return; // Already exactly here
+                    } else if (currentUrl === targetFile && targetHash) {
+                        window.location.hash = targetHash;
+                        return;
+                    }
+
+                    const currentMain = document.querySelector('main');
+                    if (currentMain) currentMain.classList.add("fade-out");
+
+                    setTimeout(() => {
+                        fetch(hashSplit[0]) // fetch just the html file
+                            .then(res => res.text())
+                            .then(html => {
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(html, "text/html");
+
+                                // Update Title
+                                document.title = doc.title;
+
+                                // Load new CSS if any
+                                doc.querySelectorAll('link[rel="stylesheet"]').forEach(newLink => {
+                                    if (!document.querySelector(`link[href="${newLink.getAttribute('href')}"]`)) {
+                                        document.head.appendChild(newLink.cloneNode(true));
+                                    }
+                                });
+
+                                // Remove everything in body EXCEPT nav, footer, cursors, and the master script
+                                Array.from(document.body.childNodes).forEach(node => {
+                                    if (node.nodeType === Node.ELEMENT_NODE) {
+                                        if (node.tagName === 'NAV' || 
+                                            node.tagName === 'FOOTER' || 
+                                            (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                            return; // Keep
+                                        }
+                                    }
+                                    node.remove();
+                                });
+
+                                // Insert new content
+                                const footer = document.querySelector('footer');
+                                Array.from(doc.body.childNodes).forEach(node => {
+                                    if (node.nodeType === Node.ELEMENT_NODE) {
+                                        if (node.id === 'header-footer' || 
+                                            (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                            return; // Skip duplicates
+                                        }
+                                    }
+                                    if (footer) {
+                                        document.body.insertBefore(node.cloneNode(true), footer);
+                                    } else {
+                                        document.body.appendChild(node.cloneNode(true));
+                                    }
+                                });
+
+                                // Execute inline scripts manually
+                                document.body.querySelectorAll('script:not([src])').forEach(oldScript => {
+                                    const newScript = document.createElement('script');
+                                    newScript.textContent = oldScript.textContent;
+                                    oldScript.replaceWith(newScript);
+                                });
+
+                                // Update URL and nav active state
+                                window.history.pushState({}, '', href);
+                                document.querySelectorAll("nav ul li a").forEach(navLink => {
+                                    if (navLink.getAttribute("href").split("/").pop() === targetFile) {
+                                        navLink.classList.add("active");
+                                    } else {
+                                        navLink.classList.remove("active");
+                                    }
+                                });
+
+                                // Re-initialize features
+                                setupEducationDropdowns();
+                                setupInteractiveTilt();
+
+                                // Fade in new main content
+                                setTimeout(() => {
+                                    const newMain = document.querySelector('main');
+                                    if (newMain) {
+                                        newMain.classList.remove("js-fade-in");
+                                        newMain.classList.remove("fade-out");
+                                    }
+                                    
+                                    if (targetHash) {
+                                        const el = document.getElementById(targetHash.substring(1));
+                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                        else window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    } else {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                }, 50);
+
+                            })
+                            .catch(() => {
+                                window.location.href = href;
+                            });
+                    }, 400);
+                };
 
                 placeholder.before(fixedNav);
             }
@@ -455,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setupSmartHeader();
             setupEducationDropdowns();
             setupThemeToggle();
-            setupFuturisticCursor();
+            setupSearchToggle();
             setupInteractiveTilt();
 
             document.body.style.visibility = 'visible';
@@ -465,6 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setupSmartHeader();
             setupEducationDropdowns();
             setupThemeToggle();
+            setupSearchToggle();
             document.body.style.visibility = 'visible';
         });
 
@@ -472,4 +391,319 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("popstate", () => {
         window.location.reload();
     });
+});
+
+const portfolioIndex = [
+    {
+        title: "Restorant POS",
+        type: "Project",
+        keywords: ["java", "pos", "point of sale", "mysql", "desktop app"],
+        url: "work.html",
+        desc: "A Java-based Point of Sale system with inventory management."
+    },
+    {
+        title: "Xvidia",
+        type: "Project",
+        keywords: ["react", "node.js", "web", "movie", "streaming", "api"],
+        url: "work.html",
+        desc: "A full-stack movie browsing application with seamless UI."
+    },
+    {
+        title: "RFID Tollgate System",
+        type: "Project",
+        keywords: ["c++", "arduino", "iot", "hardware", "rfid", "sensors"],
+        url: "work.html",
+        desc: "An automated tollgate system utilizing RFID technology and IoT."
+    },
+    {
+        title: "AI Kilo Bot",
+        type: "Project",
+        keywords: ["python", "ai", "machine learning", "bot", "discord"],
+        url: "work.html",
+        desc: "An intelligent bot utilizing machine learning for automated tasks."
+    },
+    {
+        title: "Capstone 1",
+        type: "Project",
+        keywords: ["iot", "embedded systems", "research", "hardware"],
+        url: "work.html",
+        desc: "IoT research capstone focusing on embedded systems."
+    },
+    {
+        title: "Technical Expertise & Skills",
+        type: "Skill",
+        keywords: ["html", "css", "javascript", "java", "python", "c#", "c++", "php", "mysql", "sqlite", "github"],
+        url: "skill.html",
+        desc: "Programming languages, web development, and software design competencies."
+    },
+    {
+        title: "IT Administration & Tech Support",
+        type: "Skill",
+        keywords: ["hardware", "networking", "windows", "troubleshooting", "qa", "testing", "deployment"],
+        url: "skill.html",
+        desc: "System configuration, asset management, and technical troubleshooting."
+    },
+    {
+        title: "Rizal Technological University",
+        type: "Education",
+        keywords: ["college", "bachelor", "computer engineering", "bscpe", "university"],
+        url: "education.html",
+        desc: "Bachelor of Science in Computer Engineering (2022 - Present)"
+    },
+    {
+        title: "Professional Experience",
+        type: "Experience",
+        keywords: ["timeline", "internship", "work", "job", "career"],
+        url: "experience.html",
+        desc: "My professional timeline, internships, and roles."
+    },
+    {
+        title: "Contact Khin",
+        type: "Contact",
+        keywords: ["email", "phone", "hire", "freelance", "message", "social"],
+        url: "contact.html",
+        desc: "Get in touch for embedded systems, IoT solutions, or web development projects."
+    },
+    {
+        title: "About Me",
+        type: "About",
+        keywords: ["who am i", "background", "innovator", "khin andrei", "gamboa"],
+        url: "about.html",
+        desc: "Computer Engineering Student passionate about hardware and software."
+    }
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Wait for the master script to inject the nav before binding search
+    // We can use a MutationObserver or simply retry grabbing the elements since injection is async.
+    
+    function initSearch() {
+        const searchInput = document.getElementById('ai-search-input');
+        const resultsArea = document.getElementById('search-results-area');
+        
+        if (!searchInput || !resultsArea) {
+            setTimeout(initSearch, 200); // Retry
+            return;
+        }
+
+        const suggestionHTML = resultsArea.innerHTML;
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length === 0) {
+                resultsArea.innerHTML = suggestionHTML; // Restore suggestions
+                bindSuggestionChips();
+                return;
+            }
+
+            // Perform search
+            const results = portfolioIndex.filter(item => {
+                return item.title.toLowerCase().includes(query) || 
+                       item.desc.toLowerCase().includes(query) || 
+                       item.keywords.some(kw => kw.toLowerCase().includes(query));
+            });
+
+            renderResults(results, query, resultsArea);
+        });
+
+        bindSuggestionChips();
+    }
+
+    function renderResults(results, query, resultsArea) {
+        // Check if it's a conversational question
+        const questionWords = ['what', 'who', 'how', 'why', 'where', 'when', 'tell me', 'can you'];
+        const isQuestion = questionWords.some(w => query.toLowerCase().includes(w)) || query.includes('?');
+
+        let html = '';
+
+        let fetchAi = false;
+
+        // Generate AI Response UI if it's a question or a longer phrase
+        if (query.length > 5 && (isQuestion || results.length === 0)) {
+            fetchAi = true;
+            html += `
+                <div class="ai-response-box" style="background: rgba(255,215,0,0.05); border: 1px solid var(--accent-color); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <i class="fas fa-robot" style="color: var(--accent-color);"></i>
+                        <span style="color: var(--accent-color); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">AI Agent (Gemini)</span>
+                    </div>
+                    <p id="ai-answer-text" style="color: var(--text-color); font-family: 'Sora', sans-serif; font-size: 0.95rem; margin: 0; line-height: 1.6; opacity: 0.9;">
+                        <i class="fas fa-circle-notch fa-spin"></i> Thinking...
+                    </p>
+                </div>
+            `;
+        }
+
+        if (results.length === 0) {
+            html += `
+                <div class="search-empty">
+                    <p style="color: var(--text-color); opacity: 0.8; font-family: 'Sora', sans-serif;">
+                        No exact portfolio links found for "<strong>${query}</strong>".
+                    </p>
+                </div>
+            `;
+            resultsArea.innerHTML = html;
+            return;
+        }
+
+        html += `<div class="search-results-list" style="display: flex; flex-direction: column; gap: 10px;">`;
+        results.forEach(res => {
+            html += `
+                <a href="${res.url}" class="search-result-item" data-url="${res.url}" style="display: block; padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-decoration: none; transition: all 0.2s ease;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                        <span style="color: var(--accent-color); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem;">${res.title}</span>
+                        <span style="background: rgba(128,128,128,0.1); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: var(--text-color); font-family: 'Sora', sans-serif; text-transform: uppercase;">${res.type}</span>
+                    </div>
+                    <p style="color: var(--text-color); opacity: 0.8; font-family: 'Sora', sans-serif; font-size: 0.9rem; margin: 0;">${res.desc}</p>
+                </a>
+            `;
+        });
+        html += `</div>`;
+        resultsArea.innerHTML = html;
+
+        // If we decided to fetch AI, do it now that the element is in the DOM
+        if (fetchAi) {
+            const fetchId = Date.now();
+            window.currentAiFetchId = fetchId;
+
+            // Debounce the AI request by 800ms so we don't spam the API on every keystroke
+            setTimeout(() => {
+                if (window.currentAiFetchId !== fetchId) return; // User kept typing, abort this request
+
+                // ⚠️ SECURITY WARNING ⚠️
+                // The hardcoded API key has been removed to prevent it from leaking on GitHub!
+                // To test locally, you can temporarily paste it back here, but NEVER commit it.
+                // For production, you must use the api/chat.js Vercel function and environment variables.
+                const apiKey = "YOUR_GEMINI_API_KEY_HERE"; 
+                
+                // If API key is missing, instantly fallback to mock
+                if (apiKey === "YOUR_GEMINI_API_KEY_HERE") {
+                    const activeAiElement = document.getElementById('ai-answer-text');
+                    if (activeAiElement) {
+                        activeAiElement.innerHTML = getMockAIResponse(query);
+                    }
+                    return;
+                }
+
+                const systemPrompt = `
+                    You are an AI assistant built into the portfolio of Khin Andrei Gamboa. 
+                    Keep your answers concise, friendly, and professional (max 2-3 sentences).
+                    Always speak in the third person about Khin.
+                    
+                    Information about Khin:
+                    - Role: Final-year Computer Engineering Student & Aspiring DevOps Engineer.
+                    - Education: Rizal Technological University (2022 - Present).
+                    - Background: Hands-on experience in IT administration and support, bridging the gap between hardware infrastructure and software solutions.
+                    - Skills: Remote troubleshooting, software/hardware setups, computer networking, data documentation. Java, Python, C++, HTML/CSS/JS, React, Node.js, MySQL, SQLite, Arduino, IoT.
+                    - Goals: Passionate about automation and system efficiency, expanding expertise into the DevOps industry. Eager to contribute to robust, scalable infrastructure and modern deployment pipelines.
+                    - Top Projects: Full-featured restaurant and computer shop dashboards with integrated inventory systems, AI-driven camera detection interfaces (custom training), RFID Tollgate System (C++/IoT), AI Kilo Bot (Python/ML).
+                    - Contact: gamboa.khinandrei@gmail.com | +63 992 421 5230.
+                `;
+
+                fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system_instruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ role: "user", parts: [{ text: query }] }]
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error("Gemini API Error");
+                    return res.json();
+                })
+                .then(data => {
+                    if (window.currentAiFetchId !== fetchId) return;
+                    
+                    const activeAiElement = document.getElementById('ai-answer-text');
+                    if (data.candidates && data.candidates[0].content.parts[0].text && activeAiElement) {
+                        activeAiElement.innerHTML = data.candidates[0].content.parts[0].text;
+                    } else if (activeAiElement) {
+                        activeAiElement.innerHTML = getMockAIResponse(query);
+                    }
+                })
+                .catch((err) => {
+                    console.error("AI Error:", err);
+                    if (window.currentAiFetchId !== fetchId) return;
+                    
+                    const activeAiElement = document.getElementById('ai-answer-text');
+                    if (activeAiElement) {
+                        activeAiElement.innerHTML = getMockAIResponse(query);
+                    }
+                });
+            }, 800);
+        }
+
+        // Hover effects via JS since inline styles are used for simplicity
+        const links = resultsArea.querySelectorAll('.search-result-item');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.borderColor = 'var(--accent-color)';
+                link.style.background = 'rgba(255, 215, 0, 0.05)';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.borderColor = 'var(--border-color)';
+                link.style.background = 'transparent';
+            });
+            
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = link.getAttribute('data-url');
+                
+                // Close search bar
+                document.getElementById('search-ui').classList.remove('active');
+                
+                // Route
+                if (window.navigateToPage) {
+                    window.navigateToPage(url);
+                } else {
+                    window.location.href = url;
+                }
+            });
+        });
+    }
+
+    function bindSuggestionChips() {
+        const chips = document.querySelectorAll('.suggestion-chip');
+        const searchInput = document.getElementById('ai-search-input');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                if (searchInput) {
+                    searchInput.value = chip.textContent;
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            });
+        });
+    }
+
+    // --- MOCK AI LOGIC ---
+    // This acts as your AI agent until you connect a real LLM API (like OpenAI)
+    function getMockAIResponse(query) {
+        query = query.toLowerCase();
+        
+        if (query.includes("experience") || query.includes("work") || query.includes("job") || query.includes("it")) {
+            return "Khin has hands-on experience in IT administration and support, handling remote troubleshooting, networking, and software/hardware setups. He is currently expanding his expertise into the DevOps industry.";
+        }
+        if (query.includes("education") || query.includes("study") || query.includes("school") || query.includes("college")) {
+            return "Khin is currently a final-year Bachelor of Science in Computer Engineering student at Rizal Technological University (2022 - Present).";
+        }
+        if (query.includes("skills") || query.includes("know") || query.includes("languages") || query.includes("tech")) {
+            return "Khin's technical expertise spans Java, Python, C++, web development, and hardware infrastructure. He is highly skilled in IoT development, automation, and modern deployment pipelines.";
+        }
+        if (query.includes("projects") || query.includes("portfolio") || query.includes("ai") || query.includes("devops")) {
+            return "Khin has delivered diverse projects including full-featured restaurant dashboards with inventory systems, AI-driven camera detection interfaces, and automated IoT solutions.";
+        }
+        if (query.includes("who") || query.includes("about") || query.includes("khin") || query.includes("goal")) {
+            return "Khin is a final-year Computer Engineering student with a passion for automation and system efficiency. He aims to leverage his IT support foundation to build scalable infrastructure as a DevOps Engineer.";
+        }
+        if (query.includes("contact") || query.includes("hire") || query.includes("email")) {
+            return "You can reach Khin at gamboa.khinandrei@gmail.com or by calling +63 992 421 5230. He is always open to discussing DevOps, web development, or IT support roles!";
+        }
+        
+        return "I am Khin's AI assistant. Based on his portfolio, he bridges the gap between hardware infrastructure and software solutions. Click one of the links below to see his work, or ask me about his DevOps goals and IT experience!";
+    }
+    
+    // Start trying to init search
+    initSearch();
 });

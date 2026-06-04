@@ -7,7 +7,7 @@
   min-height: calc(100vh - 110px);
   display: flex;
   justify-content: center;
-  padding: clamp(22px, 3vw, 44px) 16px;
+  padding: 36px 16px 120px 16px; /* 36px + kicker height = 60px visual top margin */
 }
 
 .page-inner{
@@ -17,8 +17,8 @@
 /* Header */
 .page-header{
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 26px;
+  margin-top: 0;
+  margin-bottom: 40px;
 }
 
 .page-kicker{
@@ -26,15 +26,19 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 0.82rem;
-  color: rgba(10,10,10,0.65);
+  color: var(--accent-color);
+  margin-bottom: 10px;
+  margin-top: 0;
+  line-height: 1;
 }
 
 .page-title{
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2.1rem, 3.2vw, 3rem);
+  font-weight: 800;
+  font-size: 3.5rem;
   line-height: 1.1;
-  margin: 10px 0 10px;
-  color: #080808;
+  margin: 0 0 15px;
+  color: var(--text-color);
 }
 
 .page-accent{
@@ -51,7 +55,7 @@
   margin: 0 auto;
   color: rgba(10,10,10,0.72);
   line-height: 1.65;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
 /* Grid */
@@ -124,13 +128,13 @@ body.dark-mode .glass-panel {
 
 .panel-title h2{
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   margin: 0;
   color: #080808;
 }
 
 .panel-chip{
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid rgba(0,0,0,0.12);
@@ -170,6 +174,7 @@ body.dark-mode .glass-panel {
   color: rgba(10,10,10,0.72);
   line-height: 1.55;
   text-decoration: none;
+  font-size: 1rem;
 }
 
 a.info-value{
@@ -197,13 +202,14 @@ a.info-value:hover{
   font-family: "Space Grotesk", sans-serif;
   margin: 0 0 6px;
   color: #080808;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
 }
 
 .panel-note p{
   margin: 0;
   color: rgba(10,10,10,0.70);
   line-height: 1.6;
+  font-size: 1rem;
 }
 
 /* Form */
@@ -232,7 +238,7 @@ a.info-value:hover{
   margin-bottom: 8px;
   font-weight: 700;
   color: rgba(10,10,10,0.78);
-  font-size: 0.98rem;
+  font-size: 1rem;
 }
 
 .form-group input,
@@ -276,13 +282,14 @@ a.info-value:hover{
   font-family: "Space Grotesk", sans-serif;
   margin: 0 0 6px;
   color: #080808;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
 }
 
 .helper-box p{
   margin: 0;
   color: rgba(10,10,10,0.70);
   line-height: 1.6;
+  font-size: 1rem;
 }
 
 /* Button */

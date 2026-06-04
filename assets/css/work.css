@@ -3,7 +3,7 @@
 .work-section {
     width: 90%;
     max-width: 1300px;
-    margin: 60px auto 120px;
+    margin: 36px auto 120px; /* 36px + kicker = 60px visual top */
     text-align: center;
 }
 
@@ -14,6 +14,7 @@
     font-family: "Space Grotesk", sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
+    margin-top: 0;
     margin-bottom: 20px;
     color: var(--text-color);
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
@@ -48,11 +49,13 @@
 
 .section-kicker {
     font-family: "Space Grotesk", sans-serif;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--accent-color);
     margin-bottom: 10px;
+    margin-top: 0;
+    line-height: 1;
 }
 
 .section-description {
@@ -183,7 +186,7 @@
 
 .poster-header h3 {
     font-family: "Space Grotesk", sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: #ffffff;
     margin: 5px 0 0;
@@ -192,7 +195,7 @@
 
 .poster-tag {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -217,7 +220,7 @@
 
 .poster-content p {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.5;
     margin-bottom: 20px;
 }
@@ -229,7 +232,7 @@
 }
 
 .tech-stack span {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     padding: 4px 10px;

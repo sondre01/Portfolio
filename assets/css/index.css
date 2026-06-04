@@ -159,6 +159,138 @@ nav {
   transform: rotate(15deg);
 }
 
+/* --- Search Toggle Button --- */
+.search-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--nav-text);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.search-toggle-btn:hover {
+  color: var(--accent-color);
+  transform: scale(1.1);
+}
+
+/* --- Search UI Dropdown --- */
+.search-ui-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--nav-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+  z-index: 999;
+}
+
+.search-ui-container.active {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.search-ui-inner {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0 30px;
+}
+
+.search-box-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-box-wrapper:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+}
+
+.search-box-icon {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+  margin-right: 15px;
+}
+
+#ai-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+#ai-search-input::placeholder {
+  color: rgba(128, 128, 128, 0.6);
+}
+
+.close-search-btn {
+  background: none;
+  border: none;
+  color: var(--nav-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.close-search-btn:hover {
+  color: #ff4444;
+  transform: rotate(90deg);
+}
+
+.search-results-area {
+  min-height: 50px;
+}
+
+.search-suggestions p {
+  font-family: "Sora", sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 15px;
+}
+
+.suggestion-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.suggestion-chip {
+  background: rgba(128, 128, 128, 0.1);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
 /* ===== Footer ===== */
 footer {
   background-color: var(--nav-bg);
@@ -285,123 +417,6 @@ footer {
   }
 }
 
-/* =======================================================
-   FUTURISTIC CUSTOM CURSOR (BLACK CORE + YELLOW GLOW)
-   ======================================================= */
-
-/* Hide default cursor (desktop only) */
-@media (hover: hover) and (pointer: fine) {
-
-  html,
-  body {
-    cursor: none;
-  }
-
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  label,
-  [role="button"],
-  .btn {
-    cursor: none;
-  }
-}
-
-/* Cursor base */
-#cursor-dot,
-#cursor-ring {
-  position: fixed;
-  left: 0;
-  top: 0;
-
-  pointer-events: none !important;
-  /* never block clicks */
-  user-select: none;
-
-  z-index: 99999;
-  opacity: 0;
-
-  transform: translate3d(-50%, -50%, 0);
-  will-change: transform, opacity, width, height;
-}
-
-/* ================= DOT ================= */
-#cursor-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-color);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-/* ================= RING ================= */
-#cursor-ring {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 215, 0, 0.6);
-  background: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
-  backdrop-filter: blur(2px);
-
-  transition:
-    width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-    height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-    background 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.15s ease-out;
-}
-
-/* =============== HOVER ================= */
-.cursor-hover #cursor-ring {
-  width: 54px;
-  height: 54px;
-  background: rgba(210, 213, 216, 0.85); /* Platinum with glass blur */
-  border-color: transparent;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
-}
-
-.cursor-hover #cursor-dot {
-  opacity: 0;
-  transform: translate3d(-50%, -50%, 0) scale(0);
-}
-
-/* =============== CLICK (Active State) ================= */
-.cursor-active #cursor-ring {
-  transform: translate3d(-50%, -50%, 0) scale(0.85);
-  background: rgba(255, 215, 0, 0.25);
-}
-
-.cursor-active #cursor-dot {
-  transform: translate3d(-50%, -50%, 0) scale(0.6);
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-
-  .cursor-active #cursor-ring,
-  .cursor-active #cursor-dot {
-    transform: translate3d(-50%, -50%, 0);
-  }
-}
-
-/* Touch devices: disable custom cursor */
-@media (hover: none),
-(pointer: coarse) {
-
-  #cursor-dot,
-  #cursor-ring {
-    display: none !important;
-  }
-
-  html,
-  body {
-    cursor: auto !important;
-  }
-}
 
 /* =======================================================
    ✅ Futuristic Hover Tilt (Global Frame)
@@ -461,4 +476,133 @@ body.dark-mode .hero-photo-wrapper.is-tilting .hero-frame {
     0 20px 40px -10px rgba(0, 0, 0, 0.5), /* Tighter dark depth */
     0 0 15px rgba(255, 215, 0, 0.15),     /* Subtle neon glow */
     0 0 0 1px var(--accent-color);
+}
+
+/* =========================================================
+   UNIVERSAL CARD HOVER EFFECTS (CONSISTENCY ACROSS ALL TABS)
+   ========================================================= */
+.glass-card, .stat-card, .exp-card, .project-poster, .education-details {
+    /* Unify transition speeds */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.3s ease, 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Light Mode Unified Hover */
+.glass-card:hover, .stat-card:hover, .exp-card:hover, .project-poster:hover, .timeline-item:hover .education-details {
+    transform: translateY(-8px) scale(1.01) !important;
+    border-color: #1a1a1a !important;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.12),
+        0 0 25px rgba(0, 0, 0, 0.04) !important;
+    z-index: 10;
+}
+
+/* Dark Mode Unified Hover */
+body.dark-mode .glass-card:hover, 
+body.dark-mode .stat-card:hover, 
+body.dark-mode .exp-card:hover, 
+body.dark-mode .project-poster:hover,
+body.dark-mode .timeline-item:hover .education-details {
+    transform: translateY(-8px) scale(1.01) !important;
+    border-color: var(--accent-color) !important;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(255, 215, 0, 0.15) !important;
+}
+
+/* =========================================================
+   UNIVERSAL HEADER SPACING & TYPOGRAPHY (CONSISTENCY)
+   ========================================================= */
+
+/* The Wrapper / Header Group */
+.work-header, .skills-wrapper > .skills-kicker, .education-wrapper > .education-kicker, .page-header {
+    text-align: center !important;
+}
+
+/* Removed faulty margin-bottom from wrappers that were causing spacing issues */
+
+/* The Kickers (Small yellow text on top) */
+.section-kicker, .skills-kicker, .page-kicker, .education-kicker, .about-kicker {
+    font-family: "Space Grotesk", sans-serif !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-size: 0.85rem !important;
+    color: var(--accent-color) !important;
+    margin: 0 0 12px 0 !important;
+    line-height: 1 !important;
+    display: block !important;
+}
+
+/* The Subtitles (Paragraph below title) */
+.section-description, .skills-subtitle, .page-subtitle, .education-subtitle {
+    font-family: 'Sora', sans-serif !important;
+    font-size: 1.05rem !important;
+    color: var(--text-color) !important;
+    opacity: 0.85 !important;
+    max-width: 600px !important;
+    margin: 0 auto 55px auto !important; /* Adds consistent space below the header */
+    line-height: 1.6 !important;
+    text-align: center !important; /* Kept centered as requested */
+}
+
+/* =========================================================
+   UNIVERSAL PARAGRAPH JUSTIFICATION
+   ========================================================= */
+.exp-summary, .poster-content p, .education-details p, .contact-content p {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* =========================================================
+   UNIVERSAL TITLE HOVER EFFECTS (CONSISTENCY ACROSS ALL TABS)
+   ========================================================= */
+.section-title, .skills-title, .page-title, .education-title, .about-title {
+    font-size: 3.2rem !important; /* Unified font size */
+    font-weight: 800 !important;
+    margin: 0 0 16px 0 !important; /* Unified bottom spacing */
+    line-height: 1.1 !important;
+    
+    position: relative !important;
+    display: inline-block !important;
+    cursor: default !important;
+    transition: none !important; /* Stop base transitions from local files */
+}
+
+/* Remove all text color changes, letter-spacing expansions, and text shadows on hover */
+.section-title:hover, .skills-title:hover, .page-title:hover, .education-title:hover, .about-title:hover,
+body:not(.dark-mode) .section-title:hover, 
+body:not(.dark-mode) .skills-title:hover, 
+body:not(.dark-mode) .page-title:hover, 
+body:not(.dark-mode) .education-title:hover, 
+body:not(.dark-mode) .about-title:hover {
+    color: var(--text-color) !important;
+    letter-spacing: normal !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+/* Base state for the thin, minimalist underline */
+.section-title::after, .skills-title::after, .page-title::after, .education-title::after, .about-title::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -4px !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 2px !important; /* THIN LINE */
+    background: var(--accent-color) !important;
+    box-shadow: none !important; /* NO GLOW */
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    border-radius: 2px !important;
+    transform: none !important; /* Fixes centering alignment bugs */
+}
+
+/* Hover state for the thin underline */
+.section-title:hover::after, .skills-title:hover::after, .page-title:hover::after, .education-title:hover::after, .about-title:hover::after {
+    width: 100% !important;
+}
+
+/* Hide any legacy underlines used in specific pages */
+.title-underline, .page-accent {
+    display: none !important;
 }

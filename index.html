@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css" />
 </head>
+
 <body>
 
-    <!-- CUSTOM CURSOR ELEMENTS -->
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
+
 
     <!-- Redirection Logic -->
     <script>
@@ -45,6 +45,12 @@
                     <li><a href="pages/experience.html">Experience</a></li>
                     <li><a href="pages/contact.html">Contact</a></li>
 
+                    <!-- Search Toggle Button -->
+                    <li>
+                        <button class="search-toggle-btn" id="search-toggle-btn" aria-label="Toggle Search" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </li>
                     <!-- Dark Mode Toggle Button -->
                     <li>
                         <button class="theme-toggle-btn" aria-label="Toggle Dark Mode" type="button">
@@ -52,6 +58,27 @@
                         </button>
                     </li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Search UI Dropdown (Hidden by default via CSS) -->
+        <div class="search-ui-container" id="search-ui">
+            <div class="search-ui-inner">
+                <div class="search-box-wrapper">
+                    <i class="fas fa-robot search-box-icon"></i>
+                    <input type="text" id="ai-search-input" placeholder="Ask my AI agent or search my portfolio..." autocomplete="off">
+                    <button class="close-search-btn" id="close-search-btn" aria-label="Close Search"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="search-results-area" id="search-results-area">
+                    <div class="search-suggestions">
+                        <p>Try asking:</p>
+                        <div class="suggestion-chips">
+                            <span class="suggestion-chip">What is Khin's experience with IoT?</span>
+                            <span class="suggestion-chip">Show me web development projects</span>
+                            <span class="suggestion-chip">Where did he study?</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -75,11 +102,15 @@
                     <p><i class="fas fa-phone"></i> +63 992 421 5230</p>
                 </div>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/khinandrei.gmb" target="_blank" rel="noreferrer"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/khinandrei.gmb" target="_blank" rel="noreferrer"><i
+                            class="fab fa-facebook-f"></i></a>
                     <a href="https://x.com/" target="_blank" rel="noreferrer"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://www.instagram.com/khinandrei.gmb/" target="_blank" rel="noreferrer"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/khin-andrei-gamboa-80b821389/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/sondre01" target="_blank" rel="noreferrer"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/khinandrei.gmb/" target="_blank" rel="noreferrer"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/khin-andrei-gamboa-80b821389/" target="_blank"
+                        rel="noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/sondre01" target="_blank" rel="noreferrer"><i
+                            class="fab fa-github"></i></a>
                 </div>
             </div>
         </div>
@@ -88,4 +119,5 @@
     <!-- Master JS (used by pages via injection) -->
     <script src="assets/js/index.js"></script>
 </body>
+
 </html>
