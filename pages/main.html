@@ -161,7 +161,297 @@
 
       </div>
     </section>
+
+    <!-- ROW THREE: RETRO TERMINAL EMULATOR -->
+    <section class="terminal-section animate-fade-up" style="animation-delay: 450ms;">
+      <span class="section-label animate-fade-up" style="display: block; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.85rem; color: var(--accent-color); text-align: center;">Interactive Developer Console</span>
+      
+      <div class="terminal-container">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="terminal-title">guest@khin-portfolio:~ (bash)</div>
+          <div class="terminal-action-icons">
+            <i class="fas fa-terminal"></i>
+          </div>
+        </div>
+        
+        <!-- Terminal Screen / Body -->
+        <div class="terminal-body" id="terminal-body">
+          <div class="terminal-row">Welcome to Khin Andrei's Interactive Portfolio Console v1.0.0</div>
+          <div class="terminal-row">Type <span class="highlight">help</span> for a list of available commands.</div>
+          <div class="terminal-row">&nbsp;</div>
+          
+          <!-- Command logs -->
+          <div id="terminal-logs"></div>
+          
+          <!-- Input prompt line -->
+          <div class="terminal-prompt-line">
+            <span class="prompt-user">guest@khin-portfolio:~$</span>
+            <span class="prompt-input-wrapper">
+              <input type="text" id="terminal-input" autocomplete="off" placeholder="Type a command...">
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <script>
+    // Self-executing CLI Terminal script
+    (function() {
+      const termInput = document.getElementById('terminal-input');
+      const termBody = document.getElementById('terminal-body');
+      const termLogs = document.getElementById('terminal-logs');
+      
+      if (!termInput || !termLogs) return;
+      
+      // Focus on click
+      termBody.addEventListener('click', () => {
+        termInput.focus();
+      });
+      
+      const commands = {
+        help: 'List all available commands: help, about, skills, projects, education, contact, matrix, clear',
+        about: 'Print a profile of Khin Andrei Gamboa.',
+        skills: 'Print a chart of primary tech capabilities.',
+        projects: 'List top software & hardware engineering projects.',
+        education: 'Academic background & institution.',
+        contact: 'Email, phone, and professional link resources.',
+        matrix: 'Enter the matrix digital rain.',
+        clear: 'Clear the console log buffer.'
+      };
+      
+      const commandHistory = [];
+      let historyIndex = -1;
+
+      // History cycling
+      termInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            termInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+          }
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (historyIndex > 0) {
+            historyIndex--;
+            termInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+          } else {
+            historyIndex = -1;
+            termInput.value = '';
+          }
+        }
+      });
+      
+      termInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const rawInput = termInput.value;
+          const input = rawInput.trim();
+          termInput.value = '';
+          
+          if (!input) return;
+          
+          commandHistory.push(rawInput);
+          historyIndex = -1;
+          
+          appendRow(`guest@khin-portfolio:~$ ${rawInput}`, 'prompt-echo');
+          executeCommand(input.toLowerCase());
+        }
+      });
+      
+      function appendRow(text, className = '') {
+        const row = document.createElement('div');
+        row.className = `terminal-row ${className}`;
+        row.innerHTML = text;
+        termLogs.appendChild(row);
+        termBody.scrollTop = termBody.scrollHeight;
+        return row;
+      }
+      
+      function executeCommand(cmdStr) {
+        stopMatrix();
+        
+        const tokens = cmdStr.split(' ');
+        const cmd = tokens[0];
+        
+        switch (cmd) {
+          case 'help':
+            appendRow('Available commands:', 'highlight');
+            Object.keys(commands).forEach(key => {
+              appendRow(`  <span class="highlight">${key}</span> - ${commands[key]}`);
+            });
+            break;
+            
+          case 'about':
+            appendRow('==============================================', 'highlight');
+            appendRow('         KHIN ANDREI GAMBOA - PROFILE         ', 'highlight');
+            appendRow('==============================================', 'highlight');
+            appendRow('Role: Computer Engineering Student & Innovator');
+            appendRow('Specialization: Hardware-Software Integration & DevOps');
+            appendRow('University: Rizal Technological University (2022 - Present)');
+            appendRow('Goal: Automating complex deployments and scalable system support.');
+            break;
+            
+          case 'skills':
+            appendRow('--- Technical Expertise ---', 'highlight');
+            appendRow('Java / Desktop Apps   [██████████████████░░] 90%');
+            appendRow('Web Dev (JS/React)    [████████████████░░░░] 80%');
+            appendRow('IoT & Arduino (C++)   [██████████████████░░] 90%');
+            appendRow('Python / ML Bots      [██████████████░░░░░░] 70%');
+            appendRow('IT Support & Setup    [██████████████████░░] 90%');
+            appendRow('DevOps (Git/pipelines) [████████████░░░░░░░░] 60%');
+            break;
+            
+          case 'projects':
+            appendRow('--- Top Projects ---', 'highlight');
+            appendRow('Type "project [name]" (e.g., "project pos" or "project tollgate") for details.');
+            appendRow('  1. pos      - Restorant POS Dashboard (Java/MySQL)');
+            appendRow('  2. xvidia   - Movie streaming browser app (React/Node)');
+            appendRow('  3. tollgate - RFID Automated Tollgate system (IoT/C++)');
+            appendRow('  4. kilobot  - AI-driven ML discord bot (Python)');
+            appendRow('  5. capstone - Embedded systems capstone research');
+            break;
+            
+          case 'project':
+            const projName = tokens[1];
+            if (!projName) {
+              appendRow('Please specify a project. Usage: project [name]', 'highlight');
+              break;
+            }
+            showProjectDetails(projName);
+            break;
+            
+          case 'education':
+            appendRow('Education Details:', 'highlight');
+            appendRow('Institution: Rizal Technological University');
+            appendRow('Degree: Bachelor of Science in Computer Engineering (BSCpE)');
+            appendRow('Timeline: 2022 - Present');
+            appendRow('Coursework: Logic Circuits, Embedded Systems, Microprocessors, Computer Networks.');
+            break;
+            
+          case 'contact':
+            appendRow('Contact Channels:', 'highlight');
+            appendRow('Email:      gamboa.khinandrei@gmail.com');
+            appendRow('Phone:      +63 992 421 5230');
+            appendRow('GitHub:     https://github.com/sondre01');
+            appendRow('LinkedIn:   linkedin.com/in/khin-andrei-gamboa-80b821389');
+            break;
+            
+          case 'matrix':
+            startMatrix();
+            break;
+            
+          case 'clear':
+            termLogs.innerHTML = '';
+            break;
+            
+          default:
+            if (cmd.startsWith('sudo')) {
+              appendRow('Permission denied: Nice try, but you do not have root access here.', 'highlight');
+            } else {
+              appendRow(`command not found: ${cmd}. Type <span class="highlight">help</span> for commands.`);
+            }
+        }
+      }
+      
+      function showProjectDetails(name) {
+        if (name === 'pos') {
+          appendRow('Project: Restorant POS Dashboard', 'highlight');
+          appendRow('Stack: Java, Swing, MySQL');
+          appendRow('Features: Real-time inventory records, product catalogs, cash drawer operations, sales ledger logs, and receipt billing.');
+        } else if (name === 'xvidia') {
+          appendRow('Project: Xvidia Movie Browser', 'highlight');
+          appendRow('Stack: React.js, TailwindCSS, Node.js, TMDB API');
+          appendRow('Features: Browse latest releases, grids, search filtering, and watchlists.');
+        } else if (name === 'tollgate') {
+          appendRow('Project: RFID Automated Tollgate System', 'highlight');
+          appendRow('Stack: C++, Arduino, RFID RC522, Servo, LCD');
+          appendRow('Features: Scan card debit, auto-opening gate, LCD telemetry displays.');
+        } else if (name === 'kilobot') {
+          appendRow('Project: AI Kilo Bot', 'highlight');
+          appendRow('Stack: Python, Discord.py, Scikit-learn');
+          appendRow('Features: Intent classification, moderation controls, auto replies.');
+        } else if (name === 'capstone') {
+          appendRow('Project: Capstone 1 IoT Research', 'highlight');
+          appendRow('Stack: ESP32, MQTT telemetry, local SQLite');
+          appendRow('Features: Node environmental readings, Node-RED visualizations.');
+        } else {
+          appendRow(`Unknown project: ${name}. Available: pos, xvidia, tollgate, kilobot, capstone`);
+        }
+      }
+      
+      let canvas = null;
+      let ctx = null;
+      let interval = null;
+      
+      function startMatrix() {
+        appendRow('Matrix stream initiated. Press any key to exit.', 'highlight');
+        
+        canvas = document.getElementById('matrix-canvas');
+        if (!canvas) {
+          canvas = document.createElement('canvas');
+          canvas.id = 'matrix-canvas';
+          canvas.className = 'matrix-canvas';
+          termBody.appendChild(canvas);
+        }
+        
+        canvas.style.display = 'block';
+        ctx = canvas.getContext('2d');
+        
+        canvas.width = termBody.clientWidth;
+        canvas.height = termBody.clientHeight;
+        
+        const chars = "ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const charArr = chars.split("");
+        
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        for (let x = 0; x < columns; x++) {
+          rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+          ctx.fillStyle = 'rgba(8, 8, 8, 0.05)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          ctx.fillStyle = '#ffd700'; // Amber/Gold matches accent theme
+          ctx.font = fontSize + 'px monospace';
+          
+          for (let i = 0; i < rainDrops.length; i++) {
+            const text = charArr[Math.floor(Math.random() * charArr.length)];
+            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+            
+            if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+              rainDrops[i] = 0;
+            }
+            rainDrops[i]++;
+          }
+        };
+        
+        if (interval) clearInterval(interval);
+        interval = setInterval(draw, 30);
+      }
+      
+      function stopMatrix() {
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+        }
+        const canvasEl = document.getElementById('matrix-canvas');
+        if (canvasEl) {
+          canvasEl.style.display = 'none';
+        }
+      }
+    })();
+  </script>
 
   <!-- RESUME TAB -->
   <section id="resumeTab" class="resume-tab" aria-hidden="true">

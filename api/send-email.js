@@ -6,11 +6,46 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { fullName, email, company, phone, subject, urgency, budget, timeline, message } = req.body;
+    const { fullName, email, company, phone, subject, urgency, budget, timeline, message, turnstileToken } = req.body;
 
     // Validation
     if (!fullName || !email || !subject || !message) {
         return res.status(400).json({ error: 'Required fields are missing.' });
+    }
+
+    // Verify Cloudflare Turnstile token
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '1x00000000000000000000000000000000'; // Development fallback
+
+    if (process.env.TURNSTILE_SECRET_KEY || turnstileToken) {
+        if (!turnstileToken) {
+            return res.status(400).json({ error: 'Security token is missing. Please complete the captcha check.' });
+        }
+
+        try {
+            const verifyResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    secret: turnstileSecret,
+                    response: turnstileToken,
+                    remoteip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
+                })
+            });
+
+            const verifyData = await verifyResponse.json();
+
+            if (!verifyData.success) {
+                console.error("Turnstile validation failed:", verifyData['error-codes']);
+                return res.status(400).json({ error: 'Security check failed. Please refresh and try again.' });
+            }
+        } catch (error) {
+            console.error("Turnstile verification error:", error);
+            if (process.env.TURNSTILE_SECRET_KEY) {
+                return res.status(500).json({ error: 'Failed to verify security token. Please try again later.' });
+            }
+        }
     }
 
     // Load API Keys / Environment Variables

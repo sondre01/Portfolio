@@ -688,184 +688,188 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- INJECT GLOBAL FEATURES ---
-    function injectGlobalFeatures() {
-        // Inject page loader bar
-        if (!document.getElementById('page-loader-bar')) {
-            const loader = document.createElement('div');
-            loader.id = 'page-loader-bar';
-            document.body.appendChild(loader);
-        }
-
-        // Inject floating AI chat widget
-        if (!document.getElementById('ai-chat-widget')) {
-            const widget = document.createElement('div');
-            widget.id = 'ai-chat-widget';
-            widget.className = 'chat-widget-container';
-            widget.innerHTML = `
-                <button class="chat-trigger-btn" aria-label="Toggle AI Assistant" type="button">
-                    <i class="fas fa-robot"></i>
-                    <span class="chat-trigger-badge"></span>
-                </button>
-                <div class="chat-window">
-                    <div class="chat-header">
-                        <div class="chat-header-info">
-                            <i class="fas fa-robot"></i>
-                            <div>
-                                <div class="chat-header-title">AI Assistant</div>
-                                <div class="chat-header-status">
-                                    <span class="chat-status-dot"></span>
-                                    <span>Online</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="chat-close-btn" aria-label="Close Chat" type="button">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="chat-messages">
-                        <div class="chat-bubble bot">
-                            Hi! I am Khin's AI Assistant. Ask me anything about my projects, experience, or skills!
-                        </div>
-                    </div>
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input-field" placeholder="Ask a question..." autocomplete="off">
-                        <button class="chat-send-btn" aria-label="Send Message" type="button">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(widget);
-            setupFloatingChatLogic(widget);
-        }
-    }
-
-    function setupFloatingChatLogic(widget) {
-        const triggerBtn = widget.querySelector('.chat-trigger-btn');
-        const chatWindow = widget.querySelector('.chat-window');
-        const closeBtn = widget.querySelector('.chat-close-btn');
-        const inputField = widget.querySelector('.chat-input-field');
-        const sendBtn = widget.querySelector('.chat-send-btn');
-        const messagesContainer = widget.querySelector('.chat-messages');
-
-        // Toggle chat window visibility
-        triggerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            chatWindow.classList.toggle('active');
-            if (chatWindow.classList.contains('active')) {
-                inputField.focus();
-                // Remove the online pulse green badge on first click
-                const badge = triggerBtn.querySelector('.chat-trigger-badge');
-                if (badge) badge.style.display = 'none';
-            }
-        });
-
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            chatWindow.classList.remove('active');
-        });
-
-        // Prevent clicks inside chat window from bubbling up
-        chatWindow.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
-        // Close on clicking outside
-        document.addEventListener('click', () => {
-            chatWindow.classList.remove('active');
-        });
-
-        // Handle sending messages
-        const sendMessage = () => {
-            const query = inputField.value.trim();
-            if (!query) return;
-
-            // Clear input
-            inputField.value = '';
-
-            // Render user bubble
-            appendBubble(query, 'user');
-
-            // Render thinking bubble
-            const thinkingBubble = appendBubble(`
-                <span class="chat-dot"></span>
-                <span class="chat-dot"></span>
-                <span class="chat-dot"></span>
-            `, 'bot thinking');
-
-            // API endpoint call to Vercel Serverless Function
-            fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: query })
-            })
-            .then(res => {
-                if (!res.ok) throw new Error("Serverless API Error");
-                return res.json();
-            })
-            .then(data => {
-                thinkingBubble.remove();
-                if (data.answer) {
-                    appendBubble(data.answer, 'bot');
-                } else {
-                    appendBubble(getMockAIResponse(query), 'bot');
-                }
-            })
-            .catch(err => {
-                console.error("AI Widget Error:", err);
-                thinkingBubble.remove();
-                appendBubble(getMockAIResponse(query), 'bot');
-            });
-        };
-
-        const appendBubble = (htmlContent, className) => {
-            const bubble = document.createElement('div');
-            bubble.className = `chat-bubble ${className}`;
-            bubble.innerHTML = htmlContent;
-            messagesContainer.appendChild(bubble);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            return bubble;
-        };
-
-        // Send on click
-        sendBtn.addEventListener('click', sendMessage);
-
-        // Send on Enter key
-        inputField.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-    }
-
-    // --- MOCK AI LOGIC ---
-    // This acts as your AI agent until you connect a real LLM API (like OpenAI)
-    function getMockAIResponse(query) {
-        query = query.toLowerCase();
-        
-        if (query.includes("experience") || query.includes("work") || query.includes("job") || query.includes("it")) {
-            return "Khin has hands-on experience in IT administration and support, handling remote troubleshooting, networking, and software/hardware setups. He is currently expanding his expertise into the DevOps industry.";
-        }
-        if (query.includes("education") || query.includes("study") || query.includes("school") || query.includes("college")) {
-            return "Khin is currently a final-year Bachelor of Science in Computer Engineering student at Rizal Technological University (2022 - Present).";
-        }
-        if (query.includes("skills") || query.includes("know") || query.includes("languages") || query.includes("tech")) {
-            return "Khin's technical expertise spans Java, Python, C++, web development, and hardware infrastructure. He is highly skilled in IoT development, automation, and modern deployment pipelines.";
-        }
-        if (query.includes("projects") || query.includes("portfolio") || query.includes("ai") || query.includes("devops")) {
-            return "Khin has delivered diverse projects including full-featured restaurant dashboards with inventory systems, AI-driven camera detection interfaces, and automated IoT solutions.";
-        }
-        if (query.includes("who") || query.includes("about") || query.includes("khin") || query.includes("goal")) {
-            return "Khin is a final-year Computer Engineering student with a passion for automation and system efficiency. He aims to leverage his IT support foundation to build scalable infrastructure as a DevOps Engineer.";
-        }
-        if (query.includes("contact") || query.includes("hire") || query.includes("email")) {
-            return "You can reach Khin at gamboa.khinandrei@gmail.com or by calling +63 992 421 5230. He is always open to discussing DevOps, web development, or IT support roles!";
-        }
-        
-        return "I am Khin's AI assistant. Based on his portfolio, he bridges the gap between hardware infrastructure and software solutions. Click one of the links below to see his work, or ask me about his DevOps goals and IT experience!";
-    }
-    
     // Start trying to init search
     initSearch();
 });
+
+// =======================================================
+// GLOBAL HELPER FUNCTIONS
+// =======================================================
+
+// --- INJECT GLOBAL FEATURES ---
+function injectGlobalFeatures() {
+    // Inject page loader bar
+    if (!document.getElementById('page-loader-bar')) {
+        const loader = document.createElement('div');
+        loader.id = 'page-loader-bar';
+        document.body.appendChild(loader);
+    }
+
+    // Inject floating AI chat widget
+    if (!document.getElementById('ai-chat-widget')) {
+        const widget = document.createElement('div');
+        widget.id = 'ai-chat-widget';
+        widget.className = 'chat-widget-container';
+        widget.innerHTML = `
+            <button class="chat-trigger-btn" aria-label="Toggle AI Assistant" type="button">
+                <i class="fas fa-robot"></i>
+                <span class="chat-trigger-badge"></span>
+            </button>
+            <div class="chat-window">
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <div class="chat-header-title">AI Assistant</div>
+                            <div class="chat-header-status">
+                                <span class="chat-status-dot"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="chat-close-btn" aria-label="Close Chat" type="button">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-messages">
+                    <div class="chat-bubble bot">
+                        Hi! I am Khin's AI Assistant. Ask me anything about my projects, experience, or skills!
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input-field" placeholder="Ask a question..." autocomplete="off">
+                    <button class="chat-send-btn" aria-label="Send Message" type="button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(widget);
+        setupFloatingChatLogic(widget);
+    }
+}
+
+function setupFloatingChatLogic(widget) {
+    const triggerBtn = widget.querySelector('.chat-trigger-btn');
+    const chatWindow = widget.querySelector('.chat-window');
+    const closeBtn = widget.querySelector('.chat-close-btn');
+    const inputField = widget.querySelector('.chat-input-field');
+    const sendBtn = widget.querySelector('.chat-send-btn');
+    const messagesContainer = widget.querySelector('.chat-messages');
+
+    // Toggle chat window visibility
+    triggerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chatWindow.classList.toggle('active');
+        if (chatWindow.classList.contains('active')) {
+            inputField.focus();
+            // Remove the online pulse green badge on first click
+            const badge = triggerBtn.querySelector('.chat-trigger-badge');
+            if (badge) badge.style.display = 'none';
+        }
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chatWindow.classList.remove('active');
+    });
+
+    // Prevent clicks inside chat window from bubbling up
+    chatWindow.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Close on clicking outside
+    document.addEventListener('click', () => {
+        chatWindow.classList.remove('active');
+    });
+
+    // Handle sending messages
+    const sendMessage = () => {
+        const query = inputField.value.trim();
+        if (!query) return;
+
+        // Clear input
+        inputField.value = '';
+
+        // Render user bubble
+        appendBubble(query, 'user');
+
+        // Render thinking bubble
+        const thinkingBubble = appendBubble(`
+            <span class="chat-dot"></span>
+            <span class="chat-dot"></span>
+            <span class="chat-dot"></span>
+        `, 'bot thinking');
+
+        // API endpoint call to Vercel Serverless Function
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: query })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Serverless API Error");
+            return res.json();
+        })
+        .then(data => {
+            thinkingBubble.remove();
+            if (data.answer) {
+                appendBubble(data.answer, 'bot');
+            } else {
+                appendBubble(getMockAIResponse(query), 'bot');
+            }
+        })
+        .catch(err => {
+            console.error("AI Widget Error:", err);
+            thinkingBubble.remove();
+            appendBubble(getMockAIResponse(query), 'bot');
+        });
+    };
+
+    const appendBubble = (htmlContent, className) => {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${className}`;
+        bubble.innerHTML = htmlContent;
+        messagesContainer.appendChild(bubble);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return bubble;
+    };
+
+    // Send on click
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Send on Enter key
+    inputField.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+}
+
+// --- MOCK AI LOGIC ---
+// This acts as your AI agent until you connect a real LLM API (like OpenAI)
+function getMockAIResponse(query) {
+    query = query.toLowerCase();
+    
+    if (query.includes("experience") || query.includes("work") || query.includes("job") || query.includes("it")) {
+        return "Khin has hands-on experience in IT administration and support, handling remote troubleshooting, networking, and software/hardware setups. He is currently expanding his expertise into the DevOps industry.";
+    }
+    if (query.includes("education") || query.includes("study") || query.includes("school") || query.includes("college")) {
+        return "Khin is currently a final-year Bachelor of Science in Computer Engineering student at Rizal Technological University (2022 - Present).";
+    }
+    if (query.includes("skills") || query.includes("know") || query.includes("languages") || query.includes("tech")) {
+        return "Khin's technical expertise spans Java, Python, C++, web development, and hardware infrastructure. He is highly skilled in IoT development, automation, and modern deployment pipelines.";
+    }
+    if (query.includes("projects") || query.includes("portfolio") || query.includes("ai") || query.includes("devops")) {
+        return "Khin has delivered diverse projects including full-featured restaurant dashboards with inventory systems, AI-driven camera detection interfaces, and automated IoT solutions.";
+    }
+    if (query.includes("who") || query.includes("about") || query.includes("khin") || query.includes("goal")) {
+        return "Khin is a final-year Computer Engineering student with a passion for automation and system efficiency. He aims to leverage his IT support foundation to build scalable infrastructure as a DevOps Engineer.";
+    }
+    if (query.includes("contact") || query.includes("hire") || query.includes("email")) {
+        return "You can reach Khin at gamboa.khinandrei@gmail.com or by calling +63 992 421 5230. He is always open to discussing DevOps, web development, or IT support roles!";
+    }
+    
+    return "I am Khin's AI assistant. Based on his portfolio, he bridges the gap between hardware infrastructure and software solutions. Click one of the links below to see his work, or ask me about his DevOps goals and IT experience!";
+}

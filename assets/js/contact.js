@@ -64,6 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Gather Turnstile security token
+        const turnstileResponse = contactForm.querySelector('[name="cf-turnstile-response"]');
+        const turnstileToken = turnstileResponse ? turnstileResponse.value : null;
+
+        if (!turnstileToken) {
+            showNotification('Please complete the security check verification.', 'error');
+            return;
+        }
+
         // Set Loading state
         if (submitBtn) {
             submitBtn.textContent = 'Sending...';
@@ -85,7 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     urgency,
                     budget,
                     timeline,
-                    message
+                    message,
+                    turnstileToken
                 })
             });
 
@@ -117,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Contact Form Error:', error);
             showNotification(error.message || 'Oops! Something went wrong. Please try again later or email me directly.', 'error');
         } finally {
+            // Reset Turnstile widget so a fresh token is generated for the next attempt
+            if (window.turnstile) {
+                window.turnstile.reset();
+            }
             // Restore button state
             if (submitBtn) {
                 submitBtn.textContent = originalText;
