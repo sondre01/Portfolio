@@ -82,15 +82,13 @@
     flex-shrink: 0;
     position: relative;
     aspect-ratio: 2/3;
-    border-radius: 20px;
+    border-radius: 12px;
     overflow: hidden;
     background-color: var(--secondary-bg);
     background-size: cover;
     background-position: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border: 1px solid var(--border-color);
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Project Specific Backgrounds --- */
@@ -121,14 +119,7 @@
     background-repeat: no-repeat;
     background-color: #000000;
 }
-
-.project-poster:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow:
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(255, 215, 0, 0.1);
-    border-color: var(--accent-color);
-}
+/* Hover and transition effects are now managed globally in index.css */
 
 /* Poster Scanning Line Effect */
 .project-poster::after {

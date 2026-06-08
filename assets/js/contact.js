@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value.trim();
         const company = document.getElementById('company').value.trim();
         const phone = document.getElementById('phone').value.trim();
-        const subject = document.getElementById('subject').value;
+        let subject = document.getElementById('subject').value;
         const urgency = document.getElementById('urgency').value;
         const budget = document.getElementById('budget').value;
         const timeline = document.getElementById('timeline').value;
@@ -46,6 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!fullName || !email || !subject || !message) {
             showNotification('Please fill in all required fields marked with an asterisk (*).', 'error');
             return;
+        }
+
+        if (subject === 'Other') {
+            const otherSubjectInput = document.getElementById('otherSubject');
+            const otherSubjectValue = otherSubjectInput ? otherSubjectInput.value.trim() : '';
+            if (!otherSubjectValue) {
+                showNotification('Please specify your project/inquiry type.', 'error');
+                if (otherSubjectInput) otherSubjectInput.focus();
+                return;
+            }
+            subject = `Other: ${otherSubjectValue}`;
         }
 
         if (!validateEmail(email)) {
@@ -90,6 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok && data.success) {
                 showNotification(data.message || 'Thank you! Your message was sent successfully.', 'success');
                 contactForm.reset();
+                
+                // Hide other subject group and clear required attribute if reset
+                const otherSubjectGroup = document.getElementById('other-subject-group');
+                const otherSubjectInput = document.getElementById('otherSubject');
+                if (otherSubjectGroup && otherSubjectInput) {
+                    otherSubjectGroup.style.display = 'none';
+                    otherSubjectInput.required = false;
+                }
             } else {
                 throw new Error(data.error || 'Failed to dispatch email.');
             }
@@ -105,6 +124,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Toggle Other Subject input based on selection
+    const subjectSelect = document.getElementById('subject');
+    const otherSubjectGroup = document.getElementById('other-subject-group');
+    const otherSubjectInput = document.getElementById('otherSubject');
+
+    if (subjectSelect && otherSubjectGroup && otherSubjectInput) {
+        subjectSelect.addEventListener('change', () => {
+            if (subjectSelect.value === 'Other') {
+                otherSubjectGroup.style.display = 'block';
+                otherSubjectInput.required = true;
+                otherSubjectInput.focus();
+            } else {
+                otherSubjectGroup.style.display = 'none';
+                otherSubjectInput.required = false;
+                otherSubjectInput.value = '';
+            }
+        });
+    }
+
+    // Restrict Phone Number input box to numbers and basic symbols (+ - space parentheses)
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^0-9+\-\s()]/g, '');
+        });
+    }
 
     // Helper to validate email structure
     function validateEmail(email) {

@@ -102,39 +102,11 @@
 }
 
 /* Card */
-.exp-card{
-  background: rgba(255,255,255,0.78);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-left: 5px solid #ffff00;
-  border-radius: 16px;
-  padding: 18px 18px;
-
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+.exp-card {
+  padding: 24px;
   position: relative;
   overflow: hidden;
 }
-
-.exp-card::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  background: radial-gradient(circle at 15% 0%, rgba(255,255,0,0.20), transparent 46%);
-  opacity: 0;
-  transition: opacity 220ms ease;
-  pointer-events:none;
-}
-
-.exp-card:hover{
-  transform: translateY(-6px);
-  border-color: rgba(255,255,0,0.55);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.14);
-}
-
-.exp-card:hover::before{ opacity: 1; }
 
 .exp-top{
   display: flex;
@@ -307,12 +279,7 @@ body.dark-mode .exp-list,
 body.dark-mode .exp-summary {
   color: rgba(255,255,255,0.75);
 }
-
-body.dark-mode .exp-card {
-  background: rgba(30, 30, 30, 0.78);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-}
+/* Unified exp-card backgrounds managed globally in index.css */
 
 body.dark-mode .exp-period {
   background: rgba(20, 20, 20, 0.65);

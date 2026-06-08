@@ -100,12 +100,12 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="fullName">Full Name *</label>
-                  <input type="text" id="fullName" name="fullName" required placeholder="John Doe" autocomplete="name" />
+                  <input type="text" id="fullName" name="fullName" required placeholder="Khin Andrei Gamboa" autocomplete="name" />
                 </div>
 
                 <div class="form-group">
                   <label for="email">Email Address *</label>
-                  <input type="email" id="email" name="email" required placeholder="john.doe@company.com" autocomplete="email" />
+                  <input type="email" id="email" name="email" required placeholder="khinandrei.gmb@gmail.com" autocomplete="email" />
                 </div>
               </div>
 
@@ -117,7 +117,7 @@
 
                 <div class="form-group">
                   <label for="phone">Phone Number</label>
-                  <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" autocomplete="tel" />
+                  <input type="tel" id="phone" name="phone" placeholder="+63 9XX XXX XXXX" autocomplete="tel" />
                 </div>
               </div>
 
@@ -144,6 +144,12 @@
                     <option value="High (Immediate)">High (Immediate Start)</option>
                   </select>
                 </div>
+              </div>
+
+              <!-- Hidden Other Subject input, shown dynamically when 'Other' is selected -->
+              <div class="form-group" id="other-subject-group" style="display: none; margin-top: -10px; margin-bottom: 10px;">
+                <label for="otherSubject">Please Specify Project/Inquiry Type *</label>
+                <input type="text" id="otherSubject" name="otherSubject" placeholder="E.g., Mobile Application" />
               </div>
 
               <div class="form-row">

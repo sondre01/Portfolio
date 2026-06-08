@@ -177,26 +177,6 @@ body.dark-mode .logo-glass {
     box-sizing: border-box;
     padding: 35px !important;
     text-align: left;
-    background: #D2D5D8; /* Updated to Platinum */
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
-    transition: all 0.4s ease;
-}
-
-body.dark-mode .timeline-item .education-details {
-    background: linear-gradient(135deg, rgba(37, 36, 36, 0.95), rgba(45, 45, 45, 0.85));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.timeline-item .education-details:hover {
-    border-color: #000; /* Black border in light mode as requested */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    transform: translateX(10px);
-}
-
-body.dark-mode .timeline-item .education-details:hover {
-    border-color: var(--accent-color); /* Yellow border in dark mode */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.1);
 }
 
 /* Content Styling */

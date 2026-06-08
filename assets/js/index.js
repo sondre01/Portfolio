@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
         mainContent.classList.remove("fade-out");
     }
 
+    // Inject global features (progress bar and floating AI widget) immediately on page load
+    injectGlobalFeatures();
+
     // --- SMART HEADER ---
     function setupSmartHeader() {
         let lastScrollTop = 0;
@@ -260,10 +263,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     const currentMain = document.querySelector('main');
                     if (currentMain) currentMain.classList.add("fade-out");
 
+                    // Start Top Progress Bar Animation
+                    const loaderBar = document.getElementById('page-loader-bar');
+                    if (loaderBar) {
+                        loaderBar.classList.remove('finished');
+                        loaderBar.classList.add('active');
+                        loaderBar.style.width = '30%';
+                        
+                        if (window.loaderInterval) clearInterval(window.loaderInterval);
+                        let progress = 30;
+                        window.loaderInterval = setInterval(() => {
+                            if (progress < 85) {
+                                progress += Math.random() * 5;
+                                loaderBar.style.width = `${progress}%`;
+                            }
+                        }, 200);
+                    }
+
                     setTimeout(() => {
                         fetch(hashSplit[0]) // fetch just the html file
-                            .then(res => res.text())
+                            .then(res => {
+                                if (!res.ok) throw new Error("Fetch Error");
+                                return res.text();
+                            })
                             .then(html => {
+                                // Complete Top Progress Bar Animation
+                                if (window.loaderInterval) clearInterval(window.loaderInterval);
+                                if (loaderBar) {
+                                    loaderBar.classList.add('finished');
+                                    loaderBar.classList.remove('active');
+                                    setTimeout(() => {
+                                        loaderBar.style.width = '0%';
+                                    }, 400);
+                                }
+
                                 const parser = new DOMParser();
                                 const doc = parser.parseFromString(html, "text/html");
 
@@ -277,11 +310,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                 });
 
-                                // Remove everything in body EXCEPT nav, footer, cursors, and the master script
+                                // Remove everything in body EXCEPT nav, footer, progress bar, chat assistant, cursors, and the master script
                                 Array.from(document.body.childNodes).forEach(node => {
                                     if (node.nodeType === Node.ELEMENT_NODE) {
                                         if (node.tagName === 'NAV' || 
                                             node.tagName === 'FOOTER' || 
+                                            node.id === 'page-loader-bar' ||
+                                            node.id === 'ai-chat-widget' ||
                                             (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
                                             return; // Keep
                                         }
@@ -344,7 +379,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                 }, 50);
 
                             })
-                            .catch(() => {
+                            .catch((err) => {
+                                console.error("Navigation Fetch Failed:", err);
+                                if (window.loaderInterval) clearInterval(window.loaderInterval);
+                                if (loaderBar) {
+                                    loaderBar.classList.add('finished');
+                                    loaderBar.classList.remove('active');
+                                }
                                 window.location.href = href;
                             });
                     }, 400);
@@ -571,62 +612,32 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 if (window.currentAiFetchId !== fetchId) return; // User kept typing, abort this request
 
-                // ⚠️ SECURITY WARNING ⚠️
-                // The hardcoded API key has been removed to prevent it from leaking on GitHub!
-                // To test locally, you can temporarily paste it back here, but NEVER commit it.
-                // For production, you must use the api/chat.js Vercel function and environment variables.
-                const apiKey = "YOUR_GEMINI_API_KEY_HERE"; 
-                
-                // If API key is missing, instantly fallback to mock
-                if (apiKey === "YOUR_GEMINI_API_KEY_HERE") {
-                    const activeAiElement = document.getElementById('ai-answer-text');
-                    if (activeAiElement) {
-                        activeAiElement.innerHTML = getMockAIResponse(query);
-                    }
-                    return;
-                }
-
-                const systemPrompt = `
-                    You are an AI assistant built into the portfolio of Khin Andrei Gamboa. 
-                    Keep your answers concise, friendly, and professional (max 2-3 sentences).
-                    Always speak in the third person about Khin.
-                    
-                    Information about Khin:
-                    - Role: Final-year Computer Engineering Student & Aspiring DevOps Engineer.
-                    - Education: Rizal Technological University (2022 - Present).
-                    - Background: Hands-on experience in IT administration and support, bridging the gap between hardware infrastructure and software solutions.
-                    - Skills: Remote troubleshooting, software/hardware setups, computer networking, data documentation. Java, Python, C++, HTML/CSS/JS, React, Node.js, MySQL, SQLite, Arduino, IoT.
-                    - Goals: Passionate about automation and system efficiency, expanding expertise into the DevOps industry. Eager to contribute to robust, scalable infrastructure and modern deployment pipelines.
-                    - Top Projects: Full-featured restaurant and computer shop dashboards with integrated inventory systems, AI-driven camera detection interfaces (custom training), RFID Tollgate System (C++/IoT), AI Kilo Bot (Python/ML).
-                    - Contact: gamboa.khinandrei@gmail.com | +63 992 421 5230.
-                `;
-
-                fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                // Fetch response from our secure Vercel Serverless Function (/api/chat)
+                // This keeps the API key hidden on the server side and prevents key exposure.
+                fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        system_instruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ role: "user", parts: [{ text: query }] }]
-                    })
+                    body: JSON.stringify({ query: query })
                 })
                 .then(res => {
-                    if (!res.ok) throw new Error("Gemini API Error");
+                    if (!res.ok) throw new Error("Serverless API Error");
                     return res.json();
                 })
                 .then(data => {
                     if (window.currentAiFetchId !== fetchId) return;
                     
                     const activeAiElement = document.getElementById('ai-answer-text');
-                    if (data.candidates && data.candidates[0].content.parts[0].text && activeAiElement) {
-                        activeAiElement.innerHTML = data.candidates[0].content.parts[0].text;
+                    if (data.answer && activeAiElement) {
+                        activeAiElement.innerHTML = data.answer;
                     } else if (activeAiElement) {
                         activeAiElement.innerHTML = getMockAIResponse(query);
                     }
                 })
                 .catch((err) => {
-                    console.error("AI Error:", err);
+                    console.error("AI Serverless Error:", err);
                     if (window.currentAiFetchId !== fetchId) return;
                     
+                    // Fall back to predefined mock answers if API or Serverless function is not configured / offline
                     const activeAiElement = document.getElementById('ai-answer-text');
                     if (activeAiElement) {
                         activeAiElement.innerHTML = getMockAIResponse(query);
@@ -674,6 +685,157 @@ document.addEventListener("DOMContentLoaded", () => {
                     searchInput.dispatchEvent(new Event('input'));
                 }
             });
+        });
+    }
+
+    // --- INJECT GLOBAL FEATURES ---
+    function injectGlobalFeatures() {
+        // Inject page loader bar
+        if (!document.getElementById('page-loader-bar')) {
+            const loader = document.createElement('div');
+            loader.id = 'page-loader-bar';
+            document.body.appendChild(loader);
+        }
+
+        // Inject floating AI chat widget
+        if (!document.getElementById('ai-chat-widget')) {
+            const widget = document.createElement('div');
+            widget.id = 'ai-chat-widget';
+            widget.className = 'chat-widget-container';
+            widget.innerHTML = `
+                <button class="chat-trigger-btn" aria-label="Toggle AI Assistant" type="button">
+                    <i class="fas fa-robot"></i>
+                    <span class="chat-trigger-badge"></span>
+                </button>
+                <div class="chat-window">
+                    <div class="chat-header">
+                        <div class="chat-header-info">
+                            <i class="fas fa-robot"></i>
+                            <div>
+                                <div class="chat-header-title">AI Assistant</div>
+                                <div class="chat-header-status">
+                                    <span class="chat-status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="chat-close-btn" aria-label="Close Chat" type="button">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="chat-bubble bot">
+                            Hi! I am Khin's AI Assistant. Ask me anything about my projects, experience, or skills!
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input-field" placeholder="Ask a question..." autocomplete="off">
+                        <button class="chat-send-btn" aria-label="Send Message" type="button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(widget);
+            setupFloatingChatLogic(widget);
+        }
+    }
+
+    function setupFloatingChatLogic(widget) {
+        const triggerBtn = widget.querySelector('.chat-trigger-btn');
+        const chatWindow = widget.querySelector('.chat-window');
+        const closeBtn = widget.querySelector('.chat-close-btn');
+        const inputField = widget.querySelector('.chat-input-field');
+        const sendBtn = widget.querySelector('.chat-send-btn');
+        const messagesContainer = widget.querySelector('.chat-messages');
+
+        // Toggle chat window visibility
+        triggerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active')) {
+                inputField.focus();
+                // Remove the online pulse green badge on first click
+                const badge = triggerBtn.querySelector('.chat-trigger-badge');
+                if (badge) badge.style.display = 'none';
+            }
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            chatWindow.classList.remove('active');
+        });
+
+        // Prevent clicks inside chat window from bubbling up
+        chatWindow.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Close on clicking outside
+        document.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+        });
+
+        // Handle sending messages
+        const sendMessage = () => {
+            const query = inputField.value.trim();
+            if (!query) return;
+
+            // Clear input
+            inputField.value = '';
+
+            // Render user bubble
+            appendBubble(query, 'user');
+
+            // Render thinking bubble
+            const thinkingBubble = appendBubble(`
+                <span class="chat-dot"></span>
+                <span class="chat-dot"></span>
+                <span class="chat-dot"></span>
+            `, 'bot thinking');
+
+            // API endpoint call to Vercel Serverless Function
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Serverless API Error");
+                return res.json();
+            })
+            .then(data => {
+                thinkingBubble.remove();
+                if (data.answer) {
+                    appendBubble(data.answer, 'bot');
+                } else {
+                    appendBubble(getMockAIResponse(query), 'bot');
+                }
+            })
+            .catch(err => {
+                console.error("AI Widget Error:", err);
+                thinkingBubble.remove();
+                appendBubble(getMockAIResponse(query), 'bot');
+            });
+        };
+
+        const appendBubble = (htmlContent, className) => {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${className}`;
+            bubble.innerHTML = htmlContent;
+            messagesContainer.appendChild(bubble);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return bubble;
+        };
+
+        // Send on click
+        sendBtn.addEventListener('click', sendMessage);
+
+        // Send on Enter key
+        inputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
     }
 
