@@ -1,88 +1,114 @@
-// Contact Form Handling
-document.addEventListener('DOMContentLoaded', function() {
+// Contact Form Integration & UI Handling
+document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                age: document.getElementById('age').value,
-                subject: document.getElementById('subject').value,
-                company: document.getElementById('company').value,
-                budget: document.getElementById('budget').value,
-                timeline: document.getElementById('timeline').value,
-                message: document.getElementById('message').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            // Validate form
-            if (!formData.fullName || !formData.email || !formData.subject || !formData.message) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            // Show loading state
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
+    const notification = document.getElementById('form-notification');
+
+    if (!contactForm) return;
+
+    // Helper to display messages in the inline alert
+    const showNotification = (message, type) => {
+        if (!notification) return;
+
+        notification.textContent = message;
+        notification.className = `form-notification ${type}`;
+        notification.style.display = 'block';
+
+        // Auto scroll to notification if not in view
+        notification.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    const hideNotification = () => {
+        if (!notification) return;
+        notification.style.display = 'none';
+        notification.className = 'form-notification';
+        notification.textContent = '';
+    };
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideNotification();
+
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn ? submitBtn.textContent : 'Send Project Inquiry';
+
+        // Gather form fields
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const company = document.getElementById('company').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const subject = document.getElementById('subject').value;
+        const urgency = document.getElementById('urgency').value;
+        const budget = document.getElementById('budget').value;
+        const timeline = document.getElementById('timeline').value;
+        const message = document.getElementById('message').value.trim();
+
+        // Validation
+        if (!fullName || !email || !subject || !message) {
+            showNotification('Please fill in all required fields marked with an asterisk (*).', 'error');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            showNotification('Please provide a valid email address.', 'error');
+            return;
+        }
+
+        // Set Loading state
+        if (submitBtn) {
             submitBtn.textContent = 'Sending...';
-            submitBtn.classList.add('loading');
             submitBtn.disabled = true;
-            
-            // Here you would typically send to your backend
-            // For now, we'll simulate sending and show success message
-            setTimeout(() => {
-                // Simulate successful submission
-                console.log('Form submitted:', formData);
-                
-                // Show success message
-                alert('Thank you for your message! I will get back to you soon.');
-                
-                // Reset form
+        }
+
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName,
+                    email,
+                    company,
+                    phone,
+                    subject,
+                    urgency,
+                    budget,
+                    timeline,
+                    message
+                })
+            });
+
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            let data = {};
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                throw new Error(`API endpoint not found (${response.status}). If running locally, make sure to use Vercel CLI ('vercel dev') instead of a simple static file server.`);
+            }
+
+            if (response.ok && data.success) {
+                showNotification(data.message || 'Thank you! Your message was sent successfully.', 'success');
                 contactForm.reset();
-                
-                // Reset button
+            } else {
+                throw new Error(data.error || 'Failed to dispatch email.');
+            }
+
+        } catch (error) {
+            console.error('Contact Form Error:', error);
+            showNotification(error.message || 'Oops! Something went wrong. Please try again later or email me directly.', 'error');
+        } finally {
+            // Restore button state
+            if (submitBtn) {
                 submitBtn.textContent = originalText;
-                submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
-                
-            }, 1500);
-        });
+            }
+        }
+    });
+
+    // Helper to validate email structure
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
     }
 });
-
-// Form validation helpers
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function showValidationError(field, message) {
-    // Remove existing error
-    const existingError = field.parentNode.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
-    
-    // Add error message
-    const errorElement = document.createElement('div');
-    errorElement.className = 'error-message';
-    errorElement.style.color = '#ff4444';
-    errorElement.style.fontSize = '0.85rem';
-    errorElement.style.marginTop = '5px';
-    errorElement.textContent = message;
-    
-    field.parentNode.appendChild(errorElement);
-    field.style.borderColor = '#ff4444';
-}
-
-function clearValidationError(field) {
-    const errorElement = field.parentNode.querySelector('.error-message');
-    if (errorElement) {
-        errorElement.remove();
-    }
-    field.style.borderColor = '#e1e5e9';
-}

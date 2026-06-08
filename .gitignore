@@ -1,0 +1,8 @@
+# Environment configuration keys
+.env
+
+# Dependencies
+node_modules/
+
+# Local Vercel configuration
+.vercel/

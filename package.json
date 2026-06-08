@@ -1,0 +1,9 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website of Khin Andrei Gamboa",
+  "main": "index.js",
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  }
+}

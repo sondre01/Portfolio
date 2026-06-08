@@ -37,24 +37,35 @@
         <header class="page-header">
           <p class="page-kicker">Let’s Build</p>
           <h1 class="page-title">Get In Touch</h1>
-          <div class="page-accent"></div>
           <p class="page-subtitle">
-            Ready to start your next project? Send details and I’ll respond as soon as possible.
+            Have a project in mind, or looking to hire? Fill out the form below and I'll get back to you shortly.
           </p>
         </header>
 
         <div class="contact-grid">
-          <!-- Left: Info -->
-          <aside class="glass-panel">
+          <!-- Left: Info (Current State) -->
+          <aside class="glass-card contact-info-panel">
             <div class="panel-title">
-              <h2>Contact Details</h2>
-              <span class="panel-chip">Metro Manila</span>
+              <h2>Current Status</h2>
+              <span class="panel-chip">Graduating July 2026</span>
             </div>
 
             <ul class="info-list">
               <li>
+                <span class="info-label">Role</span>
+                <span class="info-value">BSCpE Student & Aspiring DevOps Engineer</span>
+              </li>
+              <li>
+                <span class="info-label">Affiliation</span>
+                <span class="info-value">Rizal Technological University</span>
+              </li>
+              <li>
+                <span class="info-label">Focus Areas</span>
+                <span class="info-value">DevOps Pipelines, IT Administration, Cloud, IoT Solutions</span>
+              </li>
+              <li>
                 <span class="info-label">Email</span>
-                <a class="info-value" href="mailto:gamboa.khinandre@gmail.com">gamboa.khinandre@gmail.com</a>
+                <a class="info-value email-link" href="mailto:gamboa.khinandrei@gmail.com">gamboa.khinandrei@gmail.com</a>
               </li>
               <li>
                 <span class="info-label">Phone</span>
@@ -65,30 +76,22 @@
                 <span class="info-value">Metro Manila, Philippines</span>
               </li>
               <li>
-                <span class="info-label">Status</span>
-                <span class="info-value">Available for Projects</span>
-              </li>
-              <li>
-                <span class="info-label">Response</span>
-                <span class="info-value">Within 24 Hours</span>
-              </li>
-              <li>
-                <span class="info-label">Services</span>
-                <span class="info-value">Embedded Systems, Web Dev, IoT Solutions</span>
+                <span class="info-label">Availability</span>
+                <span class="info-value">Open for DevOps, IT Systems, or Development Roles</span>
               </li>
             </ul>
 
             <div class="panel-note">
-              <h3>Quick Note</h3>
+              <h3>Professional Goal</h3>
               <p>
-                If you have a tight deadline, include your target date + budget range so I can assess fast.
+                Eager to apply my background in IT systems administration, automation scripting, and QA testing to scale deployment pipelines and manage cloud architectures.
               </p>
             </div>
           </aside>
 
           <!-- Right: Form -->
-          <section class="glass-panel form-panel">
-            <div class="panel-title center">
+          <section class="glass-card form-panel">
+            <div class="panel-title">
               <h2>Send Project Inquiry</h2>
               <span class="panel-chip">Form</span>
             </div>
@@ -97,30 +100,25 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="fullName">Full Name *</label>
-                  <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" />
+                  <input type="text" id="fullName" name="fullName" required placeholder="John Doe" autocomplete="name" />
                 </div>
 
                 <div class="form-group">
                   <label for="email">Email Address *</label>
-                  <input type="email" id="email" name="email" required placeholder="your.email@company.com" />
+                  <input type="email" id="email" name="email" required placeholder="john.doe@company.com" autocomplete="email" />
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="age">Age</label>
-                  <input type="number" id="age" name="age" min="16" max="100" placeholder="25" />
+                  <label for="company">Company/Organization</label>
+                  <input type="text" id="company" name="company" placeholder="Company Name" autocomplete="organization" />
                 </div>
 
                 <div class="form-group">
                   <label for="phone">Phone Number</label>
-                  <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" />
+                  <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" autocomplete="tel" />
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="company">Company/Organization</label>
-                <input type="text" id="company" name="company" placeholder="Your company or organization name" />
               </div>
 
               <div class="form-row">
@@ -128,13 +126,12 @@
                   <label for="subject">Project Type *</label>
                   <select id="subject" name="subject" required>
                     <option value="">Select project type</option>
-                    <option value="embedded">Embedded Systems</option>
-                    <option value="iot">IoT Solution</option>
-                    <option value="web">Web Development</option>
-                    <option value="automation">Automation System</option>
-                    <option value="consultation">Technical Consultation</option>
-                    <option value="collaboration">Project Collaboration</option>
-                    <option value="other">Other</option>
+                    <option value="DevOps & Deployment">DevOps & Deployment</option>
+                    <option value="IT Systems Support">IT Systems Support</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Embedded / IoT Solutions">Embedded / IoT Solutions</option>
+                    <option value="Collaboration / Hire">Job Collaboration / Hiring</option>
+                    <option value="Other">Other Inquiry</option>
                   </select>
                 </div>
 
@@ -142,10 +139,9 @@
                   <label for="urgency">Urgency Level</label>
                   <select id="urgency" name="urgency">
                     <option value="">Select urgency</option>
-                    <option value="low">Low (Planning Phase)</option>
-                    <option value="medium">Medium (Ready to Start)</option>
-                    <option value="high">High (Immediate Start)</option>
-                    <option value="urgent">Urgent (ASAP)</option>
+                    <option value="Low (Planning)">Low (Planning Phase)</option>
+                    <option value="Medium (Standard)">Medium (Ready to Start)</option>
+                    <option value="High (Immediate)">High (Immediate Start)</option>
                   </select>
                 </div>
               </div>
@@ -155,12 +151,11 @@
                   <label for="budget">Project Budget Range</label>
                   <select id="budget" name="budget">
                     <option value="">Select budget range</option>
-                    <option value="under-5k">Under ₱5,000</option>
-                    <option value="5k-15k">₱5,000 - ₱15,000</option>
-                    <option value="15k-30k">₱15,000 - ₱30,000</option>
-                    <option value="30k-50k">₱30,000 - ₱50,000</option>
-                    <option value="50k-plus">₱50,000+</option>
-                    <option value="discuss">To be discussed</option>
+                    <option value="Under ₱5,000">Under ₱5,000</option>
+                    <option value="₱5,000 - ₱15,000">₱5,000 - ₱15,000</option>
+                    <option value="₱15,000 - ₱30,000">₱15,000 - ₱30,000</option>
+                    <option value="₱30,000+">₱30,000+</option>
+                    <option value="Negotiable / N/A">To be discussed / Not applicable</option>
                   </select>
                 </div>
 
@@ -168,26 +163,20 @@
                   <label for="timeline">Project Timeline</label>
                   <select id="timeline" name="timeline">
                     <option value="">Select timeline</option>
-                    <option value="urgent">Urgent (1-2 weeks)</option>
-                    <option value="short">Short term (1 month)</option>
-                    <option value="medium">Medium term (1-3 months)</option>
-                    <option value="long">Long term (3+ months)</option>
-                    <option value="flexible">Flexible timeline</option>
+                    <option value="Urgent (1-2 weeks)">Urgent (1-2 weeks)</option>
+                    <option value="Short Term (1 month)">Short term (1 month)</option>
+                    <option value="Medium Term (1-3 months)">Medium term (1-3 months)</option>
+                    <option value="Flexible / Ongoing">Flexible / Ongoing</option>
                   </select>
                 </div>
               </div>
 
-              <div class="helper-box">
-                <h3>Project Details</h3>
-                <p>
-                  Include goals, features, target users, constraints, and preferred technologies.
-                </p>
+              <div class="form-group">
+                <label for="message">Message & Requirements *</label>
+                <textarea id="message" name="message" required placeholder="Describe your project, timeline, or job opening details here..."></textarea>
               </div>
 
-              <div class="form-group">
-                <label for="message">Project Description & Requirements *</label>
-                <textarea id="message" name="message" required placeholder="Describe your project in detail..."></textarea>
-              </div>
+              <div id="form-notification" class="form-notification" style="display: none;"></div>
 
               <button type="submit" class="submit-btn">Send Project Inquiry</button>
             </form>
