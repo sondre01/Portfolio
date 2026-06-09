@@ -9,21 +9,37 @@
     <!-- Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css" />
+    <link rel="stylesheet" href="assets/css/main.css?v=2" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              'fade-up': 'fadeUp 0.9s ease-out forwards',
+              'caret': 'caretBlink 0.9s steps(1) infinite',
+            },
+            keyframes: {
+              fadeUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              caretBlink: {
+                '0%, 49%': { opacity: '1' },
+                '50%, 100%': { opacity: '0' },
+              }
+            }
+          }
+        }
+      }
+    </script>
 </head>
 
-<body>
+<body style="visibility:hidden;">
 
-
-
-    <!-- Redirection Logic -->
-    <script>
-        const currentPath = window.location.pathname;
-        if (currentPath.endsWith("/Portfolio/") || currentPath.endsWith("/index.html") || currentPath.endsWith("/")) {
-            window.location.replace("pages/main.html");
-        }
-    </script>
-
-    <!-- ===== Navigation Bar (TEMPLATE SOURCE) ===== -->
+    <!-- ===== Navigation Bar ===== -->
     <nav>
         <div class="nav-container">
             <div class="con1left">
@@ -37,7 +53,7 @@
 
             <div class="con2right">
                 <ul>
-                    <li><a href="pages/main.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="pages/about.html">About</a></li>
                     <li><a href="pages/skill.html">Skill</a></li>
                     <li><a href="pages/education.html">Education</a></li>
@@ -83,12 +99,436 @@
         </div>
     </nav>
 
-    <!-- Content Placeholder -->
-    <main>
-        <div id="header-footer"></div>
+    <!-- ===== Main Content (from pages/main.html) ===== -->
+    <main id="homeContent" class="js-fade-in">
+        <section class="hero">
+          <div class="main-content-wrapper">
+            <div class="hero-content-wrapper">
+    
+              <!-- LEFT TEXT -->
+              <div class="hero-text-section">
+                <h1 class="hero-title animate-fade-up">
+    
+                  <!-- LINE 1 -->
+                  <span class="block whitespace-nowrap max-md:whitespace-normal">
+                    Hi, I’m
+                    <span class="text-[color:var(--accent-color)]">Khin Andrei Gamboa</span>
+                  </span>
+    
+                  <!-- LINE 2 (ONE LINE TYPEWRITER) -->
+                  <span class="block mt-2">
+                    <span class="typewriter-line">
+                      <span class="typewriter-a">a</span>
+                      <span id="typewriterText" class="typewriter-word"></span>
+                    </span>
+                  </span>
+    
+                </h1>
+    
+                <p class="hero-paragraph animate-fade-up" style="animation-delay:150ms">
+                  Computer Engineering student passionate about creating
+                  innovative hardware and software solutions through
+                  research and hands-on design.
+                </p>
+    
+                <div class="cta-buttons animate-fade-up" style="animation-delay:300ms">
+                  <button class="btn btn-outline" onclick="openResumeTab()">
+                    View My Resume
+                  </button>
+                  <a href="pages/contact.html" class="btn btn-outline">
+                    Get In Touch
+                  </a>
+                </div>
+              </div>
+    
+              <!-- RIGHT IMAGE -->
+              <div class="hero-image-section">
+                <div class="animate-fade-up" style="animation-delay:300ms">
+    
+                  <!-- ✅ interactive tilt container -->
+                  <div
+                    class="hero-photo-wrapper group relative w-[450px] h-[600px] max-md:w-[300px] max-md:h-[420px] select-none"
+                    data-tilt
+                  >
+                    <!-- ✅ this layer moves as ONE (frame + profile) -->
+                    <div class="hero-tilt-layer absolute inset-0">
+    
+                      <!-- FRAME -->
+                      <div
+                        class="
+                          hero-frame
+                          absolute bottom-0 left-1/2 -translate-x-1/2
+                          w-[400px] h-[450px]
+                          max-md:w-[260px] max-md:h-[320px]
+                          rounded-[10px] max-md:rounded-[8px]
+                          overflow-hidden
+                        "
+                      >
+                        <!-- Shine line (static, minimal) -->
+                        <div class="absolute left-3 right-3 top-4 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50"></div>
+    
+                        <!-- corner glow (static, minimal) -->
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_58%)] opacity-60"></div>
+                      </div>
+    
+                      <!-- IMAGE -->
+                      <img
+                        src="assets/img/me.png"
+                        alt="Profile picture"
+                        class="
+                          absolute bottom-0 left-1/2 -translate-x-1/2
+                          h-[600px] max-md:h-[380px]
+                          w-auto max-w-full object-contain
+                          z-10 pointer-events-none
+                        "
+                      />
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </section>
+    
+        <!-- ROW TWO: ENGAGEMENT STATS -->
+        <section class="engagement-section">
+          <span class="section-label animate-fade-up">Live Network Activity</span>
+          <div class="stats-grid">
+            
+            <div class="stat-card animate-fade-up" style="animation-delay: 100ms;">
+              <i class="fas fa-globe stat-icon"></i>
+              <h3 class="stat-value" id="visits-stat" data-target="0">0</h3>
+              <p class="stat-label">Total Global Visits</p>
+            </div>
+    
+            <div class="stat-card animate-fade-up" style="animation-delay: 200ms;">
+              <i class="fas fa-code-branch stat-icon"></i>
+              <h3 class="stat-value" id="commits-stat" data-target="0">0</h3>
+              <p class="stat-label">GitHub Commits</p>
+            </div>
+    
+            <div class="stat-card animate-fade-up" style="animation-delay: 300ms;">
+              <i class="fas fa-microchip stat-icon"></i>
+              <h3 class="stat-value" data-target="85">0</h3>
+              <p class="stat-label">Scripts Deployed</p>
+            </div>
+    
+            <div class="stat-card animate-fade-up" style="animation-delay: 400ms;">
+              <i class="fas fa-bolt stat-icon"></i>
+              <h3 class="stat-value" id="uptime-stat" data-target="99">0</h3>
+              <p class="stat-label">System Uptime</p>
+            </div>
+    
+          </div>
+        </section>
+    
+        <!-- ROW THREE: RETRO TERMINAL EMULATOR -->
+        <section class="terminal-section animate-fade-up" style="animation-delay: 450ms;">
+          <span class="section-label animate-fade-up" style="display: block; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.85rem; color: var(--accent-color); text-align: center;">Interactive Developer Console</span>
+          
+          <div class="terminal-container">
+            <!-- Terminal Header -->
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">guest@khin-portfolio:~ (bash)</div>
+              <div class="terminal-action-icons">
+                <i class="fas fa-terminal"></i>
+              </div>
+            </div>
+            
+            <!-- Terminal Screen / Body -->
+            <div class="terminal-body" id="terminal-body">
+              <div class="terminal-row">Welcome to Khin Andrei's Interactive Portfolio Console v1.0.0</div>
+              <div class="terminal-row">Type <span class="highlight">help</span> for a list of available commands.</div>
+              <div class="terminal-row">&nbsp;</div>
+              
+              <!-- Command logs -->
+              <div id="terminal-logs"></div>
+              
+              <!-- Input prompt line -->
+              <div class="terminal-prompt-line">
+                <span class="prompt-user">guest@khin-portfolio:~$</span>
+                <span class="prompt-input-wrapper">
+                  <input type="text" id="terminal-input" autocomplete="off" placeholder="Type a command...">
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
     </main>
 
-    <!-- ===== Footer (TEMPLATE SOURCE) ===== -->
+    <!-- ===== CLI Terminal script ===== -->
+    <script>
+        // Self-executing CLI Terminal script
+        (function() {
+          const termInput = document.getElementById('terminal-input');
+          const termBody = document.getElementById('terminal-body');
+          const termLogs = document.getElementById('terminal-logs');
+          
+          if (!termInput || !termLogs) return;
+          
+          // Focus on click
+          termBody.addEventListener('click', () => {
+            termInput.focus();
+          });
+          
+          const commands = {
+            help: 'List all available commands: help, about, skills, projects, education, contact, matrix, clear',
+            about: 'Print a profile of Khin Andrei Gamboa.',
+            skills: 'Print a chart of primary tech capabilities.',
+            projects: 'List top software & hardware engineering projects.',
+            education: 'Academic background & institution.',
+            contact: 'Email, phone, and professional link resources.',
+            matrix: 'Enter the matrix digital rain.',
+            clear: 'Clear the console log buffer.'
+          };
+          
+          const commandHistory = [];
+          let historyIndex = -1;
+    
+          // History cycling
+          termInput.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+                historyIndex++;
+                termInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+              }
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              if (historyIndex > 0) {
+                historyIndex--;
+                termInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+              } else {
+                historyIndex = -1;
+                termInput.value = '';
+              }
+            }
+          });
+          
+          termInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              const rawInput = termInput.value;
+              const input = rawInput.trim();
+              termInput.value = '';
+              
+              if (!input) return;
+              
+              commandHistory.push(rawInput);
+              historyIndex = -1;
+              
+              appendRow(`guest@khin-portfolio:~$ ${rawInput}`, 'prompt-echo');
+              executeCommand(input.toLowerCase());
+            }
+          });
+          
+          function appendRow(text, className = '') {
+            const row = document.createElement('div');
+            row.className = `terminal-row ${className}`;
+            row.innerHTML = text;
+            termLogs.appendChild(row);
+            termBody.scrollTop = termBody.scrollHeight;
+            return row;
+          }
+          
+          function executeCommand(cmdStr) {
+            stopMatrix();
+            
+            const tokens = cmdStr.split(' ');
+            const cmd = tokens[0];
+            
+            switch (cmd) {
+              case 'help':
+                appendRow('Available commands:', 'highlight');
+                Object.keys(commands).forEach(key => {
+                  appendRow(`  <span class="highlight">${key}</span> - ${commands[key]}`);
+                });
+                break;
+                
+              case 'about':
+                appendRow('==============================================', 'highlight');
+                appendRow('         KHIN ANDREI GAMBOA - PROFILE         ', 'highlight');
+                appendRow('==============================================', 'highlight');
+                appendRow('Role: Computer Engineering Student & Innovator');
+                appendRow('Specialization: Hardware-Software Integration & DevOps');
+                appendRow('University: Rizal Technological University (2022 - Present)');
+                appendRow('Goal: Automating complex deployments and scalable system support.');
+                break;
+                
+              case 'skills':
+                appendRow('--- Technical Expertise ---', 'highlight');
+                appendRow('Java / Desktop Apps   [██████████████████░░] 90%');
+                appendRow('Web Dev (JS/React)    [████████████████░░░░] 80%');
+                appendRow('IoT & Arduino (C++)   [██████████████████░░] 90%');
+                appendRow('Python / ML Bots      [██████████████░░░░░░] 70%');
+                appendRow('IT Support & Setup    [██████████████████░░] 90%');
+                appendRow('DevOps (Git/pipelines) [████████████░░░░░░░░] 60%');
+                break;
+                
+              case 'projects':
+                appendRow('--- Top Projects ---', 'highlight');
+                appendRow('Type "project [name]" (e.g., "project pos" or "project tollgate") for details.');
+                appendRow('  1. pos      - Restorant POS Dashboard (Java/MySQL)');
+                appendRow('  2. xvidia   - Movie streaming browser app (React/Node)');
+                appendRow('  3. tollgate - RFID Automated Tollgate system (IoT/C++)');
+                appendRow('  4. kilobot  - AI-driven ML discord bot (Python)');
+                appendRow('  5. capstone - Embedded systems capstone research');
+                break;
+                
+              case 'project':
+                const projName = tokens[1];
+                if (!projName) {
+                  appendRow('Please specify a project. Usage: project [name]', 'highlight');
+                  break;
+                }
+                showProjectDetails(projName);
+                break;
+                
+              case 'education':
+                appendRow('Education Details:', 'highlight');
+                appendRow('Institution: Rizal Technological University');
+                appendRow('Degree: Bachelor of Science in Computer Engineering (BSCpE)');
+                appendRow('Timeline: 2022 - Present');
+                appendRow('Coursework: Logic Circuits, Embedded Systems, Microprocessors, Computer Networks.');
+                break;
+                
+              case 'contact':
+                appendRow('Contact Channels:', 'highlight');
+                appendRow('Email:      gamboa.khinandrei@gmail.com');
+                appendRow('Phone:      +63 992 421 5230');
+                appendRow('GitHub:     https://github.com/sondre01');
+                appendRow('LinkedIn:   linkedin.com/in/khin-andrei-gamboa-80b821389');
+                break;
+                
+              case 'matrix':
+                startMatrix();
+                break;
+                
+              case 'clear':
+                termLogs.innerHTML = '';
+                break;
+                
+              default:
+                if (cmd.startsWith('sudo')) {
+                  appendRow('Permission denied: Nice try, but you do not have root access here.', 'highlight');
+                } else {
+                  appendRow(`command not found: ${cmd}. Type <span class="highlight">help</span> for commands.`);
+                }
+            }
+          }
+          
+          function showProjectDetails(name) {
+            if (name === 'pos') {
+              appendRow('Project: Restorant POS Dashboard', 'highlight');
+              appendRow('Stack: Java, Swing, MySQL');
+              appendRow('Features: Real-time inventory records, product catalogs, cash drawer operations, sales ledger logs, and receipt billing.');
+            } else if (name === 'xvidia') {
+              appendRow('Project: Xvidia Movie Browser', 'highlight');
+              appendRow('Stack: React.js, TailwindCSS, Node.js, TMDB API');
+              appendRow('Features: Browse latest releases, grids, search filtering, and watchlists.');
+            } else if (name === 'tollgate') {
+              appendRow('Project: RFID Automated Tollgate System', 'highlight');
+              appendRow('Stack: C++, Arduino, RFID RC522, Servo, LCD');
+              appendRow('Features: Scan card debit, auto-opening gate, LCD telemetry displays.');
+            } else if (name === 'kilobot') {
+              appendRow('Project: AI Kilo Bot', 'highlight');
+              appendRow('Stack: Python, Discord.py, Scikit-learn');
+              appendRow('Features: Intent classification, moderation controls, auto replies.');
+            } else if (name === 'capstone') {
+              appendRow('Project: Capstone 1 IoT Research', 'highlight');
+              appendRow('Stack: ESP32, MQTT telemetry, local SQLite');
+              appendRow('Features: Node environmental readings, Node-RED visualizations.');
+            } else {
+              appendRow(`Unknown project: ${name}. Available: pos, xvidia, tollgate, kilobot, capstone`);
+            }
+          }
+          
+          let canvas = null;
+          let ctx = null;
+          let interval = null;
+          
+          function startMatrix() {
+            appendRow('Matrix stream initiated. Press any key to exit.', 'highlight');
+            
+            canvas = document.getElementById('matrix-canvas');
+            if (!canvas) {
+              canvas = document.createElement('canvas');
+              canvas.id = 'matrix-canvas';
+              canvas.className = 'matrix-canvas';
+              termBody.appendChild(canvas);
+            }
+            
+            canvas.style.display = 'block';
+            ctx = canvas.getContext('2d');
+            
+            canvas.width = termBody.clientWidth;
+            canvas.height = termBody.clientHeight;
+            
+            const chars = "ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const charArr = chars.split("");
+            
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            
+            const rainDrops = [];
+            for (let x = 0; x < columns; x++) {
+              rainDrops[x] = 1;
+            }
+            
+            const draw = () => {
+              ctx.fillStyle = 'rgba(8, 8, 8, 0.05)';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              
+              ctx.fillStyle = '#ffd700'; // Amber/Gold matches accent theme
+              ctx.font = fontSize + 'px monospace';
+              
+              for (let i = 0; i < rainDrops.length; i++) {
+                const text = charArr[Math.floor(Math.random() * charArr.length)];
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                  rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+              }
+            };
+            
+            if (interval) clearInterval(interval);
+            interval = setInterval(draw, 30);
+          }
+          
+          function stopMatrix() {
+            if (interval) {
+              clearInterval(interval);
+              interval = null;
+            }
+            const canvasEl = document.getElementById('matrix-canvas');
+            if (canvasEl) {
+              canvasEl.style.display = 'none';
+            }
+          }
+        })();
+    </script>
+    
+    <!-- RESUME TAB -->
+    <section id="resumeTab" class="resume-tab" aria-hidden="true">
+        <header class="resume-tab-header resume-tab-header--always-dark">
+          <button class="resume-back" onclick="closeResumeTab()">← Back</button>
+          <span class="resume-title">My Resume</span>
+        </header>
+    
+        <div class="resume-viewer">
+          <iframe src="assets/Documents/My Resume.pdf" title="Resume"></iframe>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-left">
@@ -116,8 +556,152 @@
         </div>
     </footer>
 
-    <!-- Master JS (used by pages via injection) -->
+    <!-- Master JS -->
     <script src="assets/js/index.js"></script>
+
+    <script>
+        function openResumeTab() {
+          document.getElementById("resumeTab").classList.add("active");
+          document.getElementById("homeContent").style.display = "none";
+          document.body.style.overflow = "hidden";
+        }
+    
+        function closeResumeTab() {
+          document.getElementById("resumeTab").classList.remove("active");
+          document.getElementById("homeContent").style.display = "";
+          document.body.style.overflow = "";
+        }
+    
+        // ✅ Typewriter Loop
+        (function () {
+          const el = document.getElementById("typewriterText");
+          if (!el) return;
+    
+          const words = [
+            "Aspiring Software Engineer.",
+            "Aspiring Web Developer.",
+            "Aspiring IT Specialist."
+          ];
+    
+          let wordIndex = 0;
+          let charIndex = 0;
+          let deleting = false;
+    
+          const TYPE = 65;
+          const DELETE = 40;
+          const HOLD = 900;
+    
+          function tick() {
+            const word = words[wordIndex];
+    
+            if (!deleting) {
+              el.textContent = word.slice(0, ++charIndex);
+              if (charIndex === word.length) {
+                deleting = true;
+                setTimeout(tick, HOLD);
+                return;
+              }
+            } else {
+              el.textContent = word.slice(0, --charIndex);
+              if (charIndex === 0) {
+                deleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+              }
+            }
+            setTimeout(tick, deleting ? DELETE : TYPE);
+          }
+    
+          el.textContent = "";
+          tick();
+        })();
+    
+        // ✅ Live Engagement Stats & Animation
+        (function () {
+          const counters = document.querySelectorAll('.stat-value');
+          const speed = 50; // Lower is faster
+    
+          const animateCounters = () => {
+            counters.forEach(counter => {
+              const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace(/[^0-9]/g, ''); // Extract just numbers
+                
+                if (target === 0) return;
+                
+                const inc = target / speed;
+    
+                if (count < target) {
+                  counter.innerText = Math.ceil(count + inc);
+                  setTimeout(updateCount, 15);
+                } else {
+                  if (counter.id === 'uptime-stat') {
+                    counter.innerText = target + '%';
+                  } else if (counter.id === 'visits-stat' || counter.id === 'commits-stat') {
+                    counter.innerText = target; 
+                  } else {
+                    counter.innerText = target + '+';
+                  }
+                }
+              };
+              updateCount();
+            });
+          };
+    
+          // Fetch Real GitHub Pages Views
+          const fetchViews = async () => {
+            try {
+              const response = await fetch('https://api.counterapi.dev/v1/sondre01/portfolioviews/up');
+              const data = await response.json();
+              const visitsStat = document.getElementById('visits-stat');
+              if (visitsStat) visitsStat.setAttribute('data-target', data.count);
+            } catch (error) {
+              console.error('Error fetching live views:', error);
+            }
+          };
+    
+          // Fetch Real GitHub Commits
+          const fetchCommits = async () => {
+            try {
+              // We use per_page=1 and read the Link header to find the total commit count
+              const response = await fetch('https://api.github.com/repos/sondre01/Portfolio/commits?per_page=1');
+              const linkHeader = response.headers.get('Link');
+              let totalCommits = 0;
+    
+              if (linkHeader) {
+                const match = linkHeader.match(/page=(\d+)>; rel="last"/);
+                if (match) {
+                  totalCommits = parseInt(match[1]);
+                }
+              } else {
+                // If no Link header, it means there's only 1 page of commits
+                const data = await response.json();
+                totalCommits = data.length;
+              }
+    
+              const commitsStat = document.getElementById('commits-stat');
+              if (commitsStat) commitsStat.setAttribute('data-target', totalCommits);
+            } catch (error) {
+              console.error('Error fetching GitHub commits:', error);
+            }
+          };
+    
+          const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              animateCounters();
+              observer.disconnect();
+            }
+          }, { threshold: 0.3 });
+    
+          const statsSection = document.querySelector('.engagement-section');
+          
+          // Fetch all live data first
+          Promise.all([fetchViews(), fetchCommits()]).finally(() => {
+            if (statsSection) {
+              observer.observe(statsSection);
+            }
+          });
+        })();
+    </script>
 </body>
 
 </html>
