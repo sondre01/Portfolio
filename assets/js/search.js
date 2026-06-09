@@ -170,40 +170,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // If we decided to fetch AI, do it now that the element is in the DOM
         if (fetchAi) {
             const aiTextElement = document.getElementById('ai-answer-text');
-            
-            // ⚠️ TEMPORARY LOCAL TESTING CONFIGURATION ⚠️
-            // We are calling Gemini directly from the frontend so you can test it right now.
-            // DO NOT push this file to GitHub while your API key is here!
-            const apiKey = "AIzaSyDBVZ5Wvt37lfbslgFpilnvon871KYf__s";
-            const systemPrompt = `
-                You are an AI assistant built into the portfolio of Khin Andrei Gamboa. 
-                Keep your answers concise, friendly, and professional (max 2-3 sentences).
-                Always speak in the third person about Khin.
-                
-                Information about Khin:
-                - Role: Computer Engineering Student & Innovator.
-                - School: Rizal Technological University (2022 - Present).
-                - Skills: Java, Python, C++, HTML/CSS/JS, React, Node.js, MySQL, SQLite, Arduino, IoT.
-                - Experience: IT Administrator, Technical Support (Hardware troubleshooting, networking, deployment, QA testing).
-                - Top Projects: Restorant POS (Java), Xvidia (React Movie App), RFID Tollgate System (C++/IoT), AI Kilo Bot (Python/ML), Capstone 1 (IoT Research).
-                - Contact: gamboa.khinandrei@gmail.com | +63 992 421 5230.
-            `;
 
-            fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            fetch(`/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    system_instruction: { parts: [{ text: systemPrompt }] },
-                    contents: [{ role: "user", parts: [{ text: query }] }]
-                })
+                body: JSON.stringify({ query: query })
             })
             .then(res => {
                 if (!res.ok) throw new Error("Gemini API Error");
                 return res.json();
             })
             .then(data => {
-                if (data.candidates && data.candidates[0].content.parts[0].text && aiTextElement) {
-                    aiTextElement.innerHTML = data.candidates[0].content.parts[0].text;
+                if (data.answer && aiTextElement) {
+                    aiTextElement.innerHTML = data.answer;
                 } else if (aiTextElement) {
                     aiTextElement.innerHTML = getMockAIResponse(query);
                 }
