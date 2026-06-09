@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     // Verify Cloudflare Turnstile token
-    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '1x00000000000000000000000000000000'; // Development fallback
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '1x0000000000000000000000000000000AA'; // Development fallback
 
     if (process.env.TURNSTILE_SECRET_KEY || turnstileToken) {
         if (!turnstileToken) {
