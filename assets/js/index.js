@@ -202,8 +202,19 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.text())
         .then(data => {
             const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(data, "text/html");
+            let htmlDoc = parser.parseFromString(data, "text/html");
 
+            // If we got redirected on Vercel (nav is missing), fallback to the get-index rewrite route
+            if (!htmlDoc.querySelector("nav")) {
+                return fetch(isInPages ? "../get-index" : "get-index")
+                    .then(res => res.text())
+                    .then(fallbackData => {
+                        return parser.parseFromString(fallbackData, "text/html");
+                    });
+            }
+            return htmlDoc;
+        })
+        .then(htmlDoc => {
             // Inject Font Awesome Link if missing in the current head
             const faLink = htmlDoc.querySelector('link[href*="font-awesome"]');
             if (faLink && !document.querySelector('link[href*="font-awesome"]')) {

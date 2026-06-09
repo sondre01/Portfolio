@@ -7,5 +7,11 @@
       "destination": "/pages/main",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/get-index",
+      "destination": "/index.html"
+    }
   ]
 }
