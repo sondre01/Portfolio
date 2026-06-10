@@ -63,7 +63,7 @@ body {
 main {
   flex: 1;
   width: 100%;
-  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: opacity, transform;
 }
 
@@ -656,30 +656,7 @@ body:not(.dark-mode) .about-title:hover {
     display: none !important;
 }
 
-/* =======================================================
-   SPA Page Loading Progress Bar
-   ======================================================= */
-#page-loader-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 0%;
-  background-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color), 0 0 5px var(--accent-color);
-  z-index: 10000;
-  opacity: 0;
-  transition: width 0.4s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.3s ease;
-  pointer-events: none;
-}
-#page-loader-bar.active {
-  opacity: 1;
-}
-#page-loader-bar.finished {
-  width: 100% !important;
-  opacity: 0;
-  transition: width 0.2s ease, opacity 0.3s ease 0.2s;
-}
+
 
 /* =======================================================
    Floating AI Chat Widget

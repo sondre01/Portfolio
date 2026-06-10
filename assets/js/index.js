@@ -274,132 +274,102 @@ document.addEventListener("DOMContentLoaded", () => {
                     const currentMain = document.querySelector('main');
                     if (currentMain) currentMain.classList.add("fade-out");
 
-                    // Start Top Progress Bar Animation
-                    const loaderBar = document.getElementById('page-loader-bar');
-                    if (loaderBar) {
-                        loaderBar.classList.remove('finished');
-                        loaderBar.classList.add('active');
-                        loaderBar.style.width = '30%';
-                        
-                        if (window.loaderInterval) clearInterval(window.loaderInterval);
-                        let progress = 30;
-                        window.loaderInterval = setInterval(() => {
-                            if (progress < 85) {
-                                progress += Math.random() * 5;
-                                loaderBar.style.width = `${progress}%`;
-                            }
-                        }, 200);
-                    }
+                    // Start fetching the new page immediately in parallel with the transition
+                    const fetchPromise = fetch(hashSplit[0])
+                        .then(res => {
+                            if (!res.ok) throw new Error("Fetch Error");
+                            return res.text();
+                        });
 
-                    setTimeout(() => {
-                        fetch(hashSplit[0]) // fetch just the html file
-                            .then(res => {
-                                if (!res.ok) throw new Error("Fetch Error");
-                                return res.text();
-                            })
-                            .then(html => {
-                                // Complete Top Progress Bar Animation
-                                if (window.loaderInterval) clearInterval(window.loaderInterval);
-                                if (loaderBar) {
-                                    loaderBar.classList.add('finished');
-                                    loaderBar.classList.remove('active');
-                                    setTimeout(() => {
-                                        loaderBar.style.width = '0%';
-                                    }, 400);
+                    // Wait 250ms for the CSS fade-out transition to complete
+                    const transitionPromise = new Promise(resolve => setTimeout(resolve, 250));
+
+                    Promise.all([fetchPromise, transitionPromise])
+                        .then(([html]) => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, "text/html");
+
+                            // Update Title
+                            document.title = doc.title;
+
+                            // Load new CSS if any
+                            doc.querySelectorAll('link[rel="stylesheet"]').forEach(newLink => {
+                                if (!document.querySelector(`link[href="${newLink.getAttribute('href')}"]`)) {
+                                    document.head.appendChild(newLink.cloneNode(true));
                                 }
-
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(html, "text/html");
-
-                                // Update Title
-                                document.title = doc.title;
-
-                                // Load new CSS if any
-                                doc.querySelectorAll('link[rel="stylesheet"]').forEach(newLink => {
-                                    if (!document.querySelector(`link[href="${newLink.getAttribute('href')}"]`)) {
-                                        document.head.appendChild(newLink.cloneNode(true));
-                                    }
-                                });
-
-                                // Remove everything in body EXCEPT nav, footer, progress bar, chat assistant, cursors, and the master script
-                                Array.from(document.body.childNodes).forEach(node => {
-                                    if (node.nodeType === Node.ELEMENT_NODE) {
-                                        if (node.tagName === 'NAV' || 
-                                            node.tagName === 'FOOTER' || 
-                                            node.id === 'page-loader-bar' ||
-                                            node.id === 'ai-chat-widget' ||
-                                            (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
-                                            return; // Keep
-                                        }
-                                    }
-                                    node.remove();
-                                });
-
-                                // Insert new content
-                                const footer = document.querySelector('footer');
-                                Array.from(doc.body.childNodes).forEach(node => {
-                                    if (node.nodeType === Node.ELEMENT_NODE) {
-                                        if (node.id === 'header-footer' || 
-                                            (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
-                                            return; // Skip duplicates
-                                        }
-                                    }
-                                    if (footer) {
-                                        document.body.insertBefore(node.cloneNode(true), footer);
-                                    } else {
-                                        document.body.appendChild(node.cloneNode(true));
-                                    }
-                                });
-
-                                // Execute inline scripts manually
-                                document.body.querySelectorAll('script:not([src])').forEach(oldScript => {
-                                    const newScript = document.createElement('script');
-                                    newScript.textContent = oldScript.textContent;
-                                    oldScript.replaceWith(newScript);
-                                });
-
-                                // Update URL and nav active state
-                                window.history.pushState({}, '', href);
-                                document.querySelectorAll("nav ul li a").forEach(navLink => {
-                                    if (navLink.getAttribute("href").split("/").pop() === targetFile) {
-                                        navLink.classList.add("active");
-                                    } else {
-                                        navLink.classList.remove("active");
-                                    }
-                                });
-
-                                // Re-initialize features
-                                setupEducationDropdowns();
-                                setupInteractiveTilt();
-
-                                // Fade in new main content
-                                setTimeout(() => {
-                                    const newMain = document.querySelector('main');
-                                    if (newMain) {
-                                        newMain.classList.remove("js-fade-in");
-                                        newMain.classList.remove("fade-out");
-                                    }
-                                    
-                                    if (targetHash) {
-                                        const el = document.getElementById(targetHash.substring(1));
-                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                                        else window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    } else {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    }
-                                }, 50);
-
-                            })
-                            .catch((err) => {
-                                console.error("Navigation Fetch Failed:", err);
-                                if (window.loaderInterval) clearInterval(window.loaderInterval);
-                                if (loaderBar) {
-                                    loaderBar.classList.add('finished');
-                                    loaderBar.classList.remove('active');
-                                }
-                                window.location.href = href;
                             });
-                    }, 400);
+
+                            // Remove everything in body EXCEPT nav, footer, chat assistant, cursors, and the master script
+                            Array.from(document.body.childNodes).forEach(node => {
+                                if (node.nodeType === Node.ELEMENT_NODE) {
+                                    if (node.tagName === 'NAV' || 
+                                        node.tagName === 'FOOTER' || 
+                                        node.id === 'ai-chat-widget' ||
+                                        (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                        return; // Keep
+                                    }
+                                }
+                                node.remove();
+                            });
+
+                            // Insert new content
+                            const footer = document.querySelector('footer');
+                            Array.from(doc.body.childNodes).forEach(node => {
+                                if (node.nodeType === Node.ELEMENT_NODE) {
+                                    if (node.id === 'header-footer' || 
+                                        (node.tagName === 'SCRIPT' && node.src.includes('index.js'))) {
+                                        return; // Skip duplicates
+                                    }
+                                }
+                                if (footer) {
+                                    document.body.insertBefore(node.cloneNode(true), footer);
+                                } else {
+                                    document.body.appendChild(node.cloneNode(true));
+                                }
+                            });
+
+                            // Execute inline scripts manually
+                            document.body.querySelectorAll('script:not([src])').forEach(oldScript => {
+                                const newScript = document.createElement('script');
+                                newScript.textContent = oldScript.textContent;
+                                oldScript.replaceWith(newScript);
+                            });
+
+                            // Update URL and nav active state
+                            window.history.pushState({}, '', href);
+                            document.querySelectorAll("nav ul li a").forEach(navLink => {
+                                if (navLink.getAttribute("href").split("/").pop() === targetFile) {
+                                    navLink.classList.add("active");
+                                } else {
+                                    navLink.classList.remove("active");
+                                }
+                            });
+
+                            // Re-initialize features
+                            setupEducationDropdowns();
+                            setupInteractiveTilt();
+
+                            // Fade in new main content
+                            setTimeout(() => {
+                                const newMain = document.querySelector('main');
+                                if (newMain) {
+                                    newMain.classList.remove("js-fade-in");
+                                    newMain.classList.remove("fade-out");
+                                }
+                                
+                                if (targetHash) {
+                                    const el = document.getElementById(targetHash.substring(1));
+                                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                    else window.scrollTo({ top: 0, behavior: 'smooth' });
+                                } else {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }
+                            }, 50);
+                        })
+                        .catch((err) => {
+                            console.error("Navigation Fetch Failed:", err);
+                            window.location.href = href;
+                        });
                 };
 
                 placeholder.before(fixedNav);
@@ -709,13 +679,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // --- INJECT GLOBAL FEATURES ---
 function injectGlobalFeatures() {
-    // Inject page loader bar
-    if (!document.getElementById('page-loader-bar')) {
-        const loader = document.createElement('div');
-        loader.id = 'page-loader-bar';
-        document.body.appendChild(loader);
-    }
-
     // Inject floating AI chat widget
     if (!document.getElementById('ai-chat-widget')) {
         const widget = document.createElement('div');
