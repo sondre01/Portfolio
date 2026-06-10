@@ -5,6 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!contactForm) return;
 
+    // Helper to lazily load Turnstile when user interacts with the form
+    let turnstileWidgetId = null;
+    const initTurnstile = () => {
+        if (turnstileWidgetId !== null || !window.turnstile) return;
+        
+        const container = document.getElementById('cf-turnstile-widget');
+        if (container) {
+            turnstileWidgetId = window.turnstile.render('#cf-turnstile-widget', {
+                sitekey: '0x4AAAAAADhWjbpQQUHXEFmw',
+                theme: 'dark'
+            });
+        }
+    };
+
+    // Trigger loading when any input is focused or clicked
+    const inputs = contactForm.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', initTurnstile, { once: true });
+        input.addEventListener('click', initTurnstile, { once: true });
+    });
+
     // Helper to display messages in the inline alert
     const showNotification = (message, type) => {
         if (!notification) return;
@@ -128,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showNotification(error.message || 'Oops! Something went wrong. Please try again later or email me directly.', 'error');
         } finally {
             // Reset Turnstile widget so a fresh token is generated for the next attempt
-            if (window.turnstile) {
-                window.turnstile.reset();
+            if (window.turnstile && turnstileWidgetId !== null) {
+                window.turnstile.reset(turnstileWidgetId);
             }
             // Restore button state
             if (submitBtn) {

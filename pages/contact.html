@@ -27,7 +27,7 @@
     }
   </script>
   <!-- Cloudflare Turnstile Spam Protection -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 
 <body style="visibility:hidden;">
@@ -186,7 +186,7 @@
 
               <!-- Cloudflare Turnstile Spam Protection Widget -->
               <div class="form-group cf-turnstile-container" style="margin-top: 15px; margin-bottom: 15px; display: flex; justify-content: flex-start;">
-                <div class="cf-turnstile" data-sitekey="0x4AAAAAADhWjbpQQUHXEFmw" data-theme="dark"></div>
+                <div id="cf-turnstile-widget"></div>
               </div>
 
               <div id="form-notification" class="form-notification" style="display: none;"></div>
